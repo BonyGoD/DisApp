@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Hola que tal $name")
-            Text(text = "Hola que tal $name")
             Button(onClick = { /* Acción del botón */ }) {
                 Text(text = "+ Añadir presupuesto")
             }
