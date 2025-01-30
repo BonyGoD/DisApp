@@ -1,4 +1,4 @@
-package com.example.presupuestosdisa.screens
+package com.example.presupuestosdisa.pantallas
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -25,7 +25,9 @@ import com.example.presupuestosdisa.R
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PantallaPrincipal(navController: NavController){
-    Scaffold {
+    Scaffold(topBar = {
+        Text(text = "Home")
+    }) {
         VistaPrincipal(navController)
     }
 }
