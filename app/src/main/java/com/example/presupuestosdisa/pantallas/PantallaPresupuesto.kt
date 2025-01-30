@@ -120,6 +120,7 @@ fun ComponentePrincipal(nombre: String, icono: Int) {
     }
 }
 
+
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewPantallaPresupuesto() {
