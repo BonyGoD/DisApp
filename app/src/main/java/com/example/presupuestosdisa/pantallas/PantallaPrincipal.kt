@@ -18,26 +18,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.presupuestosdisa.R
+import com.example.presupuestosdisa.ui.theme.DisaPink
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PantallaPrincipal(navController: NavController){
-    Scaffold(topBar = {
-        Text(text = "Home")
-    }) {
         VistaPrincipal(navController)
-    }
 }
 @Composable
 fun VistaPrincipal(navController: NavController){
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Gray),
-        verticalArrangement = Arrangement.Center,
+            .background(DisaPink),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         imagenDisa()
@@ -59,4 +57,11 @@ fun imagenDisa(){
             .size(200.dp)
             .clip(RoundedCornerShape(50.dp))
     )
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun PreviewPantallaPrincipal() {
+    val navController = rememberNavController()
+    PantallaPrincipal(navController)
 }
