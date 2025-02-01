@@ -2,9 +2,11 @@ package com.example.presupuestosdisa.componentes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -15,6 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 
@@ -23,6 +27,7 @@ import androidx.compose.ui.unit.dp
 fun ComponenteMedidas() {
     val textoAlto = remember { mutableStateOf("") }
     val textoAncho = remember { mutableStateOf("") }
+    val maxDigits = 5
 
     Row(
         modifier = Modifier
@@ -37,25 +42,51 @@ fun ComponenteMedidas() {
         )
         TextField(
             value = textoAlto.value,
-            onValueChange = { textoAlto.value = it },
+            onValueChange = {
+                if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
+                    textoAlto.value = it
+                }
+            },
             label = { Text("Ancho") },
-            modifier = Modifier.width(90.dp),
+            modifier = Modifier.width(130.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
-            )
+            ),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            suffix = {
+                Row {
+                    Text("mm")
+                }
+            }
         )
         TextField(
             value = textoAncho.value,
-            onValueChange = { textoAncho.value = it },
+            onValueChange = {
+                if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
+                    textoAncho.value = it
+                }
+            },
             label = { Text("Alto") },
-            modifier = Modifier.width(90.dp),
+            modifier = Modifier.width(130.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
-            )
+            ),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            suffix = {
+                Row {
+                    Text("mm")
+                }
+            }
         )
     }
 }

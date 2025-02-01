@@ -1,6 +1,7 @@
 package com.example.presupuestosdisa.pantallas
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -142,7 +144,6 @@ fun ListaProductos(
                         checkboxStatePersiana,
                         tipoProducto.nombre
                     )
-                    ComponenteMedidas()
                 }
             }
         }
@@ -169,14 +170,3 @@ fun ListaProductos(
         }
     }
 }
-
-/*@SuppressLint("UnrememberedMutableState")
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewPantallaPresupuesto() {
-    ListaProductos(productos, selectedTipoVentana = mutableStateOf("Tipo de ventana"),
-        selectedTipoVidrio = mutableStateOf("Tipo de vidrio"),
-        selectedTipoPersiana = mutableStateOf("Tipo de persiana"),
-        selectedTipoRegistro = mutableStateOf("Tipo de registro"),
-        selectedTipoSerie = mutableStateOf("Tipo de serie"))
-}*/

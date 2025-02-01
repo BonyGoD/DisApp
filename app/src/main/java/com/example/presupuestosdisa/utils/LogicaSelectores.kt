@@ -2,15 +2,23 @@ package com.example.presupuestosdisa.utils
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
-import com.example.presupuestosdisa.componentes.CheckBox
-import com.example.presupuestosdisa.componentes.DropDown
+import com.example.presupuestosdisa.componentes.CheckBoxComponent
+import com.example.presupuestosdisa.componentes.ComponenteMedidas
+import com.example.presupuestosdisa.componentes.DropDownComponent
+import com.example.presupuestosdisa.componentes.ImageComponent
 import com.example.presupuestosdisa.pantallas.itemsColores
 import com.example.presupuestosdisa.pantallas.itemsTipoPersiana
 import com.example.presupuestosdisa.pantallas.itemsTipoRegistro
@@ -33,99 +41,93 @@ fun LogicaSelectores(
     tipoVentana: String
 ) {
 
-    when(nombreMenu){
-        "Ventana" -> {
-            DropDown(itemsTipoVentana, selectedTipoVentana)
-            when(tipoVentana) {
-                "Practicable" -> {
-                    CheckBox(nombreMenu, checkboxStateVentana)
-                    DropDown(itemsTipoSerie, selectedTipoSerie)
-                    DropDown(itemsColores, selectedTipoColorVentana)
-                    Image(
-                        painter = painterResource(R.drawable.basura),
-                        contentDescription = "Basura",
-                        modifier = Modifier
-                            .clickable {
-                                checkboxStateVentana.value = false
-                                resetDropdown(selectedTipoSerie, "Serie")
-                                resetDropdown(selectedTipoColorVentana, "Color")
-                                resetDropdown(selectedTipoVentana, "Tipo de Ventana")
-                            }
-                            .size(20.dp)
-                    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        when (nombreMenu) {
+            "Ventana" -> {
+                DropDownComponent(itemsTipoVentana, selectedTipoVentana)
+                when (tipoVentana) {
+                    "Practicable" -> {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            CheckBoxComponent(nombreMenu, checkboxStateVentana)
+                            DropDownComponent(itemsTipoSerie, selectedTipoSerie)
+                            DropDownComponent(itemsColores, selectedTipoColorVentana)
+                        }
+                    }
+                    "Corredera" -> {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            DropDownComponent(itemsTipoSerie, selectedTipoSerie)
+                            DropDownComponent(itemsColores, selectedTipoColorVentana)
+                        }
+                    }
+                    "Elevable" -> {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            DropDownComponent(itemsColores, selectedTipoColorVentana)
+                        }
+                    }
                 }
-                "Corredera" -> {
-                    DropDown(itemsTipoSerie, selectedTipoSerie)
-                    DropDown(itemsColores, selectedTipoColorVentana)
-                    Image(
-                        painter = painterResource(R.drawable.basura),
-                        contentDescription = "Basura",
-                        modifier = Modifier
-                            .clickable {
-                                resetDropdown(selectedTipoSerie, "Serie")
-                                resetDropdown(selectedTipoColorVentana, "Color")
-                                resetDropdown(selectedTipoVentana, "Tipo de Ventana")
-                            }
-                            .size(20.dp)
-                    )
+                ComponenteMedidas()
+                ImageComponent() {
+                    checkboxStateVentana.value = false
+                    resetDropdown(selectedTipoSerie, "Serie")
+                    resetDropdown(selectedTipoColorVentana, "Color")
+                    resetDropdown(selectedTipoVentana, "Tipo de Ventana")
                 }
-                "Elevable" -> {
-                    DropDown(itemsColores, selectedTipoColorVentana)
-                    Image(
-                        painter = painterResource(R.drawable.basura),
-                        contentDescription = "Basura",
-                        modifier = Modifier
-                            .clickable {
-                                resetDropdown(selectedTipoColorVentana, "Color")
-                                resetDropdown(selectedTipoVentana, "Tipo de Ventana")
-                            }
-                            .size(20.dp)
-                    )
+            }
+
+            "Vidrio" -> {
+                DropDownComponent(itemsTipoVidrio, selectedTipoVidrio)
+                ComponenteMedidas()
+                ImageComponent() {
+                    resetDropdown(selectedTipoVidrio, "Tipo de Vidrio")
+                }
+            }
+
+            "Persiana" -> {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    DropDownComponent(itemsTipoPersiana, selectedTipoPersiana)
+                    CheckBoxComponent(nombreMenu, checkBoxStatePersiana)
+                    DropDownComponent(itemsColores, selectedTipoColorPersiana)
+                }
+                ComponenteMedidas()
+                ImageComponent() {
+                    resetDropdown(selectedTipoPersiana, "Tipo de Persiana")
+                    checkBoxStatePersiana.value = false
+                    resetDropdown(selectedTipoColorPersiana, "Color")
+                }
+            }
+
+            "Registro" -> {
+                DropDownComponent(itemsTipoRegistro, selectedTipoRegistro)
+                ImageComponent() {
+                    resetDropdown(selectedTipoRegistro, "Tipo de Registro")
                 }
             }
         }
-        "Vidrio" -> {
-            DropDown(itemsTipoVidrio, selectedTipoVidrio)
-            Image(
-                painter = painterResource(R.drawable.basura),
-                contentDescription = "Basura",
-                modifier = Modifier
-                    .clickable {
-                        resetDropdown(selectedTipoVidrio, "Tipo de Vidrio")
-                    }
-                    .size(20.dp)
-            )
-        }
-        "Persiana" -> {
-            DropDown(itemsTipoPersiana, selectedTipoPersiana)
-            CheckBox(nombreMenu, checkBoxStatePersiana)
-            DropDown(itemsColores, selectedTipoColorPersiana)
-            Image(
-                painter = painterResource(R.drawable.basura),
-                contentDescription = "Basura",
-                modifier = Modifier
-                    .clickable {
-                        resetDropdown(selectedTipoPersiana, "Tipo de Persiana")
-                        checkBoxStatePersiana.value = false
-                        resetDropdown(selectedTipoColorPersiana, "Color")
-                    }
-                    .size(20.dp)
-            )
-        }
-        "Registro" -> {
-            DropDown(itemsTipoRegistro, selectedTipoRegistro)
-            Image(
-                painter = painterResource(R.drawable.basura),
-                contentDescription = "Basura",
-                modifier = Modifier
-                    .clickable {
-                        resetDropdown(selectedTipoRegistro, "Tipo de Registro")
-                    }
-                    .size(20.dp)
-            )
-        }
-        }
     }
+}
+
 fun resetDropdown(selectedItem: MutableState<String>, initialValue: String) {
     selectedItem.value = initialValue
 }

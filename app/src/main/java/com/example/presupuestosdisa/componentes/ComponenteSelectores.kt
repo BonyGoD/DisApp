@@ -1,10 +1,10 @@
 package com.example.presupuestosdisa.componentes
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Checkbox
@@ -18,11 +18,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.presupuestosdisa.model.Ventana
+import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.utils.LogicaSelectores
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ComponenteSelectores(
     selectedTipoVentana: MutableState<String>,
@@ -42,13 +44,6 @@ fun ComponenteSelectores(
     LaunchedEffect(selectedTipoVentana.value) {
         tipoVentana.value = selectedTipoVentana.value
     }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
         LogicaSelectores(
             nombreMenu,
             selectedTipoVentana,
@@ -62,11 +57,10 @@ fun ComponenteSelectores(
             checkBoxStatePersiana,
             tipoVentana.value
         )
-    }
 }
 
 @Composable
-fun DropDown(items: List<String>, selectedItem: MutableState<String>) {
+fun DropDownComponent(items: List<String>, selectedItem: MutableState<String>) {
     val expanded = remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.padding(10.dp)) {
@@ -93,7 +87,7 @@ fun DropDown(items: List<String>, selectedItem: MutableState<String>) {
 }
 
 @Composable
-fun CheckBox(nombreMenu: String, checkedState: MutableState<Boolean>) {
+fun CheckBoxComponent(nombreMenu: String, checkedState: MutableState<Boolean>) {
 
     val nombre = if (nombreMenu == "Persiana") "Motorizada" else "Oscilobatiente"
 
@@ -101,11 +95,26 @@ fun CheckBox(nombreMenu: String, checkedState: MutableState<Boolean>) {
         Checkbox(
             checked = checkedState.value,
             onCheckedChange = { checkedState.value = it },
-            modifier = Modifier.align(Alignment.CenterVertically).size(30.dp)
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .size(30.dp)
         )
         Text(
             text = nombre,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
     }
+}
+
+@Composable
+fun ImageComponent(onClick: () -> Unit) {
+    Image(
+        painter = painterResource(R.drawable.basura),
+        contentDescription = "Basura",
+        modifier = Modifier
+            .clickable {
+                onClick()
+            }
+            .size(20.dp)
+    )
 }
