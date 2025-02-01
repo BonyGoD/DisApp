@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -30,13 +31,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.componentes.ComponenteMedidas
 import com.example.presupuestosdisa.componentes.ComponenteMenu
 import com.example.presupuestosdisa.componentes.ComponenteSelectores
+import com.example.presupuestosdisa.model.Ventana
 import com.example.presupuestosdisa.ui.theme.DisaPink
 
 data class Productos(val nombre: String, val icono: Int)
@@ -45,7 +47,7 @@ private val productos: List<Productos> = listOf(
     Productos("Ventana", R.drawable.ventana),
     Productos("Vidrio", R.drawable.vidrio),
     Productos("Persiana", R.drawable.persiana),
-    Productos("Registro", R.drawable.registro)
+    Productos("Registro", R.drawable.registro),
 )
 
 val itemsTipoVentana = listOf("Practicable", "Corredera", "Elevable")
@@ -54,17 +56,24 @@ val itemsColores = listOf("Blanco", "Ral estandar", "Imitacion madera")
 val itemsTipoVidrio = listOf("4/20/4", "4+4/16/4", "3+3/16/6", "4+4")
 val itemsTipoPersiana = listOf("R45", "C45", "MonoBlock")
 val itemsTipoRegistro = listOf("Chapa de aluminio", "Chapa Sandwich de aluminio")
+var ventana = Ventana()
+val arrowUp = R.drawable.arrow_up
+val arrowDown = R.drawable.arrow_down
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PantallaPresupuesto(navController: NavController) {
 
-    val selectedTipoVentana = remember { mutableStateOf("Tipo de ventana") }
-    val selectedTipoVidrio = remember { mutableStateOf("Tipo de vidrio") }
-    val selectedTipoPersiana = remember { mutableStateOf("Tipo de persiana") }
-    val selectedTipoRegistro = remember { mutableStateOf("Tipo de registro") }
-    val selectedTipoSerie = remember { mutableStateOf("Tipo de serie") }
+    val selectedTipoVentana = remember { mutableStateOf("Tipo de Ventana") }
+    val selectedTipoVidrio = remember { mutableStateOf("Tipo de Vidrio") }
+    val selectedTipoPersiana = remember { mutableStateOf("Tipo de Persiana") }
+    val selectedTipoRegistro = remember { mutableStateOf("Tipo de Registro") }
+    val selectedTipoSerie = remember { mutableStateOf("Serie") }
+    val selectedColorVentana = remember { mutableStateOf("Color") }
+    val selectedColorPersiana = remember { mutableStateOf("Color") }
+    val checkboxStateVentana = remember { mutableStateOf(false) }
+    val checkboxStatePersiana = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -90,7 +99,7 @@ fun PantallaPresupuesto(navController: NavController) {
             )
         }
     ) {
-        ListaProductos(productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro)
+        ListaProductos(productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana)
     }
 }
 
@@ -101,21 +110,23 @@ fun ListaProductos(
     selectedTipoSerie: MutableState<String>,
     selectedTipoVidrio: MutableState<String>,
     selectedTipoPersiana: MutableState<String>,
-    selectedTipoRegistro: MutableState<String>
+    selectedTipoRegistro: MutableState<String>,
+    selectedColorVentana: MutableState<String>,
+    selectedColorPersiana: MutableState<String>,
+    checkboxStateVentana: MutableState<Boolean>,
+    checkboxStatePersiana: MutableState<Boolean>
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 150.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(top = 150.dp)
     ) {
         items(productos) { tipoProducto ->
             var expandida by remember { mutableStateOf(false) }
-            val selectedColor = remember { mutableStateOf("Color") }
 
             Column {
-                ComponenteMenu(tipoProducto.nombre, tipoProducto.icono) {
+                ComponenteMenu(tipoProducto.nombre, tipoProducto.icono, if (expandida) { arrowUp} else { arrowDown}) {
                     expandida = !expandida
                 }
                 if (expandida) {
@@ -125,7 +136,10 @@ fun ListaProductos(
                         selectedTipoPersiana,
                         selectedTipoRegistro,
                         selectedTipoSerie,
-                        selectedColor,
+                        selectedColorVentana,
+                        selectedColorPersiana,
+                        checkboxStateVentana,
+                        checkboxStatePersiana,
                         tipoProducto.nombre
                     )
                     ComponenteMedidas()
@@ -139,15 +153,24 @@ fun ListaProductos(
         verticalAlignment = Alignment.Bottom
     ) {
         Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier.padding(10.dp).fillMaxWidth()
+            onClick = {
+                ventana.tipoVentana = selectedTipoVentana.value
+                ventana.tipoSerie = selectedTipoSerie.value
+                ventana.tipoColor = selectedColorVentana.value
+                ventana.oscilobatiente = checkboxStateVentana.value
+            },
+            modifier = Modifier.padding(bottom = 40.dp)
         ) {
-            Text(text = "AÑADIR")
+            Text(
+                text = "AÑADIR",
+                fontSize = 23.sp,
+                modifier = Modifier.padding(10.dp)
+            )
         }
     }
 }
 
-@SuppressLint("UnrememberedMutableState")
+/*@SuppressLint("UnrememberedMutableState")
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewPantallaPresupuesto() {
@@ -156,4 +179,4 @@ fun PreviewPantallaPresupuesto() {
         selectedTipoPersiana = mutableStateOf("Tipo de persiana"),
         selectedTipoRegistro = mutableStateOf("Tipo de registro"),
         selectedTipoSerie = mutableStateOf("Tipo de serie"))
-}
+}*/

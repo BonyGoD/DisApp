@@ -1,7 +1,7 @@
 package com.example.presupuestosdisa.componentes
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +18,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.presupuestosdisa.model.Ventana
 import com.example.presupuestosdisa.utils.LogicaSelectores
 
 
@@ -30,22 +30,24 @@ fun ComponenteSelectores(
     selectedTipoPersiana: MutableState<String>,
     selectedTipoRegistro: MutableState<String>,
     selectedTipoSerie: MutableState<String>,
-    selectedTipoColor: MutableState<String>,
+    selectedTipoColorVentana: MutableState<String>,
+    selectedTipoColorPersiana: MutableState<String>,
+    checkboxStateVentana: MutableState<Boolean>,
+    checkBoxStatePersiana: MutableState<Boolean>,
     nombreMenu: String
 ) {
 
     val tipoVentana = remember { mutableStateOf("") }
 
     LaunchedEffect(selectedTipoVentana.value) {
-        // Aquí puedes tratar los datos cuando selectedTipoVentana cambie
         tipoVentana.value = selectedTipoVentana.value
-        // R
     }
 
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
         LogicaSelectores(
             nombreMenu,
@@ -54,7 +56,10 @@ fun ComponenteSelectores(
             selectedTipoPersiana,
             selectedTipoRegistro,
             selectedTipoSerie,
-            selectedTipoColor,
+            selectedTipoColorVentana,
+            selectedTipoColorPersiana,
+            checkboxStateVentana,
+            checkBoxStatePersiana,
             tipoVentana.value
         )
     }
@@ -88,9 +93,8 @@ fun DropDown(items: List<String>, selectedItem: MutableState<String>) {
 }
 
 @Composable
-fun CheckBox(nombreMenu: String) {
+fun CheckBox(nombreMenu: String, checkedState: MutableState<Boolean>) {
 
-    val checkedState = remember { mutableStateOf(false) }
     val nombre = if (nombreMenu == "Persiana") "Motorizada" else "Oscilobatiente"
 
     Row() {
@@ -104,18 +108,4 @@ fun CheckBox(nombreMenu: String) {
             modifier = Modifier.align(Alignment.CenterVertically)
         )
     }
-}
-
-@SuppressLint("UnrememberedMutableState")
-@Preview
-@Composable
-fun ComponenteSeleccionableVentanaPreview() {
-    ComponenteSelectores(
-        selectedTipoVentana = mutableStateOf("Tipo de ventana"),
-        selectedTipoVidrio = mutableStateOf("Tipo de vidrio"),
-        selectedTipoPersiana = mutableStateOf("Tipo de persiana"),
-        selectedTipoRegistro = mutableStateOf("Tipo de registro"),
-        selectedTipoSerie = mutableStateOf("Tipo de serie"),
-        selectedTipoColor = mutableStateOf("Color"),
-        nombreMenu = "Vidrio")
 }
