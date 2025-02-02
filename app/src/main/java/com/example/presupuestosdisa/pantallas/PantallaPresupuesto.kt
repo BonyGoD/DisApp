@@ -40,8 +40,10 @@ import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.componentes.ComponenteMedidas
 import com.example.presupuestosdisa.componentes.ComponenteMenu
 import com.example.presupuestosdisa.componentes.ComponenteSelectores
+import com.example.presupuestosdisa.componentes.TextFieldComponent
 import com.example.presupuestosdisa.model.Ventana
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.utils.MedidasState
 
 data class Productos(val nombre: String, val icono: Int)
 
@@ -76,6 +78,14 @@ fun PantallaPresupuesto(navController: NavController) {
     val selectedColorPersiana = remember { mutableStateOf("Color") }
     val checkboxStateVentana = remember { mutableStateOf(false) }
     val checkboxStatePersiana = remember { mutableStateOf(false) }
+    val medidasState = remember {
+        mutableListOf(
+            MedidasState("Ventana"),
+            MedidasState("Vidrio"),
+            MedidasState("Persiana"),
+            MedidasState("Registro")
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -101,7 +111,7 @@ fun PantallaPresupuesto(navController: NavController) {
             )
         }
     ) {
-        ListaProductos(productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana)
+        ListaProductos(productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState)
     }
 }
 
@@ -116,57 +126,65 @@ fun ListaProductos(
     selectedColorVentana: MutableState<String>,
     selectedColorPersiana: MutableState<String>,
     checkboxStateVentana: MutableState<Boolean>,
-    checkboxStatePersiana: MutableState<Boolean>
+    checkboxStatePersiana: MutableState<Boolean>,
+    medidasState: MutableList<MedidasState>,
 ) {
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 150.dp)
     ) {
-        items(productos) { tipoProducto ->
-            var expandida by remember { mutableStateOf(false) }
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .padding(top = 150.dp)
+        ) {
+            items(productos) { tipoProducto ->
+                var expandida by remember { mutableStateOf(false) }
 
-            Column {
-                ComponenteMenu(tipoProducto.nombre, tipoProducto.icono, if (expandida) { arrowUp} else { arrowDown}) {
-                    expandida = !expandida
-                }
-                if (expandida) {
-                    ComponenteSelectores(
-                        selectedTipoVentana,
-                        selectedTipoVidrio,
-                        selectedTipoPersiana,
-                        selectedTipoRegistro,
-                        selectedTipoSerie,
-                        selectedColorVentana,
-                        selectedColorPersiana,
-                        checkboxStateVentana,
-                        checkboxStatePersiana,
-                        tipoProducto.nombre
-                    )
+                Column {
+                    ComponenteMenu(tipoProducto.nombre, tipoProducto.icono, if (expandida) { arrowUp } else { arrowDown }) {
+                        expandida = !expandida
+                    }
+                    if (expandida) {
+                        ComponenteSelectores(
+                            selectedTipoVentana,
+                            selectedTipoVidrio,
+                            selectedTipoPersiana,
+                            selectedTipoRegistro,
+                            selectedTipoSerie,
+                            selectedColorVentana,
+                            selectedColorPersiana,
+                            checkboxStateVentana,
+                            checkboxStatePersiana,
+                            medidasState,
+                            tipoProducto.nombre
+                        )
+                    }
                 }
             }
         }
-    }
-    Row(
-        modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Bottom
-    ) {
-        Button(
-            onClick = {
-                ventana.tipoVentana = selectedTipoVentana.value
-                ventana.tipoSerie = selectedTipoSerie.value
-                ventana.tipoColor = selectedColorVentana.value
-                ventana.oscilobatiente = checkboxStateVentana.value
-            },
-            modifier = Modifier.padding(bottom = 40.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 40.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Bottom
         ) {
-            Text(
-                text = "AÑADIR",
-                fontSize = 23.sp,
-                modifier = Modifier.padding(10.dp)
-            )
+            Button(
+                onClick = {
+                    ventana.tipoVentana = selectedTipoVentana.value
+                    ventana.tipoSerie = selectedTipoSerie.value
+                    ventana.tipoColor = selectedColorVentana.value
+                    ventana.oscilobatiente = checkboxStateVentana.value
+                }
+            ) {
+                Text(
+                    text = "AÑADIR",
+                    fontSize = 23.sp,
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
         }
     }
 }

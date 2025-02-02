@@ -21,13 +21,18 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComponenteMedidas() {
+fun ComponenteMedidas(nombreMenu: String? = null, tipoVentana: String? = null) {
+
     val textoAlto = remember { mutableStateOf("") }
     val textoAncho = remember { mutableStateOf("") }
     val maxDigits = 5
+
+    fun resetTextFields() {
+        textoAlto.value = ""
+        textoAncho.value = ""
+    }
 
     Row(
         modifier = Modifier
@@ -41,10 +46,10 @@ fun ComponenteMedidas() {
             modifier = Modifier.padding(10.dp)
         )
         TextField(
-            value = textoAlto.value,
+            value = textoAncho.value,
             onValueChange = {
                 if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
-                    textoAlto.value = it
+                    textoAncho.value = it
                 }
             },
             label = { Text("Ancho") },
@@ -65,10 +70,10 @@ fun ComponenteMedidas() {
             }
         )
         TextField(
-            value = textoAncho.value,
+            value = textoAlto.value,
             onValueChange = {
                 if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
-                    textoAncho.value = it
+                    textoAlto.value = it
                 }
             },
             label = { Text("Alto") },
@@ -89,4 +94,5 @@ fun ComponenteMedidas() {
             }
         )
     }
+    ImageComponent(onClick = { resetTextFields() })
 }

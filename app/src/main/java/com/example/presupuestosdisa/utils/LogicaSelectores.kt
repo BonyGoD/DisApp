@@ -1,24 +1,19 @@
 package com.example.presupuestosdisa.utils
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.componentes.CheckBoxComponent
-import com.example.presupuestosdisa.componentes.ComponenteMedidas
 import com.example.presupuestosdisa.componentes.DropDownComponent
 import com.example.presupuestosdisa.componentes.ImageComponent
+import com.example.presupuestosdisa.componentes.TextFieldComponent
 import com.example.presupuestosdisa.pantallas.itemsColores
 import com.example.presupuestosdisa.pantallas.itemsTipoPersiana
 import com.example.presupuestosdisa.pantallas.itemsTipoRegistro
@@ -38,6 +33,7 @@ fun LogicaSelectores(
     selectedTipoColorPersiana: MutableState<String>,
     checkboxStateVentana: MutableState<Boolean>,
     checkBoxStatePersiana: MutableState<Boolean>,
+    medidasState: List<MedidasState>,
     tipoVentana: String
 ) {
 
@@ -63,6 +59,7 @@ fun LogicaSelectores(
                             DropDownComponent(itemsColores, selectedTipoColorVentana)
                         }
                     }
+
                     "Corredera" -> {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -73,6 +70,7 @@ fun LogicaSelectores(
                             DropDownComponent(itemsColores, selectedTipoColorVentana)
                         }
                     }
+
                     "Elevable" -> {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -83,20 +81,42 @@ fun LogicaSelectores(
                         }
                     }
                 }
-                ComponenteMedidas()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+                        TextFieldComponent("Ancho", medidas.valorAncho)
+                        TextFieldComponent("Alto", medidas.valorAlto)
+                    }
+                }
                 ImageComponent() {
                     checkboxStateVentana.value = false
                     resetDropdown(selectedTipoSerie, "Serie")
                     resetDropdown(selectedTipoColorVentana, "Color")
                     resetDropdown(selectedTipoVentana, "Tipo de Ventana")
+                    resetMedidas(nombreMenu, medidasState)
                 }
             }
 
             "Vidrio" -> {
                 DropDownComponent(itemsTipoVidrio, selectedTipoVidrio)
-                ComponenteMedidas()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+                        TextFieldComponent("Ancho", medidas.valorAncho)
+                        TextFieldComponent("Alto", medidas.valorAlto)
+                    }
+                }
                 ImageComponent() {
                     resetDropdown(selectedTipoVidrio, "Tipo de Vidrio")
+                    resetMedidas(nombreMenu, medidasState)
                 }
             }
 
@@ -110,18 +130,43 @@ fun LogicaSelectores(
                     CheckBoxComponent(nombreMenu, checkBoxStatePersiana)
                     DropDownComponent(itemsColores, selectedTipoColorPersiana)
                 }
-                ComponenteMedidas()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+                        TextFieldComponent("Ancho", medidas.valorAncho)
+                        TextFieldComponent("Alto", medidas.valorAlto)
+
+                    }
+                }
                 ImageComponent() {
                     resetDropdown(selectedTipoPersiana, "Tipo de Persiana")
                     checkBoxStatePersiana.value = false
                     resetDropdown(selectedTipoColorPersiana, "Color")
+                    resetMedidas(nombreMenu, medidasState)
                 }
             }
 
             "Registro" -> {
                 DropDownComponent(itemsTipoRegistro, selectedTipoRegistro)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+                        TextFieldComponent("Ancho", medidas.valorAncho)
+                        TextFieldComponent("Alto", medidas.valorAlto)
+
+                    }
+                }
                 ImageComponent() {
                     resetDropdown(selectedTipoRegistro, "Tipo de Registro")
+                    resetMedidas(nombreMenu, medidasState)
                 }
             }
         }
@@ -130,4 +175,11 @@ fun LogicaSelectores(
 
 fun resetDropdown(selectedItem: MutableState<String>, initialValue: String) {
     selectedItem.value = initialValue
+}
+
+fun resetMedidas(nombreMenu: String, medidasState: List<MedidasState>) {
+    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+        medidas.valorAncho.value = ""
+        medidas.valorAlto.value = ""
+    }
 }
