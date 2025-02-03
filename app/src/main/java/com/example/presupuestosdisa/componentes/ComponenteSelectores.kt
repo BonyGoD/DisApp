@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.utils.LogicaSelectores
-import com.example.presupuestosdisa.utils.MedidasState
+import com.example.presupuestosdisa.model.MedidasState
 
 
 @Composable

@@ -14,6 +14,7 @@ import com.example.presupuestosdisa.componentes.CheckBoxComponent
 import com.example.presupuestosdisa.componentes.DropDownComponent
 import com.example.presupuestosdisa.componentes.ImageComponent
 import com.example.presupuestosdisa.componentes.TextFieldComponent
+import com.example.presupuestosdisa.model.MedidasState
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.pantallas.itemsColores
 import com.example.presupuestosdisa.pantallas.itemsTipoPersiana

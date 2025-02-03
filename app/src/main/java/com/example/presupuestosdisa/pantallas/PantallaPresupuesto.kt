@@ -39,7 +39,7 @@ import com.example.presupuestosdisa.componentes.ComponenteMenu
 import com.example.presupuestosdisa.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.ui.theme.DisaPink
-import com.example.presupuestosdisa.utils.MedidasState
+import com.example.presupuestosdisa.model.MedidasState
 
 data class Productos(val nombre: String, val icono: Int)
 
