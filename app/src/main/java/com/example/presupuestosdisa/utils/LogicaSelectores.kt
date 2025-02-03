@@ -62,7 +62,6 @@ fun LogicaSelectores(
                             DropDownComponent(nombreMenu, itemsColores, selectedTipoColorVentana, productosList, "Color")
                         }
                     }
-
                     "Corredera" -> {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -73,7 +72,6 @@ fun LogicaSelectores(
                             DropDownComponent(nombreMenu, itemsColores, selectedTipoColorVentana, productosList, "Color")
                         }
                     }
-
                     "Elevable" -> {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
