@@ -40,6 +40,8 @@ import com.example.presupuestosdisa.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.model.MedidasState
+import com.example.presupuestosdisa.viewModel.SharedViewModel
+import com.google.gson.Gson
 
 data class Productos(val nombre: String, val icono: Int)
 
@@ -56,15 +58,15 @@ val itemsColores = listOf("Blanco", "Ral estandar", "Imitacion madera")
 val itemsTipoVidrio = listOf("4/20/4", "4+4/16/4", "3+3/16/6", "4+4")
 val itemsTipoPersiana = listOf("R45", "C45", "MonoBlock")
 val itemsTipoRegistro = listOf("Chapa de aluminio", "Chapa Sandwich de aluminio")
-var producto = Producto()
 val arrowUp = R.drawable.arrow_up
 val arrowDown = R.drawable.arrow_down
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun PantallaPresupuesto(navController: NavController) {
+fun PantallaPresupuesto(sharedViewModel: SharedViewModel, navigateBack:() -> Unit) {
 
+/*    val navController = navController*/
     val selectedTipoVentana = remember { mutableStateOf("Tipo de Ventana") }
     val selectedTipoVidrio = remember { mutableStateOf("Tipo de Vidrio") }
     val selectedTipoPersiana = remember { mutableStateOf("Tipo de Persiana") }
@@ -98,7 +100,7 @@ fun PantallaPresupuesto(navController: NavController) {
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Arrow Back",
                         modifier = Modifier.clickable {
-                            navController.popBackStack()
+                            navigateBack()
                         }
                     )
                 },
@@ -108,12 +110,14 @@ fun PantallaPresupuesto(navController: NavController) {
             )
         }
     ) {
-        ListaProductos(productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState, productosList)
+        ListaProductos(sharedViewModel, navigateBack, productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState, productosList)
     }
 }
 
 @Composable
 fun ListaProductos(
+    sharedViewModel: SharedViewModel,
+    navigateBack: () -> Unit,
     productos: List<Productos>,
     selectedTipoVentana: MutableState<String>,
     selectedTipoSerie: MutableState<String>,
@@ -172,9 +176,10 @@ fun ListaProductos(
         ) {
             Button(
                 onClick = {
-                    productosList.forEach {
-                        println(it)
+                    productosList.forEach { producto ->
+                        sharedViewModel.agregarProducto(producto)
                     }
+                    navigateBack()
                 }
             ) {
                 Text(

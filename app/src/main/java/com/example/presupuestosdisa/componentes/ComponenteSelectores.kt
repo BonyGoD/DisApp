@@ -137,7 +137,30 @@ fun CheckBoxComponent(
     Row() {
         Checkbox(
             checked = checkedState.value,
-            onCheckedChange = { checkedState.value = it },
+            onCheckedChange = {
+                checkedState.value = it
+                var productoEncontrado = false
+                productosList.forEach { producto ->
+                    if (producto.nombre == nombreMenu) {
+                        when (nombre) {
+                            "Motorizada" -> producto.motorizada = it
+                            "Oscilobatiente" -> producto.oscilobatiente = it
+                        }
+                        productoEncontrado = true
+                        return@forEach
+                    }
+                }
+                if (!productoEncontrado) {
+                    productosList.add(
+                        Producto(
+                            nombre = nombreMenu,
+                            motorizada = if (nombre == "Motorizada") it else false,
+                            oscilobatiente = if (nombre == "Oscilobatiente") it else false
+
+                        )
+                    )
+                }
+            },
             modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .size(30.dp)
@@ -164,6 +187,26 @@ fun TextFieldComponent(
         onValueChange = {
             if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
                 medida.value = it
+                var productoEncontrado = false
+                productosList.forEach { producto ->
+                    if (producto.nombre == nombreMenu) {
+                        when (tipoMedida) {
+                            "Ancho" -> producto.ancho = if (it.isNotEmpty()) it.toLong() else 0L
+                            "Alto" -> producto.alto = if (it.isNotEmpty()) it.toLong() else 0L
+                        }
+                        productoEncontrado = true
+                        return@forEach
+                    }
+                }
+                if (!productoEncontrado) {
+                    productosList.add(
+                        Producto(
+                            nombre = nombreMenu,
+                            ancho = if (tipoMedida == "Ancho") it.toLong() else 0,
+                            alto = if (tipoMedida == "Alto") it.toLong() else 0
+                        )
+                    )
+                }
             }
         },
         label = { Text(tipoMedida) },

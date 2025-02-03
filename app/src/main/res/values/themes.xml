@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorPrimaryDark">@color/disa</item>
         <item name="colorAccent">@color/teal_200</item>
     </style>
 </resources>

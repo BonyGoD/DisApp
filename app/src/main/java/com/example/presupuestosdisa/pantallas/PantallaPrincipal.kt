@@ -1,37 +1,28 @@
 package com.example.presupuestosdisa.pantallas
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.viewModel.SharedViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun PantallaPrincipal(navController: NavController){
-        VistaPrincipal(navController)
-}
-@Composable
-fun VistaPrincipal(navController: NavController){
+fun PantallaPrincipal(sharedViewModel: SharedViewModel, navigateToPantallaPresupuesto: () -> Unit) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,8 +30,27 @@ fun VistaPrincipal(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         imagenDisa()
+        Column {
+            sharedViewModel.productos.value.forEach { producto ->
+                Text(
+                    modifier = Modifier.padding(10.dp),
+                    fontWeight = FontWeight.Bold,
+                    text = "${producto.nombre} - " +
+                            "${producto.tipo} - " +
+                            "${if(producto.oscilobatiente) "Oscilobatiente - " else ""}" +
+                            "${if(producto.motorizada) "Motorizada - " else ""}" +
+                            "${if(producto.tipoSerie != "") producto.tipoSerie + " - " else ""}" +
+                            "${if(producto.tipoColor != "") producto.tipoColor + " - " else ""}"
+                )
+                Text(
+                    modifier = Modifier.padding(10.dp),
+                    fontWeight = FontWeight.Bold,
+                    text = "${producto.ancho} x ${producto.alto}"
+                )
+            }
+        }
         Button(onClick = {
-            navController.navigate("pantalla_presupuesto")
+            navigateToPantallaPresupuesto()
         }) {
             Text(text = "+ Añadir presupuesto")
         }
@@ -48,7 +58,7 @@ fun VistaPrincipal(navController: NavController){
 }
 
 @Composable
-fun imagenDisa(){
+fun imagenDisa() {
     Image(
         painterResource(R.drawable.logodisa),
         contentDescription = "Logo de Disa",
@@ -57,11 +67,4 @@ fun imagenDisa(){
             .size(200.dp)
             .clip(RoundedCornerShape(50.dp))
     )
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewPantallaPrincipal() {
-    val navController = rememberNavController()
-    PantallaPrincipal(navController)
 }

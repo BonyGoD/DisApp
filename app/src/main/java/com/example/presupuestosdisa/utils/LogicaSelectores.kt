@@ -101,6 +101,7 @@ fun LogicaSelectores(
                     resetDropdown(selectedTipoColorVentana, "Color")
                     resetDropdown(selectedTipoVentana, "Tipo de Ventana")
                     resetMedidas(nombreMenu, medidasState)
+                    deleteProducto(productosList, nombreMenu)
                 }
             }
 
@@ -120,6 +121,7 @@ fun LogicaSelectores(
                 ImageComponent() {
                     resetDropdown(selectedTipoVidrio, "Tipo de Vidrio")
                     resetMedidas(nombreMenu, medidasState)
+                    deleteProducto(productosList, nombreMenu)
                 }
             }
 
@@ -150,6 +152,7 @@ fun LogicaSelectores(
                     checkBoxStatePersiana.value = false
                     resetDropdown(selectedTipoColorPersiana, "Color")
                     resetMedidas(nombreMenu, medidasState)
+                    deleteProducto(productosList, nombreMenu)
                 }
             }
 
@@ -170,6 +173,7 @@ fun LogicaSelectores(
                 ImageComponent() {
                     resetDropdown(selectedTipoRegistro, "Tipo de Registro")
                     resetMedidas(nombreMenu, medidasState)
+                    deleteProducto(productosList, nombreMenu)
                 }
             }
         }
@@ -185,4 +189,8 @@ fun resetMedidas(nombreMenu: String, medidasState: List<MedidasState>) {
         medidas.valorAncho.value = ""
         medidas.valorAlto.value = ""
     }
+}
+
+fun deleteProducto(productosList: MutableList<Producto>, nombreMenu: String) {
+    productosList.removeIf { producto -> producto.nombre == nombreMenu }
 }
