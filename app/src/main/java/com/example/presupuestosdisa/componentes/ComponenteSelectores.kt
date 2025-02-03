@@ -2,11 +2,8 @@ package com.example.presupuestosdisa.componentes
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -25,13 +22,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
+import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.utils.LogicaSelectores
 import com.example.presupuestosdisa.utils.MedidasState
 
@@ -48,7 +45,8 @@ fun ComponenteSelectores(
     checkboxStateVentana: MutableState<Boolean>,
     checkBoxStatePersiana: MutableState<Boolean>,
     medidasState: List<MedidasState>,
-    nombreMenu: String
+    nombreMenu: String,
+    productosList: MutableList<Producto>
 ) {
 
     val tipoVentana = remember { mutableStateOf("") }
@@ -68,12 +66,19 @@ fun ComponenteSelectores(
         checkboxStateVentana,
         checkBoxStatePersiana,
         medidasState,
-        tipoVentana.value
+        tipoVentana.value,
+        productosList
     )
 }
 
 @Composable
-fun DropDownComponent(items: List<String>, selectedItem: MutableState<String>) {
+fun DropDownComponent(
+    nombreMenu: String,
+    items: List<String>,
+    selectedItem: MutableState<String>,
+    productosList: MutableList<Producto>,
+    tipoDropdown: String
+) {
     val expanded = remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.padding(10.dp)) {
@@ -91,7 +96,28 @@ fun DropDownComponent(items: List<String>, selectedItem: MutableState<String>) {
                     onClick = {
                         expanded.value = false
                         selectedItem.value = item
-                        // Handle item click
+                        var productoEncontrado = false
+                        productosList.forEach { producto ->
+                            if (producto.nombre == nombreMenu) {
+                                when (tipoDropdown) {
+                                    "Tipo" -> producto.tipo = item
+                                    "Serie" -> producto.tipoSerie = item
+                                    "Color" -> producto.tipoColor = item
+                                }
+                                productoEncontrado = true
+                                return@forEach
+                            }
+                        }
+                        if (!productoEncontrado) {
+                            productosList.add(
+                                Producto(
+                                    nombre = nombreMenu,
+                                    tipo = if (tipoDropdown == "Tipo") item else "",
+                                    tipoSerie = if (tipoDropdown == "Serie") item else "",
+                                    tipoColor = if (tipoDropdown == "Color") item else ""
+                                )
+                            )
+                        }
                     }
                 )
             }
@@ -100,7 +126,11 @@ fun DropDownComponent(items: List<String>, selectedItem: MutableState<String>) {
 }
 
 @Composable
-fun CheckBoxComponent(nombreMenu: String, checkedState: MutableState<Boolean>) {
+fun CheckBoxComponent(
+    nombreMenu: String,
+    checkedState: MutableState<Boolean>,
+    productosList: MutableList<Producto>
+) {
 
     val nombre = if (nombreMenu == "Persiana") "Motorizada" else "Oscilobatiente"
 
@@ -121,7 +151,12 @@ fun CheckBoxComponent(nombreMenu: String, checkedState: MutableState<Boolean>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextFieldComponent(tipoMedida: String, medida: MutableState<String>) {
+fun TextFieldComponent(
+    nombreMenu: String,
+    tipoMedida: String,
+    medida: MutableState<String>,
+    productosList: MutableList<Producto>
+) {
     val maxDigits = 5
 
     TextField(

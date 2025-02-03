@@ -14,6 +14,7 @@ import com.example.presupuestosdisa.componentes.CheckBoxComponent
 import com.example.presupuestosdisa.componentes.DropDownComponent
 import com.example.presupuestosdisa.componentes.ImageComponent
 import com.example.presupuestosdisa.componentes.TextFieldComponent
+import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.pantallas.itemsColores
 import com.example.presupuestosdisa.pantallas.itemsTipoPersiana
 import com.example.presupuestosdisa.pantallas.itemsTipoRegistro
@@ -34,7 +35,8 @@ fun LogicaSelectores(
     checkboxStateVentana: MutableState<Boolean>,
     checkBoxStatePersiana: MutableState<Boolean>,
     medidasState: List<MedidasState>,
-    tipoVentana: String
+    tipoVentana: String,
+    productosList: MutableList<Producto>
 ) {
 
     Column(
@@ -46,7 +48,7 @@ fun LogicaSelectores(
     ) {
         when (nombreMenu) {
             "Ventana" -> {
-                DropDownComponent(itemsTipoVentana, selectedTipoVentana)
+                DropDownComponent(nombreMenu, itemsTipoVentana, selectedTipoVentana, productosList, "Tipo")
                 when (tipoVentana) {
                     "Practicable" -> {
                         Row(
@@ -54,9 +56,9 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            CheckBoxComponent(nombreMenu, checkboxStateVentana)
-                            DropDownComponent(itemsTipoSerie, selectedTipoSerie)
-                            DropDownComponent(itemsColores, selectedTipoColorVentana)
+                            CheckBoxComponent(nombreMenu, checkboxStateVentana, productosList)
+                            DropDownComponent(nombreMenu, itemsTipoSerie, selectedTipoSerie, productosList, "Serie")
+                            DropDownComponent(nombreMenu, itemsColores, selectedTipoColorVentana, productosList, "Color")
                         }
                     }
 
@@ -66,8 +68,8 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(itemsTipoSerie, selectedTipoSerie)
-                            DropDownComponent(itemsColores, selectedTipoColorVentana)
+                            DropDownComponent(nombreMenu, itemsTipoSerie, selectedTipoSerie, productosList, "Serie")
+                            DropDownComponent(nombreMenu, itemsColores, selectedTipoColorVentana, productosList, "Color")
                         }
                     }
 
@@ -77,7 +79,7 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(itemsColores, selectedTipoColorVentana)
+                            DropDownComponent(nombreMenu, itemsColores, selectedTipoColorVentana, productosList, "Color")
                         }
                     }
                 }
@@ -88,8 +90,8 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent("Ancho", medidas.valorAncho)
-                        TextFieldComponent("Alto", medidas.valorAlto)
+                        TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho, productosList)
+                        TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto, productosList)
                     }
                 }
                 ImageComponent() {
@@ -102,7 +104,7 @@ fun LogicaSelectores(
             }
 
             "Vidrio" -> {
-                DropDownComponent(itemsTipoVidrio, selectedTipoVidrio)
+                DropDownComponent(nombreMenu, itemsTipoVidrio, selectedTipoVidrio, productosList, "Tipo")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -110,8 +112,8 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent("Ancho", medidas.valorAncho)
-                        TextFieldComponent("Alto", medidas.valorAlto)
+                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho, productosList)
+                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto, productosList)
                     }
                 }
                 ImageComponent() {
@@ -126,9 +128,9 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    DropDownComponent(itemsTipoPersiana, selectedTipoPersiana)
-                    CheckBoxComponent(nombreMenu, checkBoxStatePersiana)
-                    DropDownComponent(itemsColores, selectedTipoColorPersiana)
+                    DropDownComponent(nombreMenu, itemsTipoPersiana, selectedTipoPersiana, productosList, "Tipo")
+                    CheckBoxComponent(nombreMenu, checkBoxStatePersiana, productosList)
+                    DropDownComponent(nombreMenu, itemsColores, selectedTipoColorPersiana, productosList, "Color")
                 }
                 Row(
                     modifier = Modifier
@@ -137,8 +139,8 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent("Ancho", medidas.valorAncho)
-                        TextFieldComponent("Alto", medidas.valorAlto)
+                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho, productosList)
+                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto, productosList)
 
                     }
                 }
@@ -151,7 +153,7 @@ fun LogicaSelectores(
             }
 
             "Registro" -> {
-                DropDownComponent(itemsTipoRegistro, selectedTipoRegistro)
+                DropDownComponent(nombreMenu, itemsTipoRegistro, selectedTipoRegistro, productosList, "Tipo")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -159,8 +161,8 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent("Ancho", medidas.valorAncho)
-                        TextFieldComponent("Alto", medidas.valorAlto)
+                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho, productosList)
+                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto, productosList)
 
                     }
                 }

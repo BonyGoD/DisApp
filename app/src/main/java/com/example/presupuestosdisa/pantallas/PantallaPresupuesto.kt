@@ -1,7 +1,6 @@
 package com.example.presupuestosdisa.pantallas
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -25,23 +23,21 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.presupuestosdisa.R
-import com.example.presupuestosdisa.componentes.ComponenteMedidas
 import com.example.presupuestosdisa.componentes.ComponenteMenu
 import com.example.presupuestosdisa.componentes.ComponenteSelectores
-import com.example.presupuestosdisa.componentes.TextFieldComponent
-import com.example.presupuestosdisa.model.Ventana
+import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.utils.MedidasState
 
@@ -60,7 +56,7 @@ val itemsColores = listOf("Blanco", "Ral estandar", "Imitacion madera")
 val itemsTipoVidrio = listOf("4/20/4", "4+4/16/4", "3+3/16/6", "4+4")
 val itemsTipoPersiana = listOf("R45", "C45", "MonoBlock")
 val itemsTipoRegistro = listOf("Chapa de aluminio", "Chapa Sandwich de aluminio")
-var ventana = Ventana()
+var producto = Producto()
 val arrowUp = R.drawable.arrow_up
 val arrowDown = R.drawable.arrow_down
 
@@ -86,6 +82,7 @@ fun PantallaPresupuesto(navController: NavController) {
             MedidasState("Registro")
         )
     }
+    val productosList = remember { mutableStateListOf<Producto>() }
 
     Scaffold(
         topBar = {
@@ -111,7 +108,7 @@ fun PantallaPresupuesto(navController: NavController) {
             )
         }
     ) {
-        ListaProductos(productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState)
+        ListaProductos(productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState, productosList)
     }
 }
 
@@ -128,6 +125,7 @@ fun ListaProductos(
     checkboxStateVentana: MutableState<Boolean>,
     checkboxStatePersiana: MutableState<Boolean>,
     medidasState: MutableList<MedidasState>,
+    productosList: MutableList<Producto>
 ) {
     Column(
         modifier = Modifier
@@ -137,7 +135,7 @@ fun ListaProductos(
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .padding(top = 150.dp)
+                .padding(top = 150.dp, bottom = 30.dp)
         ) {
             items(productos) { tipoProducto ->
                 var expandida by remember { mutableStateOf(false) }
@@ -158,7 +156,8 @@ fun ListaProductos(
                             checkboxStateVentana,
                             checkboxStatePersiana,
                             medidasState,
-                            tipoProducto.nombre
+                            tipoProducto.nombre,
+                            productosList
                         )
                     }
                 }
@@ -173,10 +172,9 @@ fun ListaProductos(
         ) {
             Button(
                 onClick = {
-                    ventana.tipoVentana = selectedTipoVentana.value
-                    ventana.tipoSerie = selectedTipoSerie.value
-                    ventana.tipoColor = selectedColorVentana.value
-                    ventana.oscilobatiente = checkboxStateVentana.value
+                    productosList.forEach {
+                        println(it)
+                    }
                 }
             ) {
                 Text(
