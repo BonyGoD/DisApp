@@ -143,7 +143,6 @@ fun ListaProductos(
         ) {
             items(productos) { tipoProducto ->
                 var expandida by remember { mutableStateOf(false) }
-
                 Column {
                     ComponenteMenu(tipoProducto.nombre, tipoProducto.icono, if (expandida) { arrowUp } else { arrowDown }) {
                         expandida = !expandida
