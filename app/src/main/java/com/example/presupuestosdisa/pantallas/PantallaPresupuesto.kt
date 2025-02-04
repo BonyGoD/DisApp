@@ -33,13 +33,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.componentes.ComponenteMenu
 import com.example.presupuestosdisa.componentes.ComponenteSelectores
+import com.example.presupuestosdisa.model.Colores
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.model.MedidasState
+import com.example.presupuestosdisa.viewModel.ProductoViewModel
 import com.example.presupuestosdisa.viewModel.SharedViewModel
 import com.google.gson.Gson
 
@@ -52,12 +55,12 @@ private val productos: List<Productos> = listOf(
     Productos("Registro", R.drawable.registro),
 )
 
-val itemsTipoVentana = listOf("Practicable", "Corredera", "Elevable")
-val itemsTipoSerie = listOf("RPT", "Fria")
-val itemsColores = listOf("Blanco", "Ral estandar", "Imitacion madera")
-val itemsTipoVidrio = listOf("4/20/4", "4+4/16/4", "3+3/16/6", "4+4")
-val itemsTipoPersiana = listOf("R45", "C45", "MonoBlock")
-val itemsTipoRegistro = listOf("Chapa de aluminio", "Chapa Sandwich de aluminio")
+val itemsTipoVentana = ProductoViewModel().listaTipoVentana.value
+val itemsTipoSerie = ProductoViewModel().listaTipoSerie.value.map { it.nombre }
+val itemsColores = ProductoViewModel().listaColores.value.map { it.nombre }
+val itemsTipoVidrio = ProductoViewModel().listaTipoVidrio.value.map { it.tipo }
+val itemsTipoPersiana = ProductoViewModel().listaTipoPersiana.value.map { it.tipo }
+val itemsTipoRegistro = ProductoViewModel().listaTipoRegistro.value.map { it.tipo }
 val arrowUp = R.drawable.arrow_up
 val arrowDown = R.drawable.arrow_down
 

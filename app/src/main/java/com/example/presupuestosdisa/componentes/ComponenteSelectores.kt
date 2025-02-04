@@ -28,9 +28,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
+import com.example.presupuestosdisa.model.Colores
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.utils.LogicaSelectores
 import com.example.presupuestosdisa.model.MedidasState
+import com.example.presupuestosdisa.utils.LogicaDropdown
 
 
 @Composable
@@ -74,7 +76,7 @@ fun ComponenteSelectores(
 @Composable
 fun DropDownComponent(
     nombreMenu: String,
-    items: List<String>,
+    selectores: List<String>,
     selectedItem: MutableState<String>,
     productosList: MutableList<Producto>,
     tipoDropdown: String
@@ -90,33 +92,16 @@ fun DropDownComponent(
             expanded = expanded.value,
             onDismissRequest = { expanded.value = false }
         ) {
-            items.forEach { item ->
+            selectores.forEach { item ->
                 DropdownMenuItem(
                     text = { Text(text = item) },
                     onClick = {
                         expanded.value = false
                         selectedItem.value = item
-                        var productoEncontrado = false
-                        productosList.forEach { producto ->
-                            if (producto.nombre == nombreMenu) {
-                                when (tipoDropdown) {
-                                    "Tipo" -> producto.tipo = item
-                                    "Serie" -> producto.tipoSerie = item
-                                    "Color" -> producto.tipoColor = item
-                                }
-                                productoEncontrado = true
-                                return@forEach
-                            }
-                        }
-                        if (!productoEncontrado) {
-                            productosList.add(
-                                Producto(
-                                    nombre = nombreMenu,
-                                    tipo = if (tipoDropdown == "Tipo") item else "",
-                                    tipoSerie = if (tipoDropdown == "Serie") item else "",
-                                    tipoColor = if (tipoDropdown == "Color") item else ""
-                                )
-                            )
+                        when (tipoDropdown) {
+                            "Tipo" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item)
+                            "Serie" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item)
+                            "Color" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item)
                         }
                     }
                 )

@@ -3,6 +3,7 @@ package com.example.presupuestosdisa.viewModel
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.presupuestosdisa.model.Colores
 import com.example.presupuestosdisa.model.Producto
 
 class SharedViewModel: ViewModel() {
