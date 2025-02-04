@@ -33,18 +33,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.componentes.ComponenteMenu
 import com.example.presupuestosdisa.componentes.ComponenteSelectores
-import com.example.presupuestosdisa.model.Colores
+import com.example.presupuestosdisa.model.MedidasState
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.ui.theme.DisaPink
-import com.example.presupuestosdisa.model.MedidasState
 import com.example.presupuestosdisa.viewModel.ProductoViewModel
 import com.example.presupuestosdisa.viewModel.SharedViewModel
-import com.google.gson.Gson
 
 data class Productos(val nombre: String, val icono: Int)
 

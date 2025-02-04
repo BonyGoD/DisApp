@@ -2,8 +2,11 @@ package com.example.presupuestosdisa.pantallas
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.utils.calcularPrecioTotal
 import com.example.presupuestosdisa.viewModel.SharedViewModel
 
 @Composable
@@ -42,11 +46,37 @@ fun PantallaPrincipal(sharedViewModel: SharedViewModel, navigateToPantallaPresup
                             "${if(producto.tipoSerie != "") producto.tipoSerie + " - " else ""}" +
                             "${if(producto.tipoColor != "") producto.tipoColor + " - " else ""}"
                 )
-                Text(
-                    modifier = Modifier.padding(10.dp),
-                    fontWeight = FontWeight.Bold,
-                    text = "${producto.ancho} x ${producto.alto}"
-                )
+                Row {
+                    Text(
+                        modifier = Modifier.padding(10.dp),
+                        fontWeight = FontWeight.Bold,
+                        text = "${producto.ancho} x ${producto.alto}"
+                    )
+                    Text(
+                        modifier = Modifier.padding(10.dp),
+                        fontWeight = FontWeight.Bold,
+                        text = calcularPrecioTotal(null, producto)
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                if (sharedViewModel.productos.value.isNotEmpty()) {
+                    Text(
+                        modifier = Modifier.padding(10.dp),
+                        fontWeight = FontWeight.Bold,
+                        text = "TOTAL:")
+                    Text(
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically),
+                        fontWeight = FontWeight.Bold,
+                        text = calcularPrecioTotal(sharedViewModel.productos.value, null),
+                    )
+                }
             }
         }
         Button(onClick = {

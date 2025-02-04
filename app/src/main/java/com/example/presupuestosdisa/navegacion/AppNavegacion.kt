@@ -35,19 +35,3 @@ fun AppNavegacion() {
         }
     }
 }
-/*        composable(route = AppPantallas.SplashScreen.ruta) {
-            SplashScreen(navController)
-        }
-        composable(route = AppPantallas.PantallaPrincipal.ruta) {
-            PantallaPrincipal(navController, null)
-        }
-        composable(route = AppPantallas.PantallaPrincipalConProductos.ruta + "/{productosJson}",
-            arguments = listOf(navArgument("productosJson") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val productosJson = backStackEntry.arguments?.getString("productosJson")
-            val productosList = Gson().fromJson(productosJson, Array<Producto>::class.java).toList()
-            PantallaPrincipal(navController, productosList)
-        }
-        composable(route = AppPantallas.PantallaPresupuesto.ruta) {
-            PantallaPresupuesto(navController)
-        }*/

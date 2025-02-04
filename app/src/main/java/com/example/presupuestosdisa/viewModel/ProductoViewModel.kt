@@ -30,9 +30,9 @@ class ProductoViewModel: ViewModel() {
 
     val tipoPersiana = mutableStateOf(
         listOf(
-            Persiana("Aluminio", 50),
-            Persiana("PVC", 40),
-            Persiana("Madera", 60)
+            Persiana("R45", 81),
+            Persiana("C45", 81),
+            Persiana("Monoblock", 95)
         ))
     val listaTipoPersiana: State<List<Persiana>> = tipoPersiana
 
@@ -43,18 +43,18 @@ class ProductoViewModel: ViewModel() {
         ))
     val listaTipoRegistro: State<List<Registro>> = tipoRegistro
 
-    val itemsTipoSerie = mutableStateOf(
+    val tipoSerie = mutableStateOf(
         listOf(
             Serie("RPT", 94),
             Serie("Fria", 64)
         ))
-    val listaTipoSerie: State<List<Serie>> = itemsTipoSerie
+    val listaTipoSerie: State<List<Serie>> = tipoSerie
 
     private val colores = mutableStateOf(
         listOf(
-            Colores("Blanco", 0),
-            Colores("Ral estandar", 10),
-            Colores("Madera", 20)
+            Colores("Blanco", 0.0),
+            Colores("Ral estandar", 0.10),
+            Colores("Imitacion madera", 0.50)
         ))
     val listaColores: State<List<Colores>> = colores
 
