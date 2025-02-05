@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "299216481948",
+    "project_id": "presupuestos-disa",
+    "storage_bucket": "presupuestos-disa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299216481948:android:0198aab1330fa5ff4b0759",
+        "android_client_info": {
+          "package_name": "com.example.presupuestosdisa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoRRII6nIZ1RUJ09q6tCC2hCeqL9rW6oQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
