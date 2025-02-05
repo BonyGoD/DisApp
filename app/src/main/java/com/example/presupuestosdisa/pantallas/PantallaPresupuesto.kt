@@ -22,6 +22,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -33,12 +35,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.componentes.ComponenteMenu
 import com.example.presupuestosdisa.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.model.MedidasState
 import com.example.presupuestosdisa.model.Producto
+import com.example.presupuestosdisa.model.ProductoMenu
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.viewModel.ProductoMenuViewModel
 import com.example.presupuestosdisa.viewModel.ProductoViewModel
 import com.example.presupuestosdisa.viewModel.SharedViewModel
 
@@ -52,11 +57,11 @@ private val productos: List<Productos> = listOf(
 )
 
 val itemsTipoVentana = ProductoViewModel().listaTipoVentana.value
-val itemsTipoSerie = ProductoViewModel().listaTipoSerie.value.map { it.nombre }
-val itemsColores = ProductoViewModel().listaColores.value.map { it.nombre }
 val itemsTipoVidrio = ProductoViewModel().listaTipoVidrio.value.map { it.tipo }
 val itemsTipoPersiana = ProductoViewModel().listaTipoPersiana.value.map { it.tipo }
 val itemsTipoRegistro = ProductoViewModel().listaTipoRegistro.value.map { it.tipo }
+val itemsTipoSerie = ProductoViewModel().listaTipoSerie.value.map { it.nombre }
+val itemsColores = ProductoViewModel().listaColores.value.map { it.nombre }
 val arrowUp = R.drawable.arrow_up
 val arrowDown = R.drawable.arrow_down
 
@@ -64,6 +69,9 @@ val arrowDown = R.drawable.arrow_down
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PantallaPresupuesto(sharedViewModel: SharedViewModel, navigateBack:() -> Unit) {
+
+    val productoMenuViewModel= ProductoMenuViewModel()
+    val producto: State<List<ProductoMenu>> = productoMenuViewModel.producto.collectAsState()
 
 /*    val navController = navController*/
     val selectedTipoVentana = remember { mutableStateOf("Tipo de Ventana") }
