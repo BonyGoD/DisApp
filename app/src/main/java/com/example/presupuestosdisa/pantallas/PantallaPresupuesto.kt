@@ -35,13 +35,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.componentes.ComponenteMenu
 import com.example.presupuestosdisa.componentes.ComponenteSelectores
+import com.example.presupuestosdisa.model.Colores
 import com.example.presupuestosdisa.model.MedidasState
+import com.example.presupuestosdisa.model.Persiana
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.model.ProductoMenu
+import com.example.presupuestosdisa.model.Registro
+import com.example.presupuestosdisa.model.Serie
+import com.example.presupuestosdisa.model.Ventana
+import com.example.presupuestosdisa.model.Vidrio
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.viewModel.ProductoMenuViewModel
 import com.example.presupuestosdisa.viewModel.ProductoViewModel
@@ -56,12 +61,6 @@ private val productos: List<Productos> = listOf(
     Productos("Registro", R.drawable.registro),
 )
 
-val itemsTipoVentana = ProductoViewModel().listaTipoVentana.value
-val itemsTipoVidrio = ProductoViewModel().listaTipoVidrio.value.map { it.tipo }
-val itemsTipoPersiana = ProductoViewModel().listaTipoPersiana.value.map { it.tipo }
-val itemsTipoRegistro = ProductoViewModel().listaTipoRegistro.value.map { it.tipo }
-val itemsTipoSerie = ProductoViewModel().listaTipoSerie.value.map { it.nombre }
-val itemsColores = ProductoViewModel().listaColores.value.map { it.nombre }
 val arrowUp = R.drawable.arrow_up
 val arrowDown = R.drawable.arrow_down
 
@@ -71,9 +70,16 @@ val arrowDown = R.drawable.arrow_down
 fun PantallaPresupuesto(sharedViewModel: SharedViewModel, navigateBack:() -> Unit) {
 
     val productoMenuViewModel= ProductoMenuViewModel()
-    val producto: State<List<ProductoMenu>> = productoMenuViewModel.producto.collectAsState()
+    val productoViewModel = ProductoViewModel()
 
-/*    val navController = navController*/
+    val producto: State<List<ProductoMenu>> = productoMenuViewModel.producto.collectAsState()
+    val tipoVentana: State<List<Ventana>> = productoMenuViewModel.tipoVentana.collectAsState()
+    val tipoVidrio: State<List<Vidrio>> = productoMenuViewModel.tipoVidrio.collectAsState()
+    val tipoPersiana: State<List<Persiana>> = productoMenuViewModel.tipoPersiana.collectAsState()
+    val tipoRegistro: State<List<Registro>> = productoMenuViewModel.tipoRegistro.collectAsState()
+    val tipoSerie: State<List<Serie>> = productoMenuViewModel.tipoSerie.collectAsState()
+    val colores: State<List<Colores>> = productoMenuViewModel.colores.collectAsState()
+
     val selectedTipoVentana = remember { mutableStateOf("Tipo de Ventana") }
     val selectedTipoVidrio = remember { mutableStateOf("Tipo de Vidrio") }
     val selectedTipoPersiana = remember { mutableStateOf("Tipo de Persiana") }
@@ -91,6 +97,7 @@ fun PantallaPresupuesto(sharedViewModel: SharedViewModel, navigateBack:() -> Uni
             MedidasState("Registro")
         )
     }
+
     val productosList = remember { mutableStateListOf<Producto>() }
 
     Scaffold(

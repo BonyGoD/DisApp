@@ -32,6 +32,7 @@ import com.example.presupuestosdisa.model.Colores
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.utils.LogicaSelectores
 import com.example.presupuestosdisa.model.MedidasState
+import com.example.presupuestosdisa.model.Ventana
 import com.example.presupuestosdisa.utils.LogicaDropdown
 
 

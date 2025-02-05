@@ -7,17 +7,18 @@ import com.example.presupuestosdisa.model.Colores
 import com.example.presupuestosdisa.model.Persiana
 import com.example.presupuestosdisa.model.Registro
 import com.example.presupuestosdisa.model.Serie
+import com.example.presupuestosdisa.model.Ventana
 import com.example.presupuestosdisa.model.Vidrio
 
 class ProductoViewModel: ViewModel() {
 
     val tipoVentana = mutableStateOf(
         listOf(
-            "Practicable",
-            "Corredera",
-            "Elevable"
+            Ventana("Practicable"),
+            Ventana("Corredera"),
+            Ventana("Elevable"),
         ))
-    val listaTipoVentana: State<List<String>> = tipoVentana
+    val listaTipoVentana: State<List<Ventana>> = tipoVentana
 
     private val tipoVidrio = mutableStateOf(
         listOf(

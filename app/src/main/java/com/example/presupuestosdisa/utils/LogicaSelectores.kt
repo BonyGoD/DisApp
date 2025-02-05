@@ -10,18 +10,15 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import com.example.presupuestosdisa.componentes.CheckBoxComponent
 import com.example.presupuestosdisa.componentes.DropDownComponent
 import com.example.presupuestosdisa.componentes.ImageComponent
 import com.example.presupuestosdisa.componentes.TextFieldComponent
 import com.example.presupuestosdisa.model.MedidasState
 import com.example.presupuestosdisa.model.Producto
-import com.example.presupuestosdisa.pantallas.itemsColores
-import com.example.presupuestosdisa.pantallas.itemsTipoPersiana
-import com.example.presupuestosdisa.pantallas.itemsTipoRegistro
-import com.example.presupuestosdisa.pantallas.itemsTipoSerie
-import com.example.presupuestosdisa.pantallas.itemsTipoVentana
-import com.example.presupuestosdisa.pantallas.itemsTipoVidrio
+import com.example.presupuestosdisa.viewModel.ProductoMenuViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LogicaSelectores(
@@ -39,6 +36,15 @@ fun LogicaSelectores(
     tipoVentana: String,
     productosList: MutableList<Producto>
 ) {
+
+    val productoMenuViewModel: ProductoMenuViewModel = viewModel()
+
+    val itemsTipoVentana = productoMenuViewModel.tipoVentana.value.map { it.tipo }
+    val itemsTipoVidrio = productoMenuViewModel.tipoVidrio.value.map { it.tipo }
+    val itemsTipoPersiana = productoMenuViewModel.tipoPersiana.value.map { it.tipo }
+    val itemsTipoRegistro = productoMenuViewModel.tipoRegistro.value.map { it.tipo }
+    val itemsTipoSerie = productoMenuViewModel.tipoSerie.value.map { it.nombre }
+    val itemsColores = productoMenuViewModel.colores.value.map { it.nombre }
 
     Column(
         modifier = Modifier
