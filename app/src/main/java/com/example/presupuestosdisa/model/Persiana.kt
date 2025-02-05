@@ -1,6 +1,6 @@
 package com.example.presupuestosdisa.model
 
 data class Persiana(
-    val tipo: String,
-    val precio: Int = 0,
+    val tipo: String? = null,
+    val precio: Int? = 0,
 )

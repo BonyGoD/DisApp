@@ -10,7 +10,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import com.example.presupuestosdisa.componentes.CheckBoxComponent
 import com.example.presupuestosdisa.componentes.DropDownComponent
 import com.example.presupuestosdisa.componentes.ImageComponent

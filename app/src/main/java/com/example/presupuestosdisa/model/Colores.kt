@@ -1,6 +1,6 @@
 package com.example.presupuestosdisa.model
 
 data class Colores(
-    val nombre: String = "",
-    val precio: Double = 0.0
+    val nombre: String? = "",
+    val precio: Double? = 0.0
 )

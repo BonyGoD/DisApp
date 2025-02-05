@@ -28,11 +28,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
-import com.example.presupuestosdisa.model.Colores
 import com.example.presupuestosdisa.model.Producto
 import com.example.presupuestosdisa.utils.LogicaSelectores
 import com.example.presupuestosdisa.model.MedidasState
-import com.example.presupuestosdisa.model.Ventana
 import com.example.presupuestosdisa.utils.LogicaDropdown
 
 
@@ -77,7 +75,7 @@ fun ComponenteSelectores(
 @Composable
 fun DropDownComponent(
     nombreMenu: String,
-    selectores: List<String>,
+    selectores: List<String?>,
     selectedItem: MutableState<String>,
     productosList: MutableList<Producto>,
     tipoDropdown: String
@@ -95,14 +93,14 @@ fun DropDownComponent(
         ) {
             selectores.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(text = item) },
+                    text = { Text(text = item.orEmpty()) },
                     onClick = {
                         expanded.value = false
-                        selectedItem.value = item
+                        selectedItem.value = item.orEmpty()
                         when (tipoDropdown) {
-                            "Tipo" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item)
-                            "Serie" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item)
-                            "Color" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item)
+                            "Tipo" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item.orEmpty())
+                            "Serie" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item.orEmpty())
+                            "Color" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item.orEmpty())
                         }
                     }
                 )

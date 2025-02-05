@@ -18,7 +18,9 @@ fun AppNavegacion() {
     NavHost(navController = navController, startDestination = SplashScreen) {
         composable<SplashScreen> {
             SplashScreen {
-                navController.navigate(PantallaPrincipal)
+                navController.navigate(PantallaPrincipal){
+                    popUpTo(SplashScreen) { inclusive = true }
+                }
             }
         }
 
