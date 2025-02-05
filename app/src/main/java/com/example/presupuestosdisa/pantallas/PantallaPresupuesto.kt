@@ -65,7 +65,6 @@ val arrowUp = R.drawable.arrow_up
 val arrowDown = R.drawable.arrow_down
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PantallaPresupuesto(sharedViewModel: SharedViewModel, navigateBack:() -> Unit) {
 
