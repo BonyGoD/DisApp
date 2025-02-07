@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -34,58 +35,73 @@ fun PantallaPrincipal(sharedViewModel: SharedViewModel, navigateToPantallaPresup
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         imagenDisa()
-        Column {
+        LazyColumn {
             sharedViewModel.productos.value.forEach { producto ->
-                Text(
-                    modifier = Modifier.padding(10.dp),
-                    fontWeight = FontWeight.Bold,
-                    text = "${producto.nombre} - " +
-                            "${producto.tipo} - " +
-                            "${if(producto.oscilobatiente) "Oscilobatiente - " else ""}" +
-                            "${if(producto.motorizada) "Motorizada - " else ""}" +
-                            "${if(producto.tipoSerie != "") producto.tipoSerie + " - " else ""}" +
-                            "${if(producto.tipoColor != "") producto.tipoColor + " - " else ""}"
-                )
-                Row {
+                item {
                     Text(
                         modifier = Modifier.padding(10.dp),
                         fontWeight = FontWeight.Bold,
-                        text = "${producto.ancho} x ${producto.alto}"
+                        text = "${producto.nombre} - " +
+                                "${producto.tipo} - " +
+                                "${if (producto.oscilobatiente) "Oscilobatiente - " else ""}" +
+                                "${if (producto.motorizada) "Motorizada - " else ""}" +
+                                "${if (producto.tipoSerie != "") producto.tipoSerie + " - " else ""}" +
+                                "${if (producto.tipoColor != "") producto.tipoColor + " - " else ""}"
                     )
-                    Text(
-                        modifier = Modifier.padding(10.dp),
-                        fontWeight = FontWeight.Bold,
-                        text = calcularPrecioTotal(null, producto)
-                    )
+                    Row {
+                        Text(
+                            modifier = Modifier.padding(10.dp),
+                            fontWeight = FontWeight.Bold,
+                            text = "${producto.ancho} x ${producto.alto}"
+                        )
+                        Text(
+                            modifier = Modifier.padding(10.dp),
+                            fontWeight = FontWeight.Bold,
+                            text = calcularPrecioTotal(null, producto)
+                        )
+                    }
                 }
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                if (sharedViewModel.productos.value.isNotEmpty()) {
-                    Text(
-                        modifier = Modifier.padding(10.dp),
-                        fontWeight = FontWeight.Bold,
-                        text = "TOTAL:")
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically),
-                        fontWeight = FontWeight.Bold,
-                        text = calcularPrecioTotal(sharedViewModel.productos.value, null),
-                    )
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    if (sharedViewModel.productos.value.isNotEmpty()) {
+                        Text(
+                            modifier = Modifier.padding(10.dp),
+                            fontWeight = FontWeight.Bold,
+                            text = "TOTAL:"
+                        )
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically),
+                            fontWeight = FontWeight.Bold,
+                            text = calcularPrecioTotal(sharedViewModel.productos.value, null),
+                        )
+                    }
                 }
             }
-        }
-        Button(onClick = {
-            navigateToPantallaPresupuesto()
-        }) {
-            Text(text = "+ Añadir presupuesto")
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 40.dp),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Button(onClick = {
+                        navigateToPantallaPresupuesto()
+                    }) {
+                        Text(text = "+ Añadir presupuesto")
+                    }
+                }
+            }
         }
     }
 }
+
 
 @Composable
 fun imagenDisa() {
