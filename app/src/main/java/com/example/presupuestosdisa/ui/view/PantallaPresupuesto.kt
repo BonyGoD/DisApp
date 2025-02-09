@@ -57,13 +57,6 @@ val arrowDown = R.drawable.arrow_down
 @Composable
 fun PantallaPresupuesto(sharedViewModel: SharedViewModel, productoMenuViewModel: ProductoMenuViewModel, navigateBack:() -> Unit) {
 
-/*    val tipoVentana: State<List<Ventana>> = productoMenuViewModel.producto.value.get().tipo
-    val tipoVidrio: State<List<Vidrio>> = productoMenuViewModel.tipoVidrio.collectAsState()
-    val tipoPersiana: State<List<Persiana>> = productoMenuViewModel.tipoPersiana.collectAsState()
-    val tipoRegistro: State<List<Registro>> = productoMenuViewModel.tipoRegistro.collectAsState()
-    val tipoSerie: State<List<Serie>> = productoMenuViewModel.tipoSerie.collectAsState()
-    val colores: State<List<Colores>> = productoMenuViewModel.colores.collectAsState()*/
-
     val selectedTipoVentana = remember { mutableStateOf("Tipo de Ventana") }
     val selectedTipoVidrio = remember { mutableStateOf("Tipo de Vidrio") }
     val selectedTipoPersiana = remember { mutableStateOf("Tipo de Persiana") }

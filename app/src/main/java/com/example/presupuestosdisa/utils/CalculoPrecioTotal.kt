@@ -1,7 +1,6 @@
 package com.example.presupuestosdisa.utils
 
 import com.example.presupuestosdisa.data.model.Producto
-import com.example.presupuestosdisa.data.model.ProductoInfo
 import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
 
 fun calcularPrecioTotal(

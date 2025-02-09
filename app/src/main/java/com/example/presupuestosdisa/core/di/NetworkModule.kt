@@ -1,6 +1,5 @@
 package com.example.presupuestosdisa.core.di
 
-import com.example.presupuestosdisa.core.FirebaseHelper
 import com.example.presupuestosdisa.data.network.FirebaseClient
 import com.example.presupuestosdisa.data.network.FirebaseClientImpl
 import com.google.firebase.firestore.FirebaseFirestore
