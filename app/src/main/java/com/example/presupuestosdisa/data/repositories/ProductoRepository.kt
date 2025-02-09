@@ -1,4 +1,4 @@
-package com.example.presupuestosdisa.data
+package com.example.presupuestosdisa.data.repositories
 
 import com.example.presupuestosdisa.data.model.ProductoInfo
 import com.example.presupuestosdisa.data.network.ProductosService
