@@ -6,7 +6,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.presupuestosdisa.navegacion.AppNavegacion
 import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val productoMenuViewModel: ProductoMenuViewModel by viewModels()

@@ -6,8 +6,12 @@ import com.example.presupuestosdisa.data.model.Serie
 import com.example.presupuestosdisa.data.model.Tipo
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class FirebaseClientImpl(private val firebase: FirebaseFirestore) : FirebaseClient {
+class FirebaseClientImpl @Inject constructor(
+    private val firebase: FirebaseFirestore
+) : FirebaseClient
+{
 
     override suspend fun getProductos(): List<ProductoInfo> {
 

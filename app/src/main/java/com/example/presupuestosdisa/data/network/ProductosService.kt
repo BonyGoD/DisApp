@@ -4,11 +4,11 @@ import com.example.presupuestosdisa.core.FirebaseHelper
 import com.example.presupuestosdisa.data.model.ProductoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ProductosService {
-
-    private val firebaseClient: FirebaseClient = FirebaseClientImpl(FirebaseHelper.getFirebase())
-
+class ProductosService @Inject constructor(
+    private val firebaseClient: FirebaseClient
+) {
     suspend fun getProductos(): List<ProductoInfo> {
         return withContext(Dispatchers.IO) {
             firebaseClient.getProductos()
