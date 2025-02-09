@@ -1,10 +1,9 @@
-package com.example.presupuestosdisa.viewModel
+package com.example.presupuestosdisa.ui.viewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.presupuestosdisa.model.Colores
-import com.example.presupuestosdisa.model.Producto
+import com.example.presupuestosdisa.data.model.Producto
 
 class SharedViewModel: ViewModel() {
 

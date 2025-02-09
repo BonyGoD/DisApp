@@ -1,4 +1,4 @@
-package com.example.presupuestosdisa.model
+package com.example.presupuestosdisa.data.model
 
 data class Producto(
     var nombre: String = "",

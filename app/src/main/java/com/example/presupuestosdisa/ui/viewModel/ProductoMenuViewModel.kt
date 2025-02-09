@@ -1,31 +1,30 @@
-package com.example.presupuestosdisa.viewModel
+package com.example.presupuestosdisa.ui.viewModel
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.presupuestosdisa.model.Colores
-import com.example.presupuestosdisa.model.Persiana
-import com.example.presupuestosdisa.model.ProductoMenu
-import com.example.presupuestosdisa.model.Registro
-import com.example.presupuestosdisa.model.Serie
-import com.example.presupuestosdisa.model.Ventana
-import com.example.presupuestosdisa.model.Vidrio
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.example.presupuestosdisa.data.model.ProductoInfo
+import com.example.presupuestosdisa.domain.GetProductosUseCase
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class ProductoMenuViewModel() : ViewModel() {
 
-    private var db: FirebaseFirestore = Firebase.firestore
+    private val _producto = MutableLiveData<List<ProductoInfo>?>()
+    val producto: MutableLiveData<List<ProductoInfo>?> get() = _producto
 
-    private val _producto = MutableStateFlow<List<ProductoMenu>>(emptyList())
-    val producto: StateFlow<List<ProductoMenu>> = _producto
+    val getProductosUseCase = GetProductosUseCase()
+
+    fun onCreate() {
+        viewModelScope.launch {
+            val result = getProductosUseCase()
+
+            if(!result.isNullOrEmpty()) {
+                _producto.postValue(result)
+            }
+        }
+    }
+
+    /*private var db: FirebaseFirestore = Firebase.firestore
 
     private val _tipoVentana = MutableStateFlow<List<Ventana>>(emptyList())
     val tipoVentana = _tipoVentana
@@ -46,7 +45,7 @@ class ProductoMenuViewModel() : ViewModel() {
     val colores = _colores
 
     init {
-        getProductosMenu()
+        //getProductosMenu()
         getTipoVentana()
         getTipoVidrio()
         getTipoPersiana()
@@ -57,7 +56,7 @@ class ProductoMenuViewModel() : ViewModel() {
 
     private fun getProductosMenu() {
         viewModelScope.launch {
-            val result: List<ProductoMenu> = withContext(Dispatchers.IO) {
+            val result: List<ProductoInfo> = withContext(Dispatchers.IO) {
                 getAllProductosMenu()
             }
             _producto.value = result
@@ -118,14 +117,14 @@ class ProductoMenuViewModel() : ViewModel() {
         }
     }
 
-    private suspend fun getAllProductosMenu(): List<ProductoMenu> {
+    private suspend fun getAllProductosMenu(): List<ProductoInfo> {
         return try {
             db.collection("productos")
                 .get()
                 .await()
                 .documents
                 .mapNotNull { snapshot ->
-                    snapshot.toObject(ProductoMenu::class.java)
+                    snapshot.toObject(ProductoInfo::class.java)
                 }
         } catch (e: Exception) {
             Log.e("ProductoViewModel", "Error al obtener productosMenu", e)
@@ -221,5 +220,5 @@ class ProductoMenuViewModel() : ViewModel() {
             Log.e("ProductoViewModel", "Error al obtener productosMenu", e)
             emptyList()
         }
-    }
+    }*/
 }

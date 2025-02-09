@@ -10,14 +10,20 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.presupuestosdisa.componentes.CheckBoxComponent
-import com.example.presupuestosdisa.componentes.DropDownComponent
-import com.example.presupuestosdisa.componentes.ImageComponent
-import com.example.presupuestosdisa.componentes.TextFieldComponent
-import com.example.presupuestosdisa.model.MedidasState
-import com.example.presupuestosdisa.model.Producto
-import com.example.presupuestosdisa.viewModel.ProductoMenuViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.presupuestosdisa.data.model.MedidasState
+import com.example.presupuestosdisa.data.model.Producto
+import com.example.presupuestosdisa.ui.view.componentes.CheckBoxComponent
+import com.example.presupuestosdisa.ui.view.componentes.DropDownComponent
+import com.example.presupuestosdisa.ui.view.componentes.ImageComponent
+import com.example.presupuestosdisa.ui.view.componentes.TextFieldComponent
+import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+
+private val ITEMS_VENTANA: String = "itemsTipoVentana"
+private val ITEMS_VIDRIO: String = "itemsTipoVidrio"
+private val ITEMS_PERSIANA: String = "itemsTipoPersiana"
+private val ITEMS_REGISTRO: String = "itemsTipoRegistro"
+private val ITEMS_SERIE: String = "itemsTipoSerie"
+private val ITEMS_COLORES: String = "itemsColores"
 
 @Composable
 fun LogicaSelectores(
@@ -33,17 +39,9 @@ fun LogicaSelectores(
     checkBoxStatePersiana: MutableState<Boolean>,
     medidasState: List<MedidasState>,
     tipoVentana: String,
-    productosList: MutableList<Producto>
+    productosList: MutableList<Producto>,
+    productoMenuViewModel: ProductoMenuViewModel
 ) {
-
-    val productoMenuViewModel: ProductoMenuViewModel = viewModel()
-
-    val itemsTipoVentana = productoMenuViewModel.tipoVentana.value.map { it.tipo }
-    val itemsTipoVidrio = productoMenuViewModel.tipoVidrio.value.map { it.tipo }
-    val itemsTipoPersiana = productoMenuViewModel.tipoPersiana.value.map { it.tipo }
-    val itemsTipoRegistro = productoMenuViewModel.tipoRegistro.value.map { it.tipo }
-    val itemsTipoSerie = productoMenuViewModel.tipoSerie.value.map { it.nombre }
-    val itemsColores = productoMenuViewModel.colores.value.map { it.nombre }
 
     Column(
         modifier = Modifier
@@ -54,7 +52,7 @@ fun LogicaSelectores(
     ) {
         when (nombreMenu) {
             "Ventana" -> {
-                DropDownComponent(nombreMenu, itemsTipoVentana, selectedTipoVentana, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_VENTANA].orEmpty(), selectedTipoVentana, productosList, "Tipo")
                 when (tipoVentana) {
                     "Practicable" -> {
                         Row(
@@ -63,8 +61,8 @@ fun LogicaSelectores(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             CheckBoxComponent(nombreMenu, checkboxStateVentana, productosList)
-                            DropDownComponent(nombreMenu, itemsTipoSerie, selectedTipoSerie, productosList, "Serie")
-                            DropDownComponent(nombreMenu, itemsColores, selectedTipoColorVentana, productosList, "Color")
+                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_SERIE].orEmpty(), selectedTipoSerie, productosList, "Serie")
+                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
                         }
                     }
 
@@ -74,8 +72,8 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(nombreMenu, itemsTipoSerie, selectedTipoSerie, productosList, "Serie")
-                            DropDownComponent(nombreMenu, itemsColores, selectedTipoColorVentana, productosList, "Color")
+                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_SERIE].orEmpty(), selectedTipoSerie, productosList, "Serie")
+                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
                         }
                     }
                     "Elevable" -> {
@@ -84,7 +82,7 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(nombreMenu, itemsColores, selectedTipoColorVentana, productosList, "Color")
+                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
                         }
                     }
                 }
@@ -110,7 +108,7 @@ fun LogicaSelectores(
             }
 
             "Vidrio" -> {
-                DropDownComponent(nombreMenu, itemsTipoVidrio, selectedTipoVidrio, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_VIDRIO].orEmpty(), selectedTipoVidrio, productosList, "Tipo")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -135,9 +133,9 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    DropDownComponent(nombreMenu, itemsTipoPersiana, selectedTipoPersiana, productosList, "Tipo")
+                    DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_PERSIANA].orEmpty(), selectedTipoPersiana, productosList, "Tipo")
                     CheckBoxComponent(nombreMenu, checkBoxStatePersiana, productosList)
-                    DropDownComponent(nombreMenu, itemsColores, selectedTipoColorPersiana, productosList, "Color")
+                    DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorPersiana, productosList, "Color")
                 }
                 Row(
                     modifier = Modifier
@@ -161,7 +159,7 @@ fun LogicaSelectores(
             }
 
             "Registro" -> {
-                DropDownComponent(nombreMenu, itemsTipoRegistro, selectedTipoRegistro, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_REGISTRO].orEmpty(), selectedTipoRegistro, productosList, "Tipo")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -197,4 +195,53 @@ fun resetMedidas(nombreMenu: String, medidasState: List<MedidasState>) {
 
 fun deleteProducto(productosList: MutableList<Producto>, nombreMenu: String) {
     productosList.removeIf { producto -> producto.nombre == nombreMenu }
+}
+
+fun getItems(productoMenuViewModel: ProductoMenuViewModel): Map<String, List<String?>> {
+
+    val itemsTipoVentana = productoMenuViewModel.producto.value
+        ?.filter { it.nombre == "Ventana" }
+        ?.flatMap { it.tipo ?: emptyList() }
+        ?.map { it.tipo }
+        ?.toMutableList() ?: mutableListOf()
+
+    val itemsTipoVidrio = productoMenuViewModel.producto.value
+        ?.filter { it.nombre == "Vidrio" }
+        ?.flatMap { it.tipo ?: emptyList() }
+        ?.map { it.tipo }
+        ?.toMutableList() ?: mutableListOf()
+
+    val itemsTipoPersiana = productoMenuViewModel.producto.value
+        ?.filter { it.nombre == "Persiana" }
+        ?.flatMap { it.tipo ?: emptyList() }
+        ?.map { it.tipo }
+        ?.toMutableList() ?: mutableListOf()
+
+    val itemsTipoRegistro = productoMenuViewModel.producto.value
+        ?.filter { it.nombre == "Registro" }
+        ?.flatMap { it.tipo ?: emptyList() }
+        ?.map { it.tipo }
+        ?.toMutableList() ?: mutableListOf()
+
+    val itemsTipoSerie = productoMenuViewModel.producto.value
+        ?.filter { it.nombre == "Ventana" }
+        ?.flatMap { it.tipo ?: emptyList() }
+        ?.flatMap { it.serie ?: emptyList() }
+        ?.map { it.nombre }
+        ?.distinct()
+        ?.toMutableList() ?: mutableListOf()
+
+    val itemsColores = productoMenuViewModel.producto.value
+        ?.flatMap { it.colores ?: emptyList() }
+        ?.map { it.nombre }
+        ?.toMutableList() ?: mutableListOf()
+
+    return mapOf(
+        "itemsTipoVentana" to itemsTipoVentana,
+        "itemsTipoVidrio" to itemsTipoVidrio,
+        "itemsTipoPersiana" to itemsTipoPersiana,
+        "itemsTipoRegistro" to itemsTipoRegistro,
+        "itemsTipoSerie" to itemsTipoSerie,
+        "itemsColores" to itemsColores
+    )
 }

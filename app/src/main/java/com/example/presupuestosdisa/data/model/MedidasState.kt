@@ -1,4 +1,4 @@
-package com.example.presupuestosdisa.model
+package com.example.presupuestosdisa.data.model
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

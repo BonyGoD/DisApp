@@ -1,6 +1,5 @@
-package com.example.presupuestosdisa.pantallas
+package com.example.presupuestosdisa.ui.view
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,8 +21,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -36,21 +33,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.R
-import com.example.presupuestosdisa.componentes.ComponenteMenu
-import com.example.presupuestosdisa.componentes.ComponenteSelectores
-import com.example.presupuestosdisa.model.Colores
-import com.example.presupuestosdisa.model.MedidasState
-import com.example.presupuestosdisa.model.Persiana
-import com.example.presupuestosdisa.model.Producto
-import com.example.presupuestosdisa.model.ProductoMenu
-import com.example.presupuestosdisa.model.Registro
-import com.example.presupuestosdisa.model.Serie
-import com.example.presupuestosdisa.model.Ventana
-import com.example.presupuestosdisa.model.Vidrio
+import com.example.presupuestosdisa.ui.view.componentes.ComponenteMenu
+import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
+import com.example.presupuestosdisa.data.model.MedidasState
+import com.example.presupuestosdisa.data.model.Producto
 import com.example.presupuestosdisa.ui.theme.DisaPink
-import com.example.presupuestosdisa.viewModel.ProductoMenuViewModel
-import com.example.presupuestosdisa.viewModel.ProductoViewModel
-import com.example.presupuestosdisa.viewModel.SharedViewModel
+import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 
 data class Productos(val nombre: String, val icono: Int)
 
@@ -66,18 +55,14 @@ val arrowDown = R.drawable.arrow_down
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantallaPresupuesto(sharedViewModel: SharedViewModel, navigateBack:() -> Unit) {
+fun PantallaPresupuesto(sharedViewModel: SharedViewModel, productoMenuViewModel: ProductoMenuViewModel, navigateBack:() -> Unit) {
 
-    val productoMenuViewModel= ProductoMenuViewModel()
-    val productoViewModel = ProductoViewModel()
-
-    val producto: State<List<ProductoMenu>> = productoMenuViewModel.producto.collectAsState()
-    val tipoVentana: State<List<Ventana>> = productoMenuViewModel.tipoVentana.collectAsState()
+/*    val tipoVentana: State<List<Ventana>> = productoMenuViewModel.producto.value.get().tipo
     val tipoVidrio: State<List<Vidrio>> = productoMenuViewModel.tipoVidrio.collectAsState()
     val tipoPersiana: State<List<Persiana>> = productoMenuViewModel.tipoPersiana.collectAsState()
     val tipoRegistro: State<List<Registro>> = productoMenuViewModel.tipoRegistro.collectAsState()
     val tipoSerie: State<List<Serie>> = productoMenuViewModel.tipoSerie.collectAsState()
-    val colores: State<List<Colores>> = productoMenuViewModel.colores.collectAsState()
+    val colores: State<List<Colores>> = productoMenuViewModel.colores.collectAsState()*/
 
     val selectedTipoVentana = remember { mutableStateOf("Tipo de Ventana") }
     val selectedTipoVidrio = remember { mutableStateOf("Tipo de Vidrio") }
@@ -123,13 +108,14 @@ fun PantallaPresupuesto(sharedViewModel: SharedViewModel, navigateBack:() -> Uni
             )
         }
     ) {
-        ListaProductos(sharedViewModel, navigateBack, productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState, productosList)
+        ListaProductos(sharedViewModel, productoMenuViewModel, navigateBack, productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState, productosList)
     }
 }
 
 @Composable
 fun ListaProductos(
     sharedViewModel: SharedViewModel,
+    productoMenuViewModel: ProductoMenuViewModel,
     navigateBack: () -> Unit,
     productos: List<Productos>,
     selectedTipoVentana: MutableState<String>,
@@ -173,7 +159,8 @@ fun ListaProductos(
                             checkboxStatePersiana,
                             medidasState,
                             tipoProducto.nombre,
-                            productosList
+                            productosList,
+                            productoMenuViewModel
                         )
                     }
                 }

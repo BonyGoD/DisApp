@@ -1,7 +1,6 @@
 package com.example.presupuestosdisa.utils
 
-import com.example.presupuestosdisa.model.Colores
-import com.example.presupuestosdisa.model.Producto
+import com.example.presupuestosdisa.data.model.Producto
 
 fun LogicaDropdown(productosList: MutableList<Producto>, tipoDropdown: String, nombreMenu: String, item: String) {
     var productoEncontrado = false

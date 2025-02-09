@@ -1,4 +1,4 @@
-package com.example.presupuestosdisa.componentes
+package com.example.presupuestosdisa.ui.view.componentes
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -28,9 +28,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
-import com.example.presupuestosdisa.model.Producto
+import com.example.presupuestosdisa.data.model.Producto
 import com.example.presupuestosdisa.utils.LogicaSelectores
-import com.example.presupuestosdisa.model.MedidasState
+import com.example.presupuestosdisa.data.model.MedidasState
+import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
 import com.example.presupuestosdisa.utils.LogicaDropdown
 
 
@@ -47,7 +48,8 @@ fun ComponenteSelectores(
     checkBoxStatePersiana: MutableState<Boolean>,
     medidasState: List<MedidasState>,
     nombreMenu: String,
-    productosList: MutableList<Producto>
+    productosList: MutableList<Producto>,
+    productoMenuViewModel: ProductoMenuViewModel
 ) {
 
     val tipoVentana = remember { mutableStateOf("") }
@@ -68,7 +70,8 @@ fun ComponenteSelectores(
         checkBoxStatePersiana,
         medidasState,
         tipoVentana.value,
-        productosList
+        productosList,
+        productoMenuViewModel
     )
 }
 

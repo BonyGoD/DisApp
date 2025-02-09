@@ -1,4 +1,4 @@
-package com.example.presupuestosdisa.pantallas
+package com.example.presupuestosdisa.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,11 +21,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
 import com.example.presupuestosdisa.utils.calcularPrecioTotal
-import com.example.presupuestosdisa.viewModel.SharedViewModel
+import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 
 @Composable
-fun PantallaPrincipal(sharedViewModel: SharedViewModel, navigateToPantallaPresupuesto: () -> Unit) {
+fun PantallaPrincipal(sharedViewModel: SharedViewModel, productoMenuViewModel: ProductoMenuViewModel, navigateToPantallaPresupuesto: () -> Unit) {
 
     Column(
         modifier = Modifier
@@ -47,16 +48,18 @@ fun PantallaPrincipal(sharedViewModel: SharedViewModel, navigateToPantallaPresup
                             "${if(producto.tipoColor != "") producto.tipoColor + " - " else ""}"
                 )
                 Row {
-                    Text(
-                        modifier = Modifier.padding(10.dp),
-                        fontWeight = FontWeight.Bold,
-                        text = "${producto.ancho} x ${producto.alto}"
-                    )
-                    Text(
-                        modifier = Modifier.padding(10.dp),
-                        fontWeight = FontWeight.Bold,
-                        text = calcularPrecioTotal(null, producto)
-                    )
+                    if (sharedViewModel.productos.value.isNotEmpty()) {
+                        Text(
+                            modifier = Modifier.padding(10.dp),
+                            fontWeight = FontWeight.Bold,
+                            text = "${producto.ancho} x ${producto.alto}"
+                        )
+                        Text(
+                            modifier = Modifier.padding(10.dp),
+                            fontWeight = FontWeight.Bold,
+                            text = calcularPrecioTotal(null, producto, productoMenuViewModel)
+                        )
+                    }
                 }
             }
             Row(
@@ -74,7 +77,7 @@ fun PantallaPrincipal(sharedViewModel: SharedViewModel, navigateToPantallaPresup
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
                         fontWeight = FontWeight.Bold,
-                        text = calcularPrecioTotal(sharedViewModel.productos.value, null),
+                        text = calcularPrecioTotal(sharedViewModel.productos.value, null, productoMenuViewModel),
                     )
                 }
             }

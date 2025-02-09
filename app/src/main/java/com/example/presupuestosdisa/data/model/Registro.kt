@@ -1,4 +1,4 @@
-package com.example.presupuestosdisa.model
+package com.example.presupuestosdisa.data.model
 
 data class Registro(
     val tipo: String? = null,

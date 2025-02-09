@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.presupuestosdisa">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logodisa"
@@ -10,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PresupuestosDisa">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.view.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.PresupuestosDisa">
             <intent-filter>
