@@ -1,5 +1,6 @@
 package com.example.presupuestosdisa.ui.view
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -53,6 +54,7 @@ private val productos: List<Productos> = listOf(
 val arrowUp = R.drawable.arrow_up
 val arrowDown = R.drawable.arrow_down
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaPresupuesto(sharedViewModel: SharedViewModel, productoMenuViewModel: ProductoMenuViewModel, navigateBack:() -> Unit) {
