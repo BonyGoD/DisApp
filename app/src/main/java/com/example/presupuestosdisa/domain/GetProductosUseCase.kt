@@ -7,6 +7,6 @@ import javax.inject.Inject
 class GetProductosUseCase @Inject constructor(
     private val repository: ProductoRepository
 ) {
-    suspend operator fun invoke(): List<ProductoInfo>? = repository.getAllProductos()
+    suspend operator fun invoke(): List<ProductoInfo> = repository.getAllProductos()
 
 }

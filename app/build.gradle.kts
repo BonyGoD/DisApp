@@ -18,7 +18,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -77,4 +77,6 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.firebase.crashitics)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.config)
+    implementation(libs.hilt.navigation.compose)
 }

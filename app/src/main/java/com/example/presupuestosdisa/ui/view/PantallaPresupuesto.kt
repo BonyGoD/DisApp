@@ -1,7 +1,6 @@
 package com.example.presupuestosdisa.ui.view
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +39,7 @@ import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.data.model.MedidasState
 import com.example.presupuestosdisa.data.model.Producto
 import com.example.presupuestosdisa.ui.theme.DisaPink
-import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 
 data class Productos(val nombre: String, val icono: Int)
@@ -58,7 +57,7 @@ val arrowDown = R.drawable.arrow_down
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantallaPresupuesto(sharedViewModel: SharedViewModel, productoMenuViewModel: ProductoMenuViewModel, navigateBack:() -> Unit) {
+fun PantallaPresupuesto(sharedViewModel: SharedViewModel, fireBaseViewModel: FireBaseViewModel, navigateBack:() -> Unit) {
 
     val selectedTipoVentana = remember { mutableStateOf("Tipo de Ventana") }
     val selectedTipoVidrio = remember { mutableStateOf("Tipo de Vidrio") }
@@ -104,14 +103,14 @@ fun PantallaPresupuesto(sharedViewModel: SharedViewModel, productoMenuViewModel:
             )
         }
     ) {
-        ListaProductos(sharedViewModel, productoMenuViewModel, navigateBack, productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState, productosList)
+        ListaProductos(sharedViewModel, fireBaseViewModel, navigateBack, productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState, productosList)
     }
 }
 
 @Composable
 fun ListaProductos(
     sharedViewModel: SharedViewModel,
-    productoMenuViewModel: ProductoMenuViewModel,
+    fireBaseViewModel: FireBaseViewModel,
     navigateBack: () -> Unit,
     productos: List<Productos>,
     selectedTipoVentana: MutableState<String>,
@@ -156,7 +155,7 @@ fun ListaProductos(
                             medidasState,
                             tipoProducto.nombre,
                             productosList,
-                            productoMenuViewModel
+                            fireBaseViewModel
                         )
                     }
                 }

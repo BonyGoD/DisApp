@@ -5,21 +5,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.presupuestosdisa.navegacion.AppNavegacion
-import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val productoMenuViewModel: ProductoMenuViewModel by viewModels()
+    private val fireBaseViewModel: FireBaseViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        productoMenuViewModel.onCreate()
+        fireBaseViewModel.getProductos()
 
         setContent {
-            AppNavegacion(productoMenuViewModel)
+            AppNavegacion(fireBaseViewModel)
         }
     }
 }

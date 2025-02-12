@@ -4,7 +4,12 @@ import com.example.presupuestosdisa.data.model.Colores
 import com.example.presupuestosdisa.data.model.ProductoInfo
 import com.example.presupuestosdisa.data.model.Serie
 import com.example.presupuestosdisa.data.model.Tipo
+import com.example.presupuestosdisa.data.repositories.AccesoAppRepository.Companion.MIN_VERSION
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -50,5 +55,19 @@ class FirebaseClientImpl @Inject constructor(
             productoMenu.add(producto)
         }
         return productoMenu
+    }
+
+    override suspend fun getMinVersion(): List<Int> {
+
+        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig.apply {
+            setConfigSettingsAsync(remoteConfigSettings { minimumFetchIntervalInSeconds = 3600 })
+            fetchAndActivate()
+        }
+
+        remoteConfig.fetch(0)
+        remoteConfig.activate().await()
+        val minVersion = remoteConfig.getString(MIN_VERSION)
+        return if(minVersion.isBlank()) return listOf(0, 0, 0)
+        else minVersion.split(".").map { it.toInt() }
     }
 }

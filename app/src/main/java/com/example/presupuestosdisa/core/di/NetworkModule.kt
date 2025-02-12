@@ -1,5 +1,7 @@
 package com.example.presupuestosdisa.core.di
 
+import android.app.Application
+import android.content.Context
 import com.example.presupuestosdisa.data.network.FirebaseClient
 import com.example.presupuestosdisa.data.network.FirebaseClientImpl
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,5 +28,11 @@ object NetworkModule {
     @Provides
     fun provideFirebaseClient(firebaseFirestore: FirebaseFirestore): FirebaseClient {
         return FirebaseClientImpl(firebaseFirestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
     }
 }

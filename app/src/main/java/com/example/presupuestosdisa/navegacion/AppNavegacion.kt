@@ -8,11 +8,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.presupuestosdisa.ui.view.PantallaPresupuesto
 import com.example.presupuestosdisa.ui.view.PantallaPrincipal
 import com.example.presupuestosdisa.ui.view.SplashScreen
-import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 
 @Composable
-fun AppNavegacion(productoMenuViewModel : ProductoMenuViewModel) {
+fun AppNavegacion(fireBaseViewModel : FireBaseViewModel) {
     val navController = rememberNavController()
     val sharedViewModel: SharedViewModel = viewModel()
 
@@ -26,13 +26,13 @@ fun AppNavegacion(productoMenuViewModel : ProductoMenuViewModel) {
         }
 
         composable<PantallaPrincipal> {
-            PantallaPrincipal(sharedViewModel, productoMenuViewModel) {
+            PantallaPrincipal(sharedViewModel, fireBaseViewModel) {
                 navController.navigate(PantallaPresupuesto)
             }
         }
 
         composable<PantallaPresupuesto> {
-            PantallaPresupuesto(sharedViewModel, productoMenuViewModel) {
+            PantallaPresupuesto(sharedViewModel, fireBaseViewModel) {
                 navController.navigateUp()
             }
         }

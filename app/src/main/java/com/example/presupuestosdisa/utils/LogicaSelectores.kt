@@ -16,7 +16,7 @@ import com.example.presupuestosdisa.ui.view.componentes.CheckBoxComponent
 import com.example.presupuestosdisa.ui.view.componentes.DropDownComponent
 import com.example.presupuestosdisa.ui.view.componentes.ImageComponent
 import com.example.presupuestosdisa.ui.view.componentes.TextFieldComponent
-import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 
 private val ITEMS_VENTANA: String = "itemsTipoVentana"
 private val ITEMS_VIDRIO: String = "itemsTipoVidrio"
@@ -40,7 +40,7 @@ fun LogicaSelectores(
     medidasState: List<MedidasState>,
     tipoVentana: String,
     productosList: MutableList<Producto>,
-    productoMenuViewModel: ProductoMenuViewModel
+    fireBaseViewModel: FireBaseViewModel
 ) {
 
     Column(
@@ -52,7 +52,7 @@ fun LogicaSelectores(
     ) {
         when (nombreMenu) {
             "Ventana" -> {
-                DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_VENTANA].orEmpty(), selectedTipoVentana, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_VENTANA].orEmpty(), selectedTipoVentana, productosList, "Tipo")
                 when (tipoVentana) {
                     "Practicable" -> {
                         Row(
@@ -61,8 +61,8 @@ fun LogicaSelectores(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             CheckBoxComponent(nombreMenu, checkboxStateVentana, productosList)
-                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_SERIE].orEmpty(), selectedTipoSerie, productosList, "Serie")
-                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(), selectedTipoSerie, productosList, "Serie")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
                         }
                     }
 
@@ -72,8 +72,8 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_SERIE].orEmpty(), selectedTipoSerie, productosList, "Serie")
-                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(), selectedTipoSerie, productosList, "Serie")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
                         }
                     }
                     "Elevable" -> {
@@ -82,7 +82,7 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
                         }
                     }
                 }
@@ -108,7 +108,7 @@ fun LogicaSelectores(
             }
 
             "Vidrio" -> {
-                DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_VIDRIO].orEmpty(), selectedTipoVidrio, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_VIDRIO].orEmpty(), selectedTipoVidrio, productosList, "Tipo")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -133,9 +133,9 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_PERSIANA].orEmpty(), selectedTipoPersiana, productosList, "Tipo")
+                    DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_PERSIANA].orEmpty(), selectedTipoPersiana, productosList, "Tipo")
                     CheckBoxComponent(nombreMenu, checkBoxStatePersiana, productosList)
-                    DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorPersiana, productosList, "Color")
+                    DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorPersiana, productosList, "Color")
                 }
                 Row(
                     modifier = Modifier
@@ -159,7 +159,7 @@ fun LogicaSelectores(
             }
 
             "Registro" -> {
-                DropDownComponent(nombreMenu, getItems(productoMenuViewModel)[ITEMS_REGISTRO].orEmpty(), selectedTipoRegistro, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_REGISTRO].orEmpty(), selectedTipoRegistro, productosList, "Tipo")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -197,33 +197,33 @@ fun deleteProducto(productosList: MutableList<Producto>, nombreMenu: String) {
     productosList.removeIf { producto -> producto.nombre == nombreMenu }
 }
 
-fun getItems(productoMenuViewModel: ProductoMenuViewModel): Map<String, List<String?>> {
+fun getItems(fireBaseViewModel: FireBaseViewModel): Map<String, List<String?>> {
 
-    val itemsTipoVentana = productoMenuViewModel.producto.value
+    val itemsTipoVentana = fireBaseViewModel.producto.value
         ?.filter { it.nombre == "Ventana" }
         ?.flatMap { it.tipo ?: emptyList() }
         ?.map { it.tipo }
         ?.toMutableList() ?: mutableListOf()
 
-    val itemsTipoVidrio = productoMenuViewModel.producto.value
+    val itemsTipoVidrio = fireBaseViewModel.producto.value
         ?.filter { it.nombre == "Vidrio" }
         ?.flatMap { it.tipo ?: emptyList() }
         ?.map { it.tipo }
         ?.toMutableList() ?: mutableListOf()
 
-    val itemsTipoPersiana = productoMenuViewModel.producto.value
+    val itemsTipoPersiana = fireBaseViewModel.producto.value
         ?.filter { it.nombre == "Persiana" }
         ?.flatMap { it.tipo ?: emptyList() }
         ?.map { it.tipo }
         ?.toMutableList() ?: mutableListOf()
 
-    val itemsTipoRegistro = productoMenuViewModel.producto.value
+    val itemsTipoRegistro = fireBaseViewModel.producto.value
         ?.filter { it.nombre == "Registro" }
         ?.flatMap { it.tipo ?: emptyList() }
         ?.map { it.tipo }
         ?.toMutableList() ?: mutableListOf()
 
-    val itemsTipoSerie = productoMenuViewModel.producto.value
+    val itemsTipoSerie = fireBaseViewModel.producto.value
         ?.filter { it.nombre == "Ventana" }
         ?.flatMap { it.tipo ?: emptyList() }
         ?.flatMap { it.serie ?: emptyList() }
@@ -231,7 +231,7 @@ fun getItems(productoMenuViewModel: ProductoMenuViewModel): Map<String, List<Str
         ?.distinct()
         ?.toMutableList() ?: mutableListOf()
 
-    val itemsColores = productoMenuViewModel.producto.value
+    val itemsColores = fireBaseViewModel.producto.value
         ?.flatMap { it.colores ?: emptyList() }
         ?.map { it.nombre }
         ?.toMutableList() ?: mutableListOf()

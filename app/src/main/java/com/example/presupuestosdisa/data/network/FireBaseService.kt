@@ -5,12 +5,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ProductosService @Inject constructor(
+class FireBaseService @Inject constructor(
     private val firebaseClient: FirebaseClient
 ) {
     suspend fun getProductos(): List<ProductoInfo> {
         return withContext(Dispatchers.IO) {
             firebaseClient.getProductos()
+        }
+    }
+    suspend fun getMinVersion(): List<Int> {
+        return withContext(Dispatchers.IO) {
+            firebaseClient.getMinVersion()
         }
     }
 }

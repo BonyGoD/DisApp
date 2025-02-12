@@ -31,7 +31,7 @@ import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.data.model.Producto
 import com.example.presupuestosdisa.utils.LogicaSelectores
 import com.example.presupuestosdisa.data.model.MedidasState
-import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.utils.LogicaDropdown
 
 
@@ -49,7 +49,7 @@ fun ComponenteSelectores(
     medidasState: List<MedidasState>,
     nombreMenu: String,
     productosList: MutableList<Producto>,
-    productoMenuViewModel: ProductoMenuViewModel
+    fireBaseViewModel: FireBaseViewModel
 ) {
 
     val tipoVentana = remember { mutableStateOf("") }
@@ -71,7 +71,7 @@ fun ComponenteSelectores(
         medidasState,
         tipoVentana.value,
         productosList,
-        productoMenuViewModel
+        fireBaseViewModel
     )
 }
 

@@ -1,28 +1,28 @@
 package com.example.presupuestosdisa.utils
 
 import com.example.presupuestosdisa.data.model.Producto
-import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 
 fun calcularPrecioTotal(
     productos: List<Producto>?,
     producto: Producto?,
-    productoMenuViewModel: ProductoMenuViewModel
+    fireBaseViewModel: FireBaseViewModel
 ): String {
 
     var precio = 0.0
 
     if (productos != null) {
         productos.forEach { itemProducto ->
-            precio += calcularPrecio(itemProducto, productoMenuViewModel)
+            precio += calcularPrecio(itemProducto, fireBaseViewModel)
         }
     } else {
-        precio = calcularPrecio(producto, productoMenuViewModel)
+        precio = calcularPrecio(producto, fireBaseViewModel)
     }
 
     return String.format("%.2f", precio)
 }
 
-fun calcularPrecio(producto: Producto?, productoMenuViewModel: ProductoMenuViewModel): Double {
+fun calcularPrecio(producto: Producto?, fireBaseViewModel: FireBaseViewModel): Double {
 
     var precioVentana: Double? = 0.0
     var metroLineal = 0.0
@@ -40,7 +40,7 @@ fun calcularPrecio(producto: Producto?, productoMenuViewModel: ProductoMenuViewM
                 }
             }
 
-            productoMenuViewModel.producto.value?.forEach { prod ->
+            fireBaseViewModel.producto.value?.forEach { prod ->
                 prod.tipo?.forEach { tipo ->
                     tipo.serie?.forEach {
                         if (it.nombre == producto.tipoSerie) {
@@ -52,7 +52,7 @@ fun calcularPrecio(producto: Producto?, productoMenuViewModel: ProductoMenuViewM
             precioVentana = precioVentana!! * metroLineal
 
             if (producto.tipoColor != "Blanco") {
-                productoMenuViewModel.producto.value?.forEach { prod ->
+                fireBaseViewModel.producto.value?.forEach { prod ->
                     prod.colores?.forEach {
                         if (it.nombre == producto.tipoColor) {
                             precioColor = it.precio
@@ -77,7 +77,7 @@ fun calcularPrecio(producto: Producto?, productoMenuViewModel: ProductoMenuViewM
                 }
             }
 
-            productoMenuViewModel.producto.value?.forEach { prod ->
+            fireBaseViewModel.producto.value?.forEach { prod ->
                 prod.tipo?.forEach {
                     if (it.tipo == producto.tipo) {
                         precioVidrio = it.precio?.toDouble() ?: 0.0
@@ -93,7 +93,7 @@ fun calcularPrecio(producto: Producto?, productoMenuViewModel: ProductoMenuViewM
                     metroLineal += (alto * 0.001) * (ancho * 0.001)
                 }
             }
-            productoMenuViewModel.producto.value?.forEach { prod ->
+            fireBaseViewModel.producto.value?.forEach { prod ->
                 val tipoP = prod.tipo?.find { it.tipo == producto.tipo }
                 prod.colores?.forEach { color ->
                     if (color.nombre == producto.tipoColor && tipoP?.tipo == producto.tipo) {
@@ -114,7 +114,7 @@ fun calcularPrecio(producto: Producto?, productoMenuViewModel: ProductoMenuViewM
         }
 
         "Registro" -> {
-            productoMenuViewModel.producto.value?.forEach { prod ->
+            fireBaseViewModel.producto.value?.forEach { prod ->
                 prod.tipo?.forEach { tipo ->
                     if (tipo.tipo == producto.tipo) {
                         precioRegistro = (tipo.precio?.toDouble() ?: 0.0) * (producto.ancho * 0.001)

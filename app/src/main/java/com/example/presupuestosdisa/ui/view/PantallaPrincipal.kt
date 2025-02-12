@@ -21,13 +21,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.ui.theme.DisaPink
-import com.example.presupuestosdisa.ui.viewModel.ProductoMenuViewModel
-import com.example.presupuestosdisa.utils.calcularPrecioTotal
+import com.example.presupuestosdisa.ui.view.componentes.ComponenteVersionControl
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
+import com.example.presupuestosdisa.utils.calcularPrecioTotal
 
 @Composable
-fun PantallaPrincipal(sharedViewModel: SharedViewModel, productoMenuViewModel: ProductoMenuViewModel, navigateToPantallaPresupuesto: () -> Unit) {
+fun PantallaPrincipal(sharedViewModel: SharedViewModel, fireBaseViewModel: FireBaseViewModel, navigateToPantallaPresupuesto: () -> Unit) {
 
+    ComponenteVersionControl()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +59,7 @@ fun PantallaPrincipal(sharedViewModel: SharedViewModel, productoMenuViewModel: P
                         Text(
                             modifier = Modifier.padding(10.dp),
                             fontWeight = FontWeight.Bold,
-                            text = calcularPrecioTotal(null, producto, productoMenuViewModel)
+                            text = calcularPrecioTotal(null, producto, fireBaseViewModel)
                         )
                     }
                 }
@@ -77,7 +79,7 @@ fun PantallaPrincipal(sharedViewModel: SharedViewModel, productoMenuViewModel: P
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
                         fontWeight = FontWeight.Bold,
-                        text = calcularPrecioTotal(sharedViewModel.productos.value, null, productoMenuViewModel),
+                        text = calcularPrecioTotal(sharedViewModel.productos.value, null, fireBaseViewModel),
                     )
                 }
             }
