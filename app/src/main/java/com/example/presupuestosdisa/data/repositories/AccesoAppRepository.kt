@@ -1,29 +1,20 @@
 package com.example.presupuestosdisa.data.repositories
 
 import android.content.Context
-import com.example.presupuestosdisa.data.network.FirebaseClient
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.remoteConfigSettings
+import com.example.presupuestosdisa.data.network.FireBaseService
 import javax.inject.Inject
 
 class AccesoAppRepository @Inject constructor(
     private val context: Context,
-    private val firebaseClient: FirebaseClient
+    private val fireBaseService: FireBaseService
 ) {
 
     companion object {
         const val MIN_VERSION = "min_version"
     }
 
-    val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig.apply {
-        setConfigSettingsAsync(remoteConfigSettings { minimumFetchIntervalInSeconds = 3600 })
-        fetchAndActivate()
-    }
-
     suspend fun getMinVersion(): List<Int> {
-        val response: List<Int> = firebaseClient.getMinVersion()
+        val response: List<Int> = fireBaseService.getMinVersion()
         return response
     }
 
