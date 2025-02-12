@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.daggerhilt)
     id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.crashlytics)
 }
 
 android {
@@ -74,4 +75,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
+    implementation(libs.firebase.crashitics)
+    implementation(libs.firebase.analytics)
 }
