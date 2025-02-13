@@ -19,7 +19,7 @@ class FireBaseViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _producto = MutableLiveData<List<ProductoInfo>?>()
-    val producto: MutableLiveData<List<ProductoInfo>?> get() = _producto
+    val producto: MutableLiveData<List<ProductoInfo>?> = _producto
 
     private val _blockVersion = MutableStateFlow(false)
     val blockVersion: StateFlow<Boolean> = _blockVersion
@@ -29,7 +29,7 @@ class FireBaseViewModel @Inject constructor(
         getProductos()
     }
 
-    fun checkUserVersion() {
+    private fun checkUserVersion() {
         viewModelScope.launch {
             val result = accesoAppUseCase()
 
@@ -39,11 +39,11 @@ class FireBaseViewModel @Inject constructor(
         }
     }
 
-    fun getProductos() {
+    private fun getProductos() {
         viewModelScope.launch {
             val result = getProductosUseCase()
 
-            if (!result.isNullOrEmpty()) {
+            if (result.isNotEmpty()) {
                 _producto.postValue(result)
             }
         }

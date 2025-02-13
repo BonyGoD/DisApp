@@ -30,8 +30,8 @@ object NetworkModule {
         return FirebaseClientImpl(firebaseFirestore)
     }
 
-    @Provides
     @Singleton
+    @Provides
     fun provideContext(application: Application): Context {
         return application.applicationContext
     }
