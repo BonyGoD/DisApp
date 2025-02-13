@@ -19,16 +19,11 @@ class FirebaseClientImpl @Inject constructor(
 {
 
     override suspend fun getProductos(): List<ProductoInfo> {
-
-        var productoMenu: MutableList<ProductoInfo> = mutableListOf()
-
+        val productoMenu: MutableList<ProductoInfo> = mutableListOf()
         val productos = firebase.collection("productos").get().await()
 
-        var producto: ProductoInfo
-
-
         productos.documents.forEach { productoDoc ->
-            producto = ProductoInfo(
+            val producto = ProductoInfo(
                 nombre = productoDoc.getString("nombre"),
                 motorizada = productoDoc.getBoolean("motorizada")
             )
@@ -43,7 +38,6 @@ class FirebaseClientImpl @Inject constructor(
             // Asignar coleccion con subcolecciones a propiedad
             tipo.forEach { tipoDoc ->
                 val serie = tipoDoc.reference.collection("serie").get().await()
-
                 serie.documents.forEach { serieDoc ->
                     producto.tipo?.forEach { tipo ->
                         if (tipo.tipo != "Elevable") {
@@ -58,16 +52,13 @@ class FirebaseClientImpl @Inject constructor(
     }
 
     override suspend fun getMinVersion(): List<Int> {
-
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig.apply {
             setConfigSettingsAsync(remoteConfigSettings { minimumFetchIntervalInSeconds = 3600 })
-            fetchAndActivate()
         }
 
-        remoteConfig.fetch(0)
-        remoteConfig.activate().await()
+        remoteConfig.fetchAndActivate().await()
         val minVersion = remoteConfig.getString(MIN_VERSION)
-        return if(minVersion.isBlank()) return listOf(0, 0, 0)
+        return if (minVersion.isBlank()) listOf(0, 0, 0)
         else minVersion.split(".").map { it.toInt() }
     }
 }

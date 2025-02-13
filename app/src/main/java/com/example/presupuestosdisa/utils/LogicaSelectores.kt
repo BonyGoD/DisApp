@@ -11,35 +11,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.data.model.MedidasState
-import com.example.presupuestosdisa.data.model.Producto
+import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
 import com.example.presupuestosdisa.ui.view.componentes.CheckBoxComponent
 import com.example.presupuestosdisa.ui.view.componentes.DropDownComponent
 import com.example.presupuestosdisa.ui.view.componentes.ImageComponent
 import com.example.presupuestosdisa.ui.view.componentes.TextFieldComponent
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 
-private val ITEMS_VENTANA: String = "itemsTipoVentana"
-private val ITEMS_VIDRIO: String = "itemsTipoVidrio"
-private val ITEMS_PERSIANA: String = "itemsTipoPersiana"
-private val ITEMS_REGISTRO: String = "itemsTipoRegistro"
-private val ITEMS_SERIE: String = "itemsTipoSerie"
-private val ITEMS_COLORES: String = "itemsColores"
+private const val ITEMS_VENTANA: String = "itemsTipoVentana"
+private const val ITEMS_VIDRIO: String = "itemsTipoVidrio"
+private const val ITEMS_PERSIANA: String = "itemsTipoPersiana"
+private const val ITEMS_REGISTRO: String = "itemsTipoRegistro"
+private const val ITEMS_SERIE: String = "itemsTipoSerie"
+private const val ITEMS_COLORES: String = "itemsColores"
 
 @Composable
 fun LogicaSelectores(
     nombreMenu: String,
-    selectedTipoVentana: MutableState<String>,
-    selectedTipoVidrio: MutableState<String>,
-    selectedTipoPersiana: MutableState<String>,
-    selectedTipoRegistro: MutableState<String>,
-    selectedTipoSerie: MutableState<String>,
-    selectedTipoColorVentana: MutableState<String>,
-    selectedTipoColorPersiana: MutableState<String>,
-    checkboxStateVentana: MutableState<Boolean>,
-    checkBoxStatePersiana: MutableState<Boolean>,
-    medidasState: List<MedidasState>,
+    selectablesPresupuestos: SelectablesPresupuestos,
     tipoVentana: String,
-    productosList: MutableList<Producto>,
     fireBaseViewModel: FireBaseViewModel
 ) {
 
@@ -52,7 +42,7 @@ fun LogicaSelectores(
     ) {
         when (nombreMenu) {
             "Ventana" -> {
-                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_VENTANA].orEmpty(), selectedTipoVentana, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_VENTANA].orEmpty(), selectablesPresupuestos.selectedTipoVentana, "Tipo")
                 when (tipoVentana) {
                     "Practicable" -> {
                         Row(
@@ -60,9 +50,9 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            CheckBoxComponent(nombreMenu, checkboxStateVentana, productosList)
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(), selectedTipoSerie, productosList, "Serie")
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
+                            CheckBoxComponent(nombreMenu, selectablesPresupuestos.checkboxStateVentana)
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(), selectablesPresupuestos.selectedTipoSerie, "Serie")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectablesPresupuestos.selectedColorVentana, "Color")
                         }
                     }
 
@@ -72,8 +62,8 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(), selectedTipoSerie, productosList, "Serie")
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(), selectablesPresupuestos.selectedTipoSerie, "Serie")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectablesPresupuestos.selectedColorVentana, "Color")
                         }
                     }
                     "Elevable" -> {
@@ -82,7 +72,7 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorVentana, productosList, "Color")
+                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectablesPresupuestos.selectedColorVentana, "Color")
                         }
                     }
                 }
@@ -92,38 +82,38 @@ fun LogicaSelectores(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho, productosList)
-                        TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto, productosList)
+                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+                        TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho)
+                        TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
                     }
                 }
                 ImageComponent() {
-                    checkboxStateVentana.value = false
-                    resetDropdown(selectedTipoSerie, "Serie")
-                    resetDropdown(selectedTipoColorVentana, "Color")
-                    resetDropdown(selectedTipoVentana, "Tipo de Ventana")
-                    resetMedidas(nombreMenu, medidasState)
-                    deleteProducto(productosList, nombreMenu)
+                    selectablesPresupuestos.checkboxStateVentana.value = false
+                    resetDropdown(selectablesPresupuestos.selectedTipoSerie, "Serie")
+                    resetDropdown(selectablesPresupuestos.selectedColorVentana, "Color")
+                    resetDropdown(selectablesPresupuestos.selectedTipoVentana, "Tipo de Ventana")
+                    resetMedidas(nombreMenu, selectablesPresupuestos.medidasState)
+                    deleteProducto(nombreMenu)
                 }
             }
 
             "Vidrio" -> {
-                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_VIDRIO].orEmpty(), selectedTipoVidrio, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_VIDRIO].orEmpty(), selectablesPresupuestos.selectedTipoVidrio, "Tipo")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho, productosList)
-                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto, productosList)
+                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
+                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
                     }
                 }
                 ImageComponent() {
-                    resetDropdown(selectedTipoVidrio, "Tipo de Vidrio")
-                    resetMedidas(nombreMenu, medidasState)
-                    deleteProducto(productosList, nombreMenu)
+                    resetDropdown(selectablesPresupuestos.selectedTipoVidrio, "Tipo de Vidrio")
+                    resetMedidas(nombreMenu, selectablesPresupuestos.medidasState)
+                    deleteProducto(nombreMenu)
                 }
             }
 
@@ -133,9 +123,9 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_PERSIANA].orEmpty(), selectedTipoPersiana, productosList, "Tipo")
-                    CheckBoxComponent(nombreMenu, checkBoxStatePersiana, productosList)
-                    DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectedTipoColorPersiana, productosList, "Color")
+                    DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_PERSIANA].orEmpty(), selectablesPresupuestos.selectedTipoPersiana, "Tipo")
+                    CheckBoxComponent(nombreMenu, selectablesPresupuestos.checkboxStatePersiana)
+                    DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectablesPresupuestos.selectedColorPersiana, "Color")
                 }
                 Row(
                     modifier = Modifier
@@ -143,39 +133,39 @@ fun LogicaSelectores(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho, productosList)
-                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto, productosList)
+                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
+                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
 
                     }
                 }
                 ImageComponent() {
-                    resetDropdown(selectedTipoPersiana, "Tipo de Persiana")
-                    checkBoxStatePersiana.value = false
-                    resetDropdown(selectedTipoColorPersiana, "Color")
-                    resetMedidas(nombreMenu, medidasState)
-                    deleteProducto(productosList, nombreMenu)
+                    resetDropdown(selectablesPresupuestos.selectedTipoPersiana, "Tipo de Persiana")
+                    selectablesPresupuestos.checkboxStatePersiana.value = false
+                    resetDropdown(selectablesPresupuestos.selectedColorPersiana, "Color")
+                    resetMedidas(nombreMenu, selectablesPresupuestos.medidasState)
+                    deleteProducto(nombreMenu)
                 }
             }
 
             "Registro" -> {
-                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_REGISTRO].orEmpty(), selectedTipoRegistro, productosList, "Tipo")
+                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_REGISTRO].orEmpty(), selectablesPresupuestos.selectedTipoRegistro, "Tipo")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho, productosList)
-                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto, productosList)
+                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
+                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
+                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
 
                     }
                 }
                 ImageComponent() {
-                    resetDropdown(selectedTipoRegistro, "Tipo de Registro")
-                    resetMedidas(nombreMenu, medidasState)
-                    deleteProducto(productosList, nombreMenu)
+                    resetDropdown(selectablesPresupuestos.selectedTipoRegistro, "Tipo de Registro")
+                    resetMedidas(nombreMenu, selectablesPresupuestos.medidasState)
+                    deleteProducto(nombreMenu)
                 }
             }
         }
@@ -193,8 +183,8 @@ fun resetMedidas(nombreMenu: String, medidasState: List<MedidasState>) {
     }
 }
 
-fun deleteProducto(productosList: MutableList<Producto>, nombreMenu: String) {
-    productosList.removeIf { producto -> producto.nombre == nombreMenu }
+fun deleteProducto(nombreMenu: String) {
+    LogicaDropdown().getProductList().removeIf { producto -> producto.nombre == nombreMenu }
 }
 
 fun getItems(fireBaseViewModel: FireBaseViewModel): Map<String, List<String?>> {

@@ -8,22 +8,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navigateToPantallaPrincipal: () -> Unit) {
+fun SplashScreen(fireBaseViewModel: FireBaseViewModel, navigateToPantallaPrincipal: () -> Unit) {
 
-    LaunchedEffect(Unit) {
-        delay(3000)
-        navigateToPantallaPrincipal()
-    }
+    val producto by fireBaseViewModel.producto.observeAsState()
+
     Splash()
+
+    LaunchedEffect(producto) {
+        if (producto != null) {
+            navigateToPantallaPrincipal()
+        }
+    }
 }
 
 @Composable

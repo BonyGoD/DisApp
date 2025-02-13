@@ -1,6 +1,9 @@
 package com.example.presupuestosdisa.navegacion
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,13 +15,14 @@ import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 
 @Composable
-fun AppNavegacion(fireBaseViewModel : FireBaseViewModel) {
+fun AppNavegacion() {
     val navController = rememberNavController()
+    val fireBaseViewModel: FireBaseViewModel = hiltViewModel()
     val sharedViewModel: SharedViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = SplashScreen) {
         composable<SplashScreen> {
-            SplashScreen {
+            SplashScreen(fireBaseViewModel, ) {
                 navController.navigate(PantallaPrincipal){
                     popUpTo(SplashScreen) { inclusive = true }
                 }
@@ -26,13 +30,13 @@ fun AppNavegacion(fireBaseViewModel : FireBaseViewModel) {
         }
 
         composable<PantallaPrincipal> {
-            PantallaPrincipal(sharedViewModel, fireBaseViewModel) {
+            PantallaPrincipal(fireBaseViewModel, sharedViewModel) {
                 navController.navigate(PantallaPresupuesto)
             }
         }
 
         composable<PantallaPresupuesto> {
-            PantallaPresupuesto(sharedViewModel, fireBaseViewModel) {
+            PantallaPresupuesto(fireBaseViewModel, sharedViewModel) {
                 navController.navigateUp()
             }
         }

@@ -1,16 +1,19 @@
 package com.example.presupuestosdisa.ui.viewModel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.presupuestosdisa.data.model.Producto
+import com.example.presupuestosdisa.utils.LogicaDropdown
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class SharedViewModel: ViewModel() {
 
-    private val listaProductos = mutableStateOf<List<Producto>>(emptyList())
-    val productos: State<List<Producto>> = listaProductos
+    private val listaProductos = MutableStateFlow<List<Producto>>(emptyList())
+    val productos: StateFlow<List<Producto>> = listaProductos
 
-    fun agregarProducto(producto: Producto) {
-        listaProductos.value = listaProductos.value + producto
+    private val logicaDropdown = LogicaDropdown()
+
+    fun agregarListaProductos() {
+        listaProductos.value = logicaDropdown.getProductList()
     }
 }

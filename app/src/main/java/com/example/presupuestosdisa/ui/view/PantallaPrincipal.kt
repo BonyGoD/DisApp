@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteVersionControl
@@ -27,7 +28,7 @@ import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 import com.example.presupuestosdisa.utils.calcularPrecioTotal
 
 @Composable
-fun PantallaPrincipal(sharedViewModel: SharedViewModel, fireBaseViewModel: FireBaseViewModel, navigateToPantallaPresupuesto: () -> Unit) {
+fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: SharedViewModel, navigateToPantallaPresupuesto: () -> Unit) {
 
     ComponenteVersionControl()
     Column(

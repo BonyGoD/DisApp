@@ -21,9 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,12 +31,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presupuestosdisa.R
+import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
+import com.example.presupuestosdisa.data.model.rememberSelectablesPresupuestos
+import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteMenu
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
-import com.example.presupuestosdisa.data.model.MedidasState
-import com.example.presupuestosdisa.data.model.Producto
-import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 
@@ -57,27 +56,9 @@ val arrowDown = R.drawable.arrow_down
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantallaPresupuesto(sharedViewModel: SharedViewModel, fireBaseViewModel: FireBaseViewModel, navigateBack:() -> Unit) {
+fun PantallaPresupuesto(fireBaseViewModel: FireBaseViewModel, sharedViewModel: SharedViewModel, navigateBack:() -> Unit) {
 
-    val selectedTipoVentana = remember { mutableStateOf("Tipo de Ventana") }
-    val selectedTipoVidrio = remember { mutableStateOf("Tipo de Vidrio") }
-    val selectedTipoPersiana = remember { mutableStateOf("Tipo de Persiana") }
-    val selectedTipoRegistro = remember { mutableStateOf("Tipo de Registro") }
-    val selectedTipoSerie = remember { mutableStateOf("Serie") }
-    val selectedColorVentana = remember { mutableStateOf("Color") }
-    val selectedColorPersiana = remember { mutableStateOf("Color") }
-    val checkboxStateVentana = remember { mutableStateOf(false) }
-    val checkboxStatePersiana = remember { mutableStateOf(false) }
-    val medidasState = remember {
-        mutableListOf(
-            MedidasState("Ventana"),
-            MedidasState("Vidrio"),
-            MedidasState("Persiana"),
-            MedidasState("Registro")
-        )
-    }
-
-    val productosList = remember { mutableStateListOf<Producto>() }
+    val selectablesPresupuestos = rememberSelectablesPresupuestos()
 
     Scaffold(
         topBar = {
@@ -103,7 +84,7 @@ fun PantallaPresupuesto(sharedViewModel: SharedViewModel, fireBaseViewModel: Fir
             )
         }
     ) {
-        ListaProductos(sharedViewModel, fireBaseViewModel, navigateBack, productos, selectedTipoVentana, selectedTipoSerie, selectedTipoVidrio, selectedTipoPersiana, selectedTipoRegistro, selectedColorVentana, selectedColorPersiana, checkboxStateVentana, checkboxStatePersiana, medidasState, productosList)
+        ListaProductos(sharedViewModel, fireBaseViewModel, navigateBack, productos, selectablesPresupuestos)
     }
 }
 
@@ -113,17 +94,7 @@ fun ListaProductos(
     fireBaseViewModel: FireBaseViewModel,
     navigateBack: () -> Unit,
     productos: List<Productos>,
-    selectedTipoVentana: MutableState<String>,
-    selectedTipoSerie: MutableState<String>,
-    selectedTipoVidrio: MutableState<String>,
-    selectedTipoPersiana: MutableState<String>,
-    selectedTipoRegistro: MutableState<String>,
-    selectedColorVentana: MutableState<String>,
-    selectedColorPersiana: MutableState<String>,
-    checkboxStateVentana: MutableState<Boolean>,
-    checkboxStatePersiana: MutableState<Boolean>,
-    medidasState: MutableList<MedidasState>,
-    productosList: MutableList<Producto>
+    selectablesPresupuestos: SelectablesPresupuestos
 ) {
     Column(
         modifier = Modifier
@@ -143,18 +114,8 @@ fun ListaProductos(
                     }
                     if (expandida) {
                         ComponenteSelectores(
-                            selectedTipoVentana,
-                            selectedTipoVidrio,
-                            selectedTipoPersiana,
-                            selectedTipoRegistro,
-                            selectedTipoSerie,
-                            selectedColorVentana,
-                            selectedColorPersiana,
-                            checkboxStateVentana,
-                            checkboxStatePersiana,
-                            medidasState,
+                            selectablesPresupuestos,
                             tipoProducto.nombre,
-                            productosList,
                             fireBaseViewModel
                         )
                     }
@@ -170,9 +131,7 @@ fun ListaProductos(
         ) {
             Button(
                 onClick = {
-                    productosList.forEach { producto ->
-                        sharedViewModel.agregarProducto(producto)
-                    }
+                    sharedViewModel.agregarListaProductos()
                     navigateBack()
                 }
             ) {

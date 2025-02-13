@@ -79,4 +79,5 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.config)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.liveData)
 }

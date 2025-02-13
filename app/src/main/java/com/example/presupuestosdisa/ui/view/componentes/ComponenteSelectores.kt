@@ -29,48 +29,28 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.data.model.Producto
-import com.example.presupuestosdisa.utils.LogicaSelectores
-import com.example.presupuestosdisa.data.model.MedidasState
+import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.utils.LogicaDropdown
+import com.example.presupuestosdisa.utils.LogicaSelectores
 
 
 @Composable
 fun ComponenteSelectores(
-    selectedTipoVentana: MutableState<String>,
-    selectedTipoVidrio: MutableState<String>,
-    selectedTipoPersiana: MutableState<String>,
-    selectedTipoRegistro: MutableState<String>,
-    selectedTipoSerie: MutableState<String>,
-    selectedTipoColorVentana: MutableState<String>,
-    selectedTipoColorPersiana: MutableState<String>,
-    checkboxStateVentana: MutableState<Boolean>,
-    checkBoxStatePersiana: MutableState<Boolean>,
-    medidasState: List<MedidasState>,
+    selectablesPresupuestos: SelectablesPresupuestos,
     nombreMenu: String,
-    productosList: MutableList<Producto>,
     fireBaseViewModel: FireBaseViewModel
 ) {
 
     val tipoVentana = remember { mutableStateOf("") }
 
-    LaunchedEffect(selectedTipoVentana.value) {
-        tipoVentana.value = selectedTipoVentana.value
+    LaunchedEffect(selectablesPresupuestos.selectedTipoVentana.value) {
+        tipoVentana.value = selectablesPresupuestos.selectedTipoVentana.value
     }
     LogicaSelectores(
         nombreMenu,
-        selectedTipoVentana,
-        selectedTipoVidrio,
-        selectedTipoPersiana,
-        selectedTipoRegistro,
-        selectedTipoSerie,
-        selectedTipoColorVentana,
-        selectedTipoColorPersiana,
-        checkboxStateVentana,
-        checkBoxStatePersiana,
-        medidasState,
+        selectablesPresupuestos,
         tipoVentana.value,
-        productosList,
         fireBaseViewModel
     )
 }
@@ -80,7 +60,6 @@ fun DropDownComponent(
     nombreMenu: String,
     selectores: List<String?>,
     selectedItem: MutableState<String>,
-    productosList: MutableList<Producto>,
     tipoDropdown: String
 ) {
     val expanded = remember { mutableStateOf(false) }
@@ -101,9 +80,9 @@ fun DropDownComponent(
                         expanded.value = false
                         selectedItem.value = item.orEmpty()
                         when (tipoDropdown) {
-                            "Tipo" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item.orEmpty())
-                            "Serie" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item.orEmpty())
-                            "Color" -> LogicaDropdown(productosList, tipoDropdown, nombreMenu, item.orEmpty())
+                            "Tipo" -> LogicaDropdown().LogicaDropdown2(tipoDropdown, nombreMenu, item.orEmpty())
+                            "Serie" -> LogicaDropdown().LogicaDropdown2(tipoDropdown, nombreMenu, item.orEmpty())
+                            "Color" -> LogicaDropdown().LogicaDropdown2(tipoDropdown, nombreMenu, item.orEmpty())
                         }
                     }
                 )
@@ -115,8 +94,7 @@ fun DropDownComponent(
 @Composable
 fun CheckBoxComponent(
     nombreMenu: String,
-    checkedState: MutableState<Boolean>,
-    productosList: MutableList<Producto>
+    checkedState: MutableState<Boolean>
 ) {
 
     val nombre = if (nombreMenu == "Persiana") "Motorizada" else "Oscilobatiente"
@@ -127,7 +105,7 @@ fun CheckBoxComponent(
             onCheckedChange = {
                 checkedState.value = it
                 var productoEncontrado = false
-                productosList.forEach { producto ->
+                LogicaDropdown().getProductList().forEach { producto ->
                     if (producto.nombre == nombreMenu) {
                         when (nombre) {
                             "Motorizada" -> producto.motorizada = it
@@ -138,7 +116,7 @@ fun CheckBoxComponent(
                     }
                 }
                 if (!productoEncontrado) {
-                    productosList.add(
+                    LogicaDropdown().getProductList().add(
                         Producto(
                             nombre = nombreMenu,
                             motorizada = if (nombre == "Motorizada") it else false,
@@ -164,8 +142,7 @@ fun CheckBoxComponent(
 fun TextFieldComponent(
     nombreMenu: String,
     tipoMedida: String,
-    medida: MutableState<String>,
-    productosList: MutableList<Producto>
+    medida: MutableState<String>
 ) {
     val maxDigits = 5
 
@@ -175,7 +152,7 @@ fun TextFieldComponent(
             if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
                 medida.value = it
                 var productoEncontrado = false
-                productosList.forEach { producto ->
+                LogicaDropdown().getProductList().forEach { producto ->
                     if (producto.nombre == nombreMenu) {
                         when (tipoMedida) {
                             "Ancho" -> producto.ancho = if (it.isNotEmpty()) it.toLong() else 0L
@@ -186,7 +163,7 @@ fun TextFieldComponent(
                     }
                 }
                 if (!productoEncontrado) {
-                    productosList.add(
+                    LogicaDropdown().getProductList().add(
                         Producto(
                             nombre = nombreMenu,
                             ancho = if (tipoMedida == "Ancho") it.toLong() else 0,
