@@ -20,6 +20,7 @@ daggerHilt = "2.51.1"
 crashlitics = "3.0.2"
 hiltNavigationCompose = "1.0.0"
 liveData = "1.0.0"
+splashScreen = "1.0.1"
 
 [libraries]
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistFlowlayout" }
@@ -52,6 +53,8 @@ firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx",
 firebase-crashitics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
+
+splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

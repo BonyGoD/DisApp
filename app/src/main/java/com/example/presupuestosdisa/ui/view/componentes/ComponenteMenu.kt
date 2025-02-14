@@ -1,6 +1,7 @@
 package com.example.presupuestosdisa.ui.view.componentes
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,7 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,8 +26,10 @@ fun ComponenteMenu(nombre: String, icono: Int, arrow: Int, onClick: () -> Unit) 
     Row(
         modifier = Modifier
             .clickable(onClick = onClick)
-            .padding(8.dp, 8.dp)
-            .shadow(4.dp, shape = RoundedCornerShape(8.dp))
+            .padding(8.dp, 8.dp, 8.dp, 8.dp)
+            .clip(RoundedCornerShape(15.dp))
+            .shadow(1.dp, shape = RoundedCornerShape(6.dp))
+            .border(2.dp, Color.Black, RoundedCornerShape(15.dp))
             .fillMaxWidth()
             .fillMaxHeight(),
         verticalAlignment = Alignment.CenterVertically

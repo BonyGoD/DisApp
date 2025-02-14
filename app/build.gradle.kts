@@ -80,4 +80,5 @@ dependencies {
     implementation(libs.firebase.config)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.liveData)
+    implementation(libs.splash.screen)
 }

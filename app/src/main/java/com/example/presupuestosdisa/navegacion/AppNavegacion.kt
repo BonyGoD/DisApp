@@ -1,8 +1,6 @@
 package com.example.presupuestosdisa.navegacion
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -10,7 +8,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.presupuestosdisa.ui.view.PantallaPresupuesto
 import com.example.presupuestosdisa.ui.view.PantallaPrincipal
-import com.example.presupuestosdisa.ui.view.SplashScreen
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 
@@ -20,14 +17,7 @@ fun AppNavegacion() {
     val fireBaseViewModel: FireBaseViewModel = hiltViewModel()
     val sharedViewModel: SharedViewModel = viewModel()
 
-    NavHost(navController = navController, startDestination = SplashScreen) {
-        composable<SplashScreen> {
-            SplashScreen(fireBaseViewModel, ) {
-                navController.navigate(PantallaPrincipal){
-                    popUpTo(SplashScreen) { inclusive = true }
-                }
-            }
-        }
+    NavHost(navController = navController, startDestination = PantallaPrincipal) {
 
         composable<PantallaPrincipal> {
             PantallaPrincipal(fireBaseViewModel, sharedViewModel) {
