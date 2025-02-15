@@ -22,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.ui.theme.DisaPink
-import com.example.presupuestosdisa.ui.theme.LowDisaPink
 
 @Composable
 fun ComponenteMenu(nombre: String, icono: Int, arrow: Int, onClick: () -> Unit) {
