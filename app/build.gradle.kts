@@ -81,4 +81,5 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.liveData)
     implementation(libs.splash.screen)
+    implementation(libs.fundation.layout)
 }

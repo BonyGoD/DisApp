@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,6 +43,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                 Text(
                     modifier = Modifier.padding(10.dp),
                     fontWeight = FontWeight.Bold,
+                    color = Color.White,
                     text = "${producto.nombre} - " +
                             "${producto.tipo} - " +
                             "${if(producto.oscilobatiente) "Oscilobatiente - " else ""}" +
@@ -54,12 +56,14 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                         Text(
                             modifier = Modifier.padding(10.dp),
                             fontWeight = FontWeight.Bold,
-                            text = "${producto.ancho} x ${producto.alto}"
+                            text = "${producto.ancho} x ${producto.alto}",
+                            color = Color.White
                         )
                         Text(
                             modifier = Modifier.padding(10.dp),
                             fontWeight = FontWeight.Bold,
-                            text = calcularPrecioTotal(null, producto, fireBaseViewModel)
+                            text = calcularPrecioTotal(null, producto, fireBaseViewModel),
+                            color = Color.White
                         )
                     }
                 }
@@ -74,12 +78,14 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                     Text(
                         modifier = Modifier.padding(10.dp),
                         fontWeight = FontWeight.Bold,
-                        text = "TOTAL:")
+                        text = "TOTAL:",
+                        color = Color.White)
                     Text(
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
                         fontWeight = FontWeight.Bold,
                         text = calcularPrecioTotal(sharedViewModel.productos.value, null, fireBaseViewModel),
+                        color = Color.White
                     )
                 }
             }

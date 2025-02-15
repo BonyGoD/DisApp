@@ -19,7 +19,7 @@ fun calcularPrecioTotal(
         precio = calcularPrecio(producto, fireBaseViewModel)
     }
 
-    return String.format("%.2f", precio)
+    return String.format("%.2f€", precio)
 }
 
 fun calcularPrecio(producto: Producto?, fireBaseViewModel: FireBaseViewModel): Double {

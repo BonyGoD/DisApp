@@ -1,14 +1,19 @@
 package com.example.presupuestosdisa.utils
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.data.model.MedidasState
 import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
@@ -33,10 +38,18 @@ fun LogicaSelectores(
     fireBaseViewModel: FireBaseViewModel
 ) {
 
+
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(5.dp),
+            .padding(5.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -46,7 +59,7 @@ fun LogicaSelectores(
                 when (tipoVentana) {
                     "Practicable" -> {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.padding(bottom = 20.dp).fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -77,13 +90,12 @@ fun LogicaSelectores(
                     }
                 }
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
                         TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho)
+                        Spacer(modifier = Modifier.padding(10.dp))
                         TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
                     }
                 }
@@ -107,6 +119,7 @@ fun LogicaSelectores(
                 ) {
                     selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
                         TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
+                        Spacer(modifier = Modifier.padding(10.dp))
                         TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
                     }
                 }
@@ -135,6 +148,7 @@ fun LogicaSelectores(
                 ) {
                     selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
                         TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
+                        Spacer(modifier = Modifier.padding(10.dp))
                         TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
 
                     }
@@ -158,6 +172,7 @@ fun LogicaSelectores(
                 ) {
                     selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
                         TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
+                        Spacer(modifier = Modifier.padding(10.dp))
                         TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
 
                     }

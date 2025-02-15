@@ -45,6 +45,9 @@ import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
 import com.example.presupuestosdisa.data.model.rememberSelectablesPresupuestos
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.ui.theme.LowDisaPink2
+import com.example.presupuestosdisa.ui.theme.Purple80
+import com.example.presupuestosdisa.ui.theme.PurpleGrey40
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteMenu
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
@@ -80,8 +83,9 @@ fun PantallaPresupuesto(
                     .background(Color.Blue),
                 title = {
                     Text(
-                        text = "Presupuestos",
+                        text = "Volver",
                         fontWeight = FontWeight.Bold,
+                        color = Color.White,
                     )
                 },
                 navigationIcon = {
@@ -90,7 +94,8 @@ fun PantallaPresupuesto(
                         contentDescription = "Arrow Back",
                         modifier = Modifier.clickable {
                             navigateBack()
-                        }
+                        },
+                        tint = Color.White
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -120,12 +125,12 @@ fun ListaProductos(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(LowDisaPink2)
     ) {
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .padding(top = 150.dp, bottom = 30.dp)
+                .padding(top = 100.dp, bottom = 30.dp)
         ) {
             items(productos) { tipoProducto ->
                 var expandida by remember { mutableStateOf(false) }
@@ -165,7 +170,7 @@ fun ListaProductos(
                 }
             ) {
                 Text(
-                    text = "AÑADIR",
+                    text = "Añadir",
                     fontSize = 23.sp,
                     modifier = Modifier.padding(10.dp)
                 )

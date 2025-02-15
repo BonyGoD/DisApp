@@ -21,6 +21,7 @@ crashlitics = "3.0.2"
 hiltNavigationCompose = "1.0.0"
 liveData = "1.0.0"
 splashScreen = "1.0.1"
+fundationLayout = "1.0.0"
 
 [libraries]
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistFlowlayout" }
@@ -55,6 +56,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
 
 splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
+fundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref="fundationLayout"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
