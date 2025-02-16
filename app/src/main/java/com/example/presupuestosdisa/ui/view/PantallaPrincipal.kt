@@ -1,5 +1,6 @@
 package com.example.presupuestosdisa.ui.view
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,15 +21,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.ui.theme.LowDisaPink6
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteVersionControl
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 import com.example.presupuestosdisa.utils.calcularPrecioTotal
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: SharedViewModel, navigateToPantallaPresupuesto: () -> Unit) {
 
@@ -46,10 +54,10 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                     color = Color.White,
                     text = "${producto.nombre} - " +
                             "${producto.tipo} - " +
-                            "${if(producto.oscilobatiente) "Oscilobatiente - " else ""}" +
-                            "${if(producto.motorizada) "Motorizada - " else ""}" +
-                            "${if(producto.tipoSerie != "") producto.tipoSerie + " - " else ""}" +
-                            "${if(producto.tipoColor != "") producto.tipoColor + " - " else ""}"
+                            (if(producto.oscilobatiente) "Oscilobatiente - " else "") +
+                            (if(producto.motorizada) "Motorizada - " else "") +
+                            (if(producto.tipoSerie != "") producto.tipoSerie + " - " else "") +
+                            if(producto.tipoColor != "") producto.tipoColor else ""
                 )
                 Row {
                     if (sharedViewModel.productos.value.isNotEmpty()) {
@@ -67,6 +75,11 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                         )
                     }
                 }
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 15.dp, horizontal = 20.dp),
+                    thickness = 1.dp,
+                    color = Color.Black
+                )
             }
             Row(
                 modifier = Modifier
@@ -92,8 +105,13 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
         }
         Button(onClick = {
             navigateToPantallaPresupuesto()
-        }) {
-            Text(text = "+ Añadir presupuesto")
+        },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = LowDisaPink6,  // Color desde Colors.kt
+                contentColor = Color.White
+            )
+        ) {
+            Text(text = "+ Añadir presupuesto", fontSize = 20.sp)
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.presupuestosdisa.navegacion.AppNavegacion
+import com.example.presupuestosdisa.ui.theme.PresupuestosDisaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -14,7 +15,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
-            AppNavegacion()
+            PresupuestosDisaTheme {
+                AppNavegacion()
+            }
         }
     }
 }

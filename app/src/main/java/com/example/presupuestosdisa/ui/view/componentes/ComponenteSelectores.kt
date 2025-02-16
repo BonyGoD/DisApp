@@ -1,21 +1,19 @@
 package com.example.presupuestosdisa.ui.view.componentes
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,13 +22,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.R
@@ -86,29 +82,21 @@ fun DropDownComponent(
         ) {
             selectores.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(text = item.orEmpty(), fontWeight = FontWeight.Bold, fontSize = 15.sp) },
+                    text = {
+                        Text(
+                            text = item.orEmpty(),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp
+                        )
+                    },
                     onClick = {
                         expanded.value = false
                         selectedItem.value = item.orEmpty()
-                        when (tipoDropdown) {
-                            "Tipo" -> LogicaDropdown().LogicaDropdown2(
-                                tipoDropdown,
-                                nombreMenu,
-                                item.orEmpty()
-                            )
-
-                            "Serie" -> LogicaDropdown().LogicaDropdown2(
-                                tipoDropdown,
-                                nombreMenu,
-                                item.orEmpty()
-                            )
-
-                            "Color" -> LogicaDropdown().LogicaDropdown2(
-                                tipoDropdown,
-                                nombreMenu,
-                                item.orEmpty()
-                            )
-                        }
+                        LogicaDropdown().LogicaDropdown2(
+                            tipoDropdown,
+                            nombreMenu,
+                            item.orEmpty()
+                        )
                     }
                 )
             }
@@ -116,7 +104,11 @@ fun DropDownComponent(
         Image(
             painter = painterResource(arrowDown),
             contentDescription = "Arrow",
-            modifier = Modifier.size(20.dp).align(Alignment.CenterVertically).padding(start = 5.dp).clickable { expanded.value = !expanded.value }
+            modifier = Modifier
+                .size(20.dp)
+                .align(Alignment.CenterVertically)
+                .padding(start = 5.dp)
+                .clickable { expanded.value = !expanded.value }
         )
     }
 }
@@ -180,7 +172,7 @@ fun TextFieldComponent(
 ) {
     val maxDigits = 5
 
-    TextField(
+    OutlinedTextField(
         value = medida.value,
         onValueChange = {
             if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
@@ -207,17 +199,21 @@ fun TextFieldComponent(
                 }
             }
         },
-        label = { Text(text = tipoMedida, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center) },
+        label = {
+            Text(
+                text = tipoMedida,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        singleLine = true,
         modifier = Modifier
             .padding(top = 15.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .border(2.dp, DisaPink, RoundedCornerShape(10.dp))
-            .width(120.dp)
-            .height(50.dp),
+            .width(130.dp)
+            .height(70.dp),
         colors = TextFieldDefaults.textFieldColors(
             containerColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+            focusedIndicatorColor = DisaPink,
+            unfocusedIndicatorColor = Color.Gray
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number,

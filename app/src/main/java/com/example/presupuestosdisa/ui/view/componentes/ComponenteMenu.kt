@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.ui.theme.DisaPink
+import com.example.presupuestosdisa.ui.theme.LowDisaPink2
 
 @Composable
 fun ComponenteMenu(nombre: String, icono: Int, arrow: Int, onClick: () -> Unit) {
@@ -31,10 +32,10 @@ fun ComponenteMenu(nombre: String, icono: Int, arrow: Int, onClick: () -> Unit) 
             .padding(8.dp, 8.dp, 8.dp, 8.dp)
             .clip(RoundedCornerShape(15.dp))
             .shadow(1.dp, shape = RoundedCornerShape(6.dp))
-            .border(3.dp, Color.Black, RoundedCornerShape(15.dp))
+            .border(3.dp, DisaPink, RoundedCornerShape(15.dp))
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(DisaPink),
+            .background(LowDisaPink2),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -46,7 +47,7 @@ fun ComponenteMenu(nombre: String, icono: Int, arrow: Int, onClick: () -> Unit) 
             text = nombre,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
-            color = Color.White,
+            color = Color.Black,
             modifier = Modifier.align(Alignment.CenterVertically).padding(start = 28.dp).weight(1f)
         )
         Image(

@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -37,6 +38,7 @@ import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
 import com.example.presupuestosdisa.data.model.rememberSelectablesPresupuestos
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.theme.LowDisaPink2
+import com.example.presupuestosdisa.ui.theme.LowDisaPink6
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteMenu
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
@@ -74,7 +76,9 @@ fun PantallaPresupuesto(
                     Text(
                         text = "Volver",
                         fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
                         color = Color.White,
+                        modifier = Modifier.padding(10.dp)
                     )
                 },
                 navigationIcon = {
@@ -156,7 +160,11 @@ fun ListaProductos(
                 onClick = {
                     sharedViewModel.agregarListaProductos()
                     navigateBack()
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = LowDisaPink6,  // Color desde Colors.kt
+                    contentColor = Color.White
+                )
             ) {
                 Text(
                     text = "Añadir",
