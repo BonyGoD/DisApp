@@ -1,5 +1,7 @@
 package com.example.presupuestosdisa.utils
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,15 +9,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.data.model.MedidasState
 import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
+import com.example.presupuestosdisa.ui.theme.ButtonDisaColor
 import com.example.presupuestosdisa.ui.view.componentes.CheckBoxComponent
 import com.example.presupuestosdisa.ui.view.componentes.DropDownComponent
 import com.example.presupuestosdisa.ui.view.componentes.ImageComponent
@@ -43,7 +49,10 @@ fun LogicaSelectores(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(5.dp)
+            .clip(RoundedCornerShape(bottomStart = 22.dp, bottomEnd = 22.dp))
+            .padding(horizontal = 10.dp)
+            .fillMaxWidth()
+            .background(ButtonDisaColor)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
@@ -54,17 +63,37 @@ fun LogicaSelectores(
     ) {
         when (nombreMenu) {
             "Ventana" -> {
-                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_VENTANA].orEmpty(), selectablesPresupuestos.selectedTipoVentana, "Tipo")
+                DropDownComponent(
+                    nombreMenu,
+                    getItems(fireBaseViewModel)[ITEMS_VENTANA].orEmpty(),
+                    selectablesPresupuestos.selectedTipoVentana,
+                    "Tipo"
+                )
                 when (tipoVentana) {
                     "Practicable" -> {
                         Row(
-                            modifier = Modifier.padding(bottom = 20.dp).fillMaxWidth(),
+                            modifier = Modifier
+                                .padding(bottom = 20.dp)
+                                .fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            CheckBoxComponent(nombreMenu, selectablesPresupuestos.checkboxStateVentana)
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(), selectablesPresupuestos.selectedTipoSerie, "Serie")
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectablesPresupuestos.selectedColorVentana, "Color")
+                            CheckBoxComponent(
+                                nombreMenu,
+                                selectablesPresupuestos.checkboxStateVentana
+                            )
+                            DropDownComponent(
+                                nombreMenu,
+                                getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(),
+                                selectablesPresupuestos.selectedTipoSerie,
+                                "Serie"
+                            )
+                            DropDownComponent(
+                                nombreMenu,
+                                getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(),
+                                selectablesPresupuestos.selectedColorVentana,
+                                "Color"
+                            )
                         }
                     }
 
@@ -74,17 +103,33 @@ fun LogicaSelectores(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(), selectablesPresupuestos.selectedTipoSerie, "Serie")
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectablesPresupuestos.selectedColorVentana, "Color")
+                            DropDownComponent(
+                                nombreMenu,
+                                getItems(fireBaseViewModel)[ITEMS_SERIE].orEmpty(),
+                                selectablesPresupuestos.selectedTipoSerie,
+                                "Serie"
+                            )
+                            DropDownComponent(
+                                nombreMenu,
+                                getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(),
+                                selectablesPresupuestos.selectedColorVentana,
+                                "Color"
+                            )
                         }
                     }
+
                     "Elevable" -> {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectablesPresupuestos.selectedColorVentana, "Color")
+                            DropDownComponent(
+                                nombreMenu,
+                                getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(),
+                                selectablesPresupuestos.selectedColorVentana,
+                                "Color"
+                            )
                         }
                     }
                 }
@@ -92,11 +137,12 @@ fun LogicaSelectores(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho)
-                        Spacer(modifier = Modifier.padding(10.dp))
-                        TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
-                    }
+                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }
+                        .forEach { medidas ->
+                            TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho)
+                            Spacer(modifier = Modifier.padding(10.dp))
+                            TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
+                        }
                 }
                 ImageComponent() {
                     selectablesPresupuestos.checkboxStateVentana.value = false
@@ -109,18 +155,24 @@ fun LogicaSelectores(
             }
 
             "Vidrio" -> {
-                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_VIDRIO].orEmpty(), selectablesPresupuestos.selectedTipoVidrio, "Tipo")
+                DropDownComponent(
+                    nombreMenu,
+                    getItems(fireBaseViewModel)[ITEMS_VIDRIO].orEmpty(),
+                    selectablesPresupuestos.selectedTipoVidrio,
+                    "Tipo"
+                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
-                        Spacer(modifier = Modifier.padding(10.dp))
-                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
-                    }
+                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }
+                        .forEach { medidas ->
+                            TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho)
+                            Spacer(modifier = Modifier.padding(10.dp))
+                            TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
+                        }
                 }
                 ImageComponent() {
                     resetDropdown(selectablesPresupuestos.selectedTipoVidrio, "Tipo de Vidrio")
@@ -135,9 +187,19 @@ fun LogicaSelectores(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_PERSIANA].orEmpty(), selectablesPresupuestos.selectedTipoPersiana, "Tipo")
+                    DropDownComponent(
+                        nombreMenu,
+                        getItems(fireBaseViewModel)[ITEMS_PERSIANA].orEmpty(),
+                        selectablesPresupuestos.selectedTipoPersiana,
+                        "Tipo"
+                    )
                     CheckBoxComponent(nombreMenu, selectablesPresupuestos.checkboxStatePersiana)
-                    DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(), selectablesPresupuestos.selectedColorPersiana, "Color")
+                    DropDownComponent(
+                        nombreMenu,
+                        getItems(fireBaseViewModel)[ITEMS_COLORES].orEmpty(),
+                        selectablesPresupuestos.selectedColorPersiana,
+                        "Color"
+                    )
                 }
                 Row(
                     modifier = Modifier
@@ -145,12 +207,13 @@ fun LogicaSelectores(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
-                        Spacer(modifier = Modifier.padding(10.dp))
-                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
+                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }
+                        .forEach { medidas ->
+                            TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho)
+                            Spacer(modifier = Modifier.padding(10.dp))
+                            TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
 
-                    }
+                        }
                 }
                 ImageComponent() {
                     resetDropdown(selectablesPresupuestos.selectedTipoPersiana, "Tipo de Persiana")
@@ -162,24 +225,46 @@ fun LogicaSelectores(
             }
 
             "Registro" -> {
-                DropDownComponent(nombreMenu, getItems(fireBaseViewModel)[ITEMS_REGISTRO].orEmpty(), selectablesPresupuestos.selectedTipoRegistro, "Tipo")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    DropDownComponent(
+                        nombreMenu,
+                        getItems(fireBaseViewModel)[ITEMS_REGISTRO].orEmpty(),
+                        selectablesPresupuestos.selectedTipoRegistro,
+                        "Tipo"
+                    )
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }.forEach { medidas ->
-                        TextFieldComponent(nombreMenu,"Ancho", medidas.valorAncho)
-                        Spacer(modifier = Modifier.padding(10.dp))
-                        TextFieldComponent(nombreMenu,"Alto", medidas.valorAlto)
+                    selectablesPresupuestos.medidasState.filter { it.tipo == nombreMenu }
+                        .forEach { medidas ->
+                            TextFieldComponent(nombreMenu, "Ancho", medidas.valorAncho)
+                            Spacer(modifier = Modifier.padding(10.dp))
+                            TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
 
-                    }
+                        }
                 }
-                ImageComponent() {
-                    resetDropdown(selectablesPresupuestos.selectedTipoRegistro, "Tipo de Registro")
-                    resetMedidas(nombreMenu, selectablesPresupuestos.medidasState)
-                    deleteProducto(nombreMenu)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    ImageComponent() {
+                        resetDropdown(
+                            selectablesPresupuestos.selectedTipoRegistro,
+                            "Tipo de Registro"
+                        )
+                        resetMedidas(nombreMenu, selectablesPresupuestos.medidasState)
+                        deleteProducto(nombreMenu)
+                    }
                 }
             }
         }

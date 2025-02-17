@@ -2,16 +2,19 @@ package com.example.presupuestosdisa.ui.view
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -36,9 +39,9 @@ import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
 import com.example.presupuestosdisa.data.model.rememberSelectablesPresupuestos
+import com.example.presupuestosdisa.ui.theme.BackgroundDisaColor
+import com.example.presupuestosdisa.ui.theme.DisaBlue
 import com.example.presupuestosdisa.ui.theme.DisaPink
-import com.example.presupuestosdisa.ui.theme.LowDisaPink2
-import com.example.presupuestosdisa.ui.theme.LowDisaPink6
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteMenu
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
@@ -47,10 +50,10 @@ import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 data class Productos(val nombre: String, val icono: Int)
 
 private val productos: List<Productos> = listOf(
-    Productos("Ventana", R.drawable.ventana),
-    Productos("Vidrio", R.drawable.vidrio),
-    Productos("Persiana", R.drawable.persiana),
-    Productos("Registro", R.drawable.registro),
+    Productos("Ventana", R.drawable.ventana_menu),
+    Productos("Vidrio", R.drawable.vidrio_menu),
+    Productos("Persiana", R.drawable.persiana_menu),
+    Productos("Registro", R.drawable.registro_menu),
 )
 
 val arrowUp = R.drawable.arrow_up
@@ -71,14 +74,13 @@ fun PantallaPresupuesto(
         topBar = {
             TopAppBar(
                 modifier = Modifier
-                    .background(Color.Blue),
+                    .padding(bottom = 100.dp),
                 title = {
                     Text(
                         text = "Volver",
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
-                        color = Color.White,
-                        modifier = Modifier.padding(10.dp)
+                        color = Color.White
                     )
                 },
                 navigationIcon = {
@@ -115,17 +117,17 @@ fun ListaProductos(
     productos: List<Productos>,
     selectablesPresupuestos: SelectablesPresupuestos
 ) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(LowDisaPink2)
+            .background(BackgroundDisaColor)
     ) {
         LazyColumn(
             modifier = Modifier
-                .weight(1f)
+                .fillMaxWidth()
                 .padding(top = 100.dp, bottom = 30.dp)
         ) {
-            items(productos) { tipoProducto ->
+            itemsIndexed(productos) {  index, tipoProducto ->
                 var expandida by remember { mutableStateOf(false) }
 
                 ComponenteMenu(
@@ -138,40 +140,42 @@ fun ListaProductos(
                     expandida = !expandida
                 }
                 AnimatedVisibility(
-                    expandida
-                )
-                {
+                    expandida,
+                    enter = expandVertically(),
+                    exit = shrinkVertically()
+                ) {
                     ComponenteSelectores(
                         selectablesPresupuestos,
                         tipoProducto.nombre,
                         fireBaseViewModel
                     )
                 }
+                if(productos.size -1 != index){
+
+                    Spacer(
+                        modifier = Modifier.padding(horizontal = 150.dp, vertical = 10.dp).background(DisaPink)
+                            .fillMaxWidth().size(0.5.dp)
+                    )
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(80.dp))
             }
         }
-        Row(
+        Button(
+            onClick = {
+                sharedViewModel.agregarListaProductos()
+                navigateBack()
+            },
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 40.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Bottom
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 40.dp)
         ) {
-            Button(
-                onClick = {
-                    sharedViewModel.agregarListaProductos()
-                    navigateBack()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = LowDisaPink6,  // Color desde Colors.kt
-                    contentColor = Color.White
-                )
-            ) {
-                Text(
-                    text = "Añadir",
-                    fontSize = 23.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
+            Text(
+                text = "Añadir",
+                fontSize = 23.sp,
+                modifier = Modifier.padding(10.dp)
+            )
         }
     }
 }

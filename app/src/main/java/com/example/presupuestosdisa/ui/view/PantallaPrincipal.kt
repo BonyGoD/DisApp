@@ -21,14 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.ui.theme.DisaPink
-import com.example.presupuestosdisa.ui.theme.LowDisaPink6
+import com.example.presupuestosdisa.ui.theme.ButtonDisaColor
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteVersionControl
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
@@ -107,7 +105,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
             navigateToPantallaPresupuesto()
         },
             colors = ButtonDefaults.buttonColors(
-                containerColor = LowDisaPink6,  // Color desde Colors.kt
+                containerColor = ButtonDisaColor,
                 contentColor = Color.White
             )
         ) {

@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -32,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.data.model.Producto
 import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
+import com.example.presupuestosdisa.ui.theme.DisaBlue
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.utils.LogicaDropdown
@@ -74,6 +77,7 @@ fun DropDownComponent(
             text = selectedItem.value,
             modifier = Modifier.clickable { expanded.value = true },
             fontWeight = FontWeight.Bold,
+            color = Color.White,
             fontSize = 15.sp
         )
         DropdownMenu(
@@ -101,14 +105,15 @@ fun DropDownComponent(
                 )
             }
         }
-        Image(
-            painter = painterResource(arrowDown),
+        Icon(
+            painter = painterResource(R.drawable.arrow_down_blue),
             contentDescription = "Arrow",
             modifier = Modifier
                 .size(20.dp)
                 .align(Alignment.CenterVertically)
                 .padding(start = 5.dp)
-                .clickable { expanded.value = !expanded.value }
+                .clickable { expanded.value = !expanded.value },
+            tint = DisaBlue
         )
     }
 }
@@ -150,7 +155,7 @@ fun CheckBoxComponent(
             },
             modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .size(30.dp),
+                .size(30.dp)
         )
         Text(
             text = nombre,
@@ -158,7 +163,8 @@ fun CheckBoxComponent(
                 .align(Alignment.CenterVertically)
                 .clickable { checkedState.value = !checkedState.value },
             fontWeight = FontWeight.Bold,
-            fontSize = 15.sp
+            fontSize = 15.sp,
+            color = Color.White
         )
     }
 }
@@ -213,7 +219,14 @@ fun TextFieldComponent(
         colors = TextFieldDefaults.textFieldColors(
             containerColor = Color.Transparent,
             focusedIndicatorColor = DisaPink,
-            unfocusedIndicatorColor = Color.Gray
+            unfocusedIndicatorColor = Color.White,
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            focusedLabelColor = DisaPink,
+            unfocusedLabelColor = Color.White,
+            focusedSuffixColor = Color.White,
+            unfocusedSuffixColor = Color.White
+
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number,
@@ -231,10 +244,10 @@ fun ImageComponent(onClick: () -> Unit) {
         painter = painterResource(R.drawable.basura),
         contentDescription = "Basura",
         modifier = Modifier
-            .padding(top = 15.dp)
+            .padding(top = 35.dp, bottom = 15.dp)
             .clickable {
                 onClick()
             }
-            .size(20.dp)
+            .size(35.dp)
     )
 }
