@@ -142,7 +142,7 @@ fun LogicaSelectores(
                             TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
                         }
                 }
-                ImageComponent() {
+                ImageComponent {
                     selectablesPresupuestos.checkboxStateVentana.value = false
                     resetDropdown(selectablesPresupuestos.selectedTipoSerie, "Serie")
                     resetDropdown(selectablesPresupuestos.selectedColorVentana, "Color")
@@ -172,7 +172,7 @@ fun LogicaSelectores(
                             TextFieldComponent(nombreMenu, "Alto", medidas.valorAlto)
                         }
                 }
-                ImageComponent() {
+                ImageComponent {
                     resetDropdown(selectablesPresupuestos.selectedTipoVidrio, "Tipo de Vidrio")
                     resetMedidas(nombreMenu, selectablesPresupuestos.medidasState)
                     deleteProducto(nombreMenu)
@@ -213,7 +213,7 @@ fun LogicaSelectores(
 
                         }
                 }
-                ImageComponent() {
+                ImageComponent {
                     resetDropdown(selectablesPresupuestos.selectedTipoPersiana, "Tipo de Persiana")
                     selectablesPresupuestos.checkboxStatePersiana.value = false
                     resetDropdown(selectablesPresupuestos.selectedColorPersiana, "Color")
@@ -255,7 +255,7 @@ fun LogicaSelectores(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    ImageComponent() {
+                    ImageComponent {
                         resetDropdown(
                             selectablesPresupuestos.selectedTipoRegistro,
                             "Tipo de Registro"
@@ -281,7 +281,7 @@ fun resetMedidas(nombreMenu: String, medidasState: List<MedidasState>) {
 }
 
 fun deleteProducto(nombreMenu: String) {
-    LogicaDropdown().getProductList().toMutableList().removeIf { producto -> producto.nombre == nombreMenu }
+    LogicaAgregarProductos().getProductList().toMutableList().removeIf { producto -> producto.nombre == nombreMenu }
 }
 
 fun getItems(fireBaseViewModel: FireBaseViewModel): Map<String, List<String?>> {
@@ -311,6 +311,7 @@ fun getItems(fireBaseViewModel: FireBaseViewModel): Map<String, List<String?>> {
         ?.toMutableList() ?: mutableListOf()
 
     val itemsTipoSerie = fireBaseViewModel.producto.value
+        ?.asSequence()
         ?.filter { it.nombre == "Ventana" }
         ?.flatMap { it.tipo ?: emptyList() }
         ?.flatMap { it.serie ?: emptyList() }

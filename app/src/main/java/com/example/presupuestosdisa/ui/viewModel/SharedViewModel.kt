@@ -20,8 +20,4 @@ class SharedViewModel : ViewModel() {
         lista.remove(producto)
         _productos.value = lista
     }
-
-    fun eliminarTodosLosProductos() {
-        _productos.value = emptyList()
-    }
 }

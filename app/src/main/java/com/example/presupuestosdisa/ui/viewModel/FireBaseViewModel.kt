@@ -39,7 +39,7 @@ class FireBaseViewModel @Inject constructor(
         }
     }
 
-    fun getProductos() {
+    private fun getProductos() {
         viewModelScope.launch {
             val result = getProductosUseCase()
 

@@ -11,7 +11,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -35,7 +34,7 @@ import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
 import com.example.presupuestosdisa.ui.theme.DisaBlue
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
-import com.example.presupuestosdisa.utils.LogicaDropdown
+import com.example.presupuestosdisa.utils.LogicaAgregarProductos
 import com.example.presupuestosdisa.utils.LogicaSelectores
 
 
@@ -94,9 +93,9 @@ fun DropDownComponent(
                         expanded.value = false
                         selectedItem.value = item.orEmpty()
                         if(item == "Elevable" || item == "Corredera") {
-                            LogicaDropdown().LogicaCheckBox(nombreMenu, "Oscilobatiente", false)
+                            LogicaAgregarProductos().logicaCheckBox(nombreMenu, "Oscilobatiente", false)
                         }
-                        LogicaDropdown().LogicaDropdown2(
+                        LogicaAgregarProductos().logicaDropdown(
                             tipoDropdown,
                             nombreMenu,
                             item.orEmpty()
@@ -126,12 +125,12 @@ fun CheckBoxComponent(
 
     val nombre = if (nombreMenu == "Persiana") "Motorizada" else "Oscilobatiente"
 
-    Row() {
+    Row {
         Checkbox(
             checked = checkedState.value,
             onCheckedChange = {
                 checkedState.value = it
-                LogicaDropdown().LogicaCheckBox(nombreMenu, nombre, it)
+                LogicaAgregarProductos().logicaCheckBox(nombreMenu, nombre, it)
             },
             modifier = Modifier
                 .align(Alignment.CenterVertically)
@@ -144,7 +143,7 @@ fun CheckBoxComponent(
                 .clickable {
                     val newCheckedState = !checkedState.value
                     checkedState.value = newCheckedState
-                    LogicaDropdown().LogicaCheckBox(nombreMenu, nombre, newCheckedState)
+                    LogicaAgregarProductos().logicaCheckBox(nombreMenu, nombre, newCheckedState)
                            },
             fontWeight = FontWeight.Bold,
             fontSize = 15.sp,
@@ -153,7 +152,6 @@ fun CheckBoxComponent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldComponent(
     nombreMenu: String,
@@ -164,7 +162,7 @@ fun TextFieldComponent(
     OutlinedTextField(
         value = medida.value,
         onValueChange = {
-            LogicaDropdown().LogicaTextFields(nombreMenu, tipoMedida, medida, it)
+            LogicaAgregarProductos().logicaTextFields(nombreMenu, tipoMedida, medida, it)
         },
         label = {
             Text(
@@ -177,17 +175,22 @@ fun TextFieldComponent(
             .padding(top = 15.dp)
             .width(130.dp)
             .height(70.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color.Transparent,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+
             focusedIndicatorColor = DisaPink,
             unfocusedIndicatorColor = Color.White,
+
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
+
             focusedLabelColor = DisaPink,
             unfocusedLabelColor = Color.White,
+
             focusedSuffixColor = Color.White,
             unfocusedSuffixColor = Color.White
-
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number,

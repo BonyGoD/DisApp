@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.presupuestosdisa.R
 
 @Composable
-fun ComponenteMenu(nombre: String, icono: Int, arrow: Int, onClick: () -> Unit) {
+fun ComponenteMenu(nombre: String, icono: Int, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

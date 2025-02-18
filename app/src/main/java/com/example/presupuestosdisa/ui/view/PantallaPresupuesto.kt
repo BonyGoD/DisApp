@@ -44,7 +44,7 @@ import com.example.presupuestosdisa.ui.view.componentes.ComponenteMenu
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
-import com.example.presupuestosdisa.utils.LogicaDropdown
+import com.example.presupuestosdisa.utils.LogicaAgregarProductos
 
 data class Productos(val nombre: String, val icono: Int)
 
@@ -54,9 +54,6 @@ private val productos: List<Productos> = listOf(
     Productos("Persiana", R.drawable.persiana_menu),
     Productos("Registro", R.drawable.registro_menu),
 )
-
-val arrowUp = R.drawable.arrow_up
-val arrowDown = R.drawable.arrow_down
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -130,12 +127,7 @@ fun ListaProductos(
                 var expandida by remember { mutableStateOf(false) }
 
                 ComponenteMenu(
-                    tipoProducto.nombre, tipoProducto.icono, if (expandida) {
-                        arrowUp
-                    } else {
-                        arrowDown
-                    }
-                ) {
+                    tipoProducto.nombre, tipoProducto.icono) {
                     expandida = !expandida
                 }
                 AnimatedVisibility(
@@ -163,9 +155,9 @@ fun ListaProductos(
         }
         Button(
             onClick = {
-                val nuevosProductos = LogicaDropdown().getProductList().map { it.copy() }
+                val nuevosProductos = LogicaAgregarProductos().getProductList().map { it.copy() }
                 sharedViewModel.agregarListaProductos(nuevosProductos)
-                LogicaDropdown().eliminarProductos()
+                LogicaAgregarProductos().eliminarProductos()
                 navigateBack()
             },
             modifier = Modifier

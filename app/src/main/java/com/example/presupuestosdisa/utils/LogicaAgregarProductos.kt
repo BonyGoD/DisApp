@@ -2,15 +2,15 @@ package com.example.presupuestosdisa.utils
 
 import androidx.compose.runtime.MutableState
 import com.example.presupuestosdisa.data.model.Producto
-import com.example.presupuestosdisa.utils.LogicaDropdown.ProductoManager.productosList
+import com.example.presupuestosdisa.utils.LogicaAgregarProductos.ProductoManager.productosList
 
-class LogicaDropdown {
+class LogicaAgregarProductos {
 
     object ProductoManager {
         val productosList: MutableList<Producto> = mutableListOf()
     }
 
-    fun LogicaDropdown2(tipoDropdown: String, nombreMenu: String, item: String) {
+    fun logicaDropdown(tipoDropdown: String, nombreMenu: String, item: String) {
         var productoEncontrado = false
         productosList.forEach { producto ->
             if (producto.nombre == nombreMenu) {
@@ -35,7 +35,7 @@ class LogicaDropdown {
         }
     }
 
-    fun LogicaCheckBox(nombreMenu: String, nombre: String, isChecked: Boolean) {
+    fun logicaCheckBox(nombreMenu: String, nombre: String, isChecked: Boolean) {
         var productoEncontrado = false
         productosList.forEach { producto ->
             if (producto.nombre == nombreMenu) {
@@ -59,14 +59,14 @@ class LogicaDropdown {
         }
     }
 
-    fun LogicaTextFields(nombreMenu: String, tipoMedida: String, medida: MutableState<String>, it: String) {
+    fun logicaTextFields(nombreMenu: String, tipoMedida: String, medida: MutableState<String>, it: String) {
 
         val maxDigits = 5
 
         if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
             medida.value = it
             var productoEncontrado = false
-            LogicaDropdown().getProductList().forEach { producto ->
+            LogicaAgregarProductos().getProductList().forEach { producto ->
                 if (producto.nombre == nombreMenu) {
                     when (tipoMedida) {
                         "Ancho" -> producto.ancho = if (it.isNotEmpty()) it.toLong() else 0L
@@ -77,7 +77,7 @@ class LogicaDropdown {
                 }
             }
             if (!productoEncontrado) {
-                LogicaDropdown().getProductList().toMutableList().add(
+                LogicaAgregarProductos().getProductList().toMutableList().add(
                     Producto(
                         nombre = nombreMenu,
                         ancho = if (tipoMedida == "Ancho") it.toLong() else 0,
@@ -93,6 +93,6 @@ class LogicaDropdown {
     }
 
     fun eliminarProductos() {
-        ProductoManager.productosList.clear()
+        productosList.clear()
     }
 }
