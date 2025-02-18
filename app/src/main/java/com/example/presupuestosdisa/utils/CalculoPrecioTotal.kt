@@ -1,8 +1,10 @@
 package com.example.presupuestosdisa.utils
 
+import android.annotation.SuppressLint
 import com.example.presupuestosdisa.data.model.Producto
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 
+@SuppressLint("DefaultLocale")
 fun calcularPrecioTotal(
     productos: List<Producto>?,
     producto: Producto?,

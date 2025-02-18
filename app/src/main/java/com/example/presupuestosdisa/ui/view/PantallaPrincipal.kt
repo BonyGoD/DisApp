@@ -49,7 +49,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
             .background(DisaPink),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        imagenDisa()
+        ImagenDisa()
         Column {
             productos.forEach { producto ->
                 Text(
@@ -162,7 +162,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
 }
 
 @Composable
-fun imagenDisa() {
+fun ImagenDisa() {
     Image(
         painterResource(R.drawable.logodisa),
         contentDescription = "Logo de Disa",

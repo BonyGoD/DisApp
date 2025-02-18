@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +31,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.R
-import com.example.presupuestosdisa.data.model.Producto
 import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
 import com.example.presupuestosdisa.ui.theme.DisaBlue
 import com.example.presupuestosdisa.ui.theme.DisaPink
@@ -95,6 +93,9 @@ fun DropDownComponent(
                     onClick = {
                         expanded.value = false
                         selectedItem.value = item.orEmpty()
+                        if(item == "Elevable" || item == "Corredera") {
+                            LogicaDropdown().LogicaCheckBox(nombreMenu, "Oscilobatiente", false)
+                        }
                         LogicaDropdown().LogicaDropdown2(
                             tipoDropdown,
                             nombreMenu,

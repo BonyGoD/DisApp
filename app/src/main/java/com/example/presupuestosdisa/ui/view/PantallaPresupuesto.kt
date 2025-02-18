@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -40,7 +39,6 @@ import com.example.presupuestosdisa.R
 import com.example.presupuestosdisa.data.model.SelectablesPresupuestos
 import com.example.presupuestosdisa.data.model.rememberSelectablesPresupuestos
 import com.example.presupuestosdisa.ui.theme.BackgroundDisaColor
-import com.example.presupuestosdisa.ui.theme.DisaBlue
 import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteMenu
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
