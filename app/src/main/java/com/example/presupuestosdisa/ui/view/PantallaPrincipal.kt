@@ -3,6 +3,7 @@ package com.example.presupuestosdisa.ui.view
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -57,20 +59,55 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                             (if(producto.tipoSerie != "") producto.tipoSerie + " - " else "") +
                             if(producto.tipoColor != "") producto.tipoColor else ""
                 )
-                Row {
-                    if (sharedViewModel.productos.value.isNotEmpty()) {
-                        Text(
-                            modifier = Modifier.padding(10.dp),
-                            fontWeight = FontWeight.Bold,
-                            text = "${producto.ancho} x ${producto.alto}",
-                            color = Color.White
-                        )
-                        Text(
-                            modifier = Modifier.padding(10.dp),
-                            fontWeight = FontWeight.Bold,
-                            text = calcularPrecioTotal(null, producto, fireBaseViewModel),
-                            color = Color.White
-                        )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        if (sharedViewModel.productos.value.isNotEmpty()) {
+                            Text(
+                                modifier = Modifier.padding(10.dp),
+                                fontWeight = FontWeight.Bold,
+                                text = "${producto.ancho} x ${producto.alto}",
+                                color = Color.White
+                            )
+                            Text(
+                                modifier = Modifier.padding(10.dp),
+                                fontWeight = FontWeight.Bold,
+                                text = calcularPrecioTotal(null, producto, fireBaseViewModel),
+                                color = Color.White
+                            )
+                            Row(
+                                modifier = Modifier.weight(1f),
+                                horizontalArrangement = Arrangement.End
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.duplicar_principal),
+                                    contentDescription = "Duplicar",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .padding(10.dp)
+                                )
+                                Icon(
+                                    painter = painterResource(id = R.drawable.basura_principal),
+                                    contentDescription = "Basura",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .padding(10.dp)
+                                        .clickable {
+                                            sharedViewModel.productos.value.find { it == producto }
+                                                ?.let {
+                                                    sharedViewModel.eliminarProducto(it)
+                                                }
+                                        }
+                                )
+                            }
+                        }
                     }
                 }
                 HorizontalDivider(

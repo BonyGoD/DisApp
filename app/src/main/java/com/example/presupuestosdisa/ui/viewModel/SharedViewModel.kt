@@ -16,4 +16,10 @@ class SharedViewModel: ViewModel() {
     fun agregarListaProductos() {
         listaProductos.value = logicaDropdown.getProductList()
     }
+
+    fun eliminarProducto(producto: Producto) {
+        val lista = listaProductos.value.toMutableList()
+        lista.remove(producto)
+        listaProductos.value = lista
+    }
 }

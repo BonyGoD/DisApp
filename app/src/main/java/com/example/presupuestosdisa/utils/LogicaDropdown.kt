@@ -9,6 +9,7 @@ class LogicaDropdown(){
         val productosList: MutableList<Producto> = mutableListOf()
     }
 
+
     fun LogicaDropdown2(tipoDropdown: String, nombreMenu: String, item: String) {
         var productoEncontrado = false
         productosList.forEach { producto ->

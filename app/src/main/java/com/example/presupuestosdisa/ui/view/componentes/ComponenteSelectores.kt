@@ -69,7 +69,6 @@ fun DropDownComponent(
     tipoDropdown: String
 ) {
 
-    val arrowDown = R.drawable.arrow_down
     val expanded = remember { mutableStateOf(false) }
 
     Row(modifier = Modifier.padding(10.dp)) {
