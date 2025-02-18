@@ -2,24 +2,26 @@ package com.example.presupuestosdisa.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.presupuestosdisa.data.model.Producto
-import com.example.presupuestosdisa.utils.LogicaDropdown
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class SharedViewModel: ViewModel() {
+class SharedViewModel : ViewModel() {
+    private val _productos = MutableStateFlow<List<Producto>>(emptyList())
+    val productos: StateFlow<List<Producto>> = _productos
 
-    private val listaProductos = MutableStateFlow<List<Producto>>(emptyList())
-    val productos: StateFlow<List<Producto>> = listaProductos
-
-    private val logicaDropdown = LogicaDropdown()
-
-    fun agregarListaProductos() {
-        listaProductos.value = logicaDropdown.getProductList()
+    fun agregarListaProductos(nuevosProductos: List<Producto>) {
+        val listaActualizada = _productos.value.toMutableList()
+        listaActualizada.addAll(nuevosProductos)
+        _productos.value = listaActualizada
     }
 
     fun eliminarProducto(producto: Producto) {
-        val lista = listaProductos.value.toMutableList()
+        val lista = _productos.value.toMutableList()
         lista.remove(producto)
-        listaProductos.value = lista
+        _productos.value = lista
+    }
+
+    fun eliminarTodosLosProductos() {
+        _productos.value = emptyList()
     }
 }

@@ -18,6 +18,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,8 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presupuestosdisa.R
-import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.theme.ButtonDisaColor
+import com.example.presupuestosdisa.ui.theme.DisaPink
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteVersionControl
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
@@ -37,6 +39,8 @@ import com.example.presupuestosdisa.utils.calcularPrecioTotal
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: SharedViewModel, navigateToPantallaPresupuesto: () -> Unit) {
+
+    val productos by sharedViewModel.productos.collectAsState()
 
     ComponenteVersionControl()
     Column(
@@ -47,7 +51,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
     ) {
         imagenDisa()
         Column {
-            sharedViewModel.productos.value.forEach { producto ->
+            productos.forEach { producto ->
                 Text(
                     modifier = Modifier.padding(10.dp),
                     fontWeight = FontWeight.Bold,
@@ -91,6 +95,12 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                                     modifier = Modifier
                                         .size(40.dp)
                                         .padding(10.dp)
+                                        .clickable {
+                                            sharedViewModel.productos.value.find { it == producto }
+                                                ?.let {
+                                                    sharedViewModel.agregarListaProductos(listOf(it))
+                                                }
+                                        }
                                 )
                                 Icon(
                                     painter = painterResource(id = R.drawable.basura_principal),

@@ -283,7 +283,7 @@ fun resetMedidas(nombreMenu: String, medidasState: List<MedidasState>) {
 }
 
 fun deleteProducto(nombreMenu: String) {
-    LogicaDropdown().getProductList().removeIf { producto -> producto.nombre == nombreMenu }
+    LogicaDropdown().getProductList().toMutableList().removeIf { producto -> producto.nombre == nombreMenu }
 }
 
 fun getItems(fireBaseViewModel: FireBaseViewModel): Map<String, List<String?>> {

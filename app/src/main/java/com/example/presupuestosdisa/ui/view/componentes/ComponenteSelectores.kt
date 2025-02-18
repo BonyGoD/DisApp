@@ -130,27 +130,7 @@ fun CheckBoxComponent(
             checked = checkedState.value,
             onCheckedChange = {
                 checkedState.value = it
-                var productoEncontrado = false
-                LogicaDropdown().getProductList().forEach { producto ->
-                    if (producto.nombre == nombreMenu) {
-                        when (nombre) {
-                            "Motorizada" -> producto.motorizada = it
-                            "Oscilobatiente" -> producto.oscilobatiente = it
-                        }
-                        productoEncontrado = true
-                        return@forEach
-                    }
-                }
-                if (!productoEncontrado) {
-                    LogicaDropdown().getProductList().add(
-                        Producto(
-                            nombre = nombreMenu,
-                            motorizada = if (nombre == "Motorizada") it else false,
-                            oscilobatiente = if (nombre == "Oscilobatiente") it else false
-
-                        )
-                    )
-                }
+                LogicaDropdown().LogicaCheckBox(nombreMenu, nombre, it)
             },
             modifier = Modifier
                 .align(Alignment.CenterVertically)
@@ -160,7 +140,11 @@ fun CheckBoxComponent(
             text = nombre,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .clickable { checkedState.value = !checkedState.value },
+                .clickable {
+                    val newCheckedState = !checkedState.value
+                    checkedState.value = newCheckedState
+                    LogicaDropdown().LogicaCheckBox(nombreMenu, nombre, newCheckedState)
+                           },
             fontWeight = FontWeight.Bold,
             fontSize = 15.sp,
             color = Color.White
@@ -175,34 +159,11 @@ fun TextFieldComponent(
     tipoMedida: String,
     medida: MutableState<String>
 ) {
-    val maxDigits = 5
 
     OutlinedTextField(
         value = medida.value,
         onValueChange = {
-            if (it.length <= maxDigits && it.all { char -> char.isDigit() }) {
-                medida.value = it
-                var productoEncontrado = false
-                LogicaDropdown().getProductList().forEach { producto ->
-                    if (producto.nombre == nombreMenu) {
-                        when (tipoMedida) {
-                            "Ancho" -> producto.ancho = if (it.isNotEmpty()) it.toLong() else 0L
-                            "Alto" -> producto.alto = if (it.isNotEmpty()) it.toLong() else 0L
-                        }
-                        productoEncontrado = true
-                        return@forEach
-                    }
-                }
-                if (!productoEncontrado) {
-                    LogicaDropdown().getProductList().add(
-                        Producto(
-                            nombre = nombreMenu,
-                            ancho = if (tipoMedida == "Ancho") it.toLong() else 0,
-                            alto = if (tipoMedida == "Alto") it.toLong() else 0
-                        )
-                    )
-                }
-            }
+            LogicaDropdown().LogicaTextFields(nombreMenu, tipoMedida, medida, it)
         },
         label = {
             Text(

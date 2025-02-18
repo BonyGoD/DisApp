@@ -46,6 +46,7 @@ import com.example.presupuestosdisa.ui.view.componentes.ComponenteMenu
 import com.example.presupuestosdisa.ui.view.componentes.ComponenteSelectores
 import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
+import com.example.presupuestosdisa.utils.LogicaDropdown
 
 data class Productos(val nombre: String, val icono: Int)
 
@@ -164,7 +165,9 @@ fun ListaProductos(
         }
         Button(
             onClick = {
-                sharedViewModel.agregarListaProductos()
+                val nuevosProductos = LogicaDropdown().getProductList().map { it.copy() }
+                sharedViewModel.agregarListaProductos(nuevosProductos)
+                LogicaDropdown().eliminarProductos()
                 navigateBack()
             },
             modifier = Modifier
