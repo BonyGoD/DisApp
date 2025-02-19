@@ -13,17 +13,17 @@ Esta aplicación permite a los usuarios gestionar presupuestos de manera eficien
 ## Capturas de Pantalla
 
 ### SplashScreen
-![Pantalla de Inicio](imagenesREADME/SplashScreen.png)
+<img src="imagenesREADME/SplashScreen.png" alt="Pantalla de Inicio" width="300"/>
 
 ### Pantalla Principal
-![Crear Presupuesto](imagenesREADME/pantallaPrincipal.png)
+<img src="imagenesREADME/pantallaPrincipal.png" alt="Crear Presupuesto" width="300"/>
 
 ### Lista de Productos
-![Lista de Presupuestos](imagenesREADME/Pantalla-lista-productos.png)
-![Lista de Presupuestos](imagenesREADME/Pantalla-lista-productos-selectores.png)
+<img src="imagenesREADME/Pantalla-lista-productos.png" alt="Lista de Presupuestos" width="300"/>
+<img src="imagenesREADME/Pantalla-lista-productos-selectores.png" alt="Lista de Presupuestos" width="300"/>
 
 ### Lista de Presupuestos
-![Lista de Presupuestos](imagenesREADME/pantallaPrincipal-con-presupuesto.png)
+<img src="imagenesREADME/pantallaPrincipal-con-presupuesto.png" alt="Lista de Presupuestos" width="300"/>
 
 ## Uso
 
