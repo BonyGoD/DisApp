@@ -43,6 +43,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
     val productos by sharedViewModel.productos.collectAsState()
 
     ComponenteVersionControl()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
