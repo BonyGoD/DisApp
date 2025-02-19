@@ -32,4 +32,4 @@ Esta aplicación permite a los usuarios gestionar presupuestos de manera eficien
 
 ## Licencia
 
-**No autorizo su distribución ni uso sin permiso. Para cualquier duda, consulta la licencia en [LICENSE.md](./LICENSE.md)**
+**No autorizo su distribución ni uso sin permiso. Para más detalles, consulta el archivo [LICENSE.md](./LICENSE.md)**
