@@ -1,109 +1,130 @@
 package com.example.presupuestosdisa.utils
 
 import android.annotation.SuppressLint
-import com.example.presupuestosdisa.model.Producto
-import com.example.presupuestosdisa.viewModel.ProductoViewModel
+import com.example.presupuestosdisa.data.model.Producto
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
 
-fun calcularPrecioTotal(productos: List<Producto>?, producto: Producto?): String {
+@SuppressLint("DefaultLocale")
+fun calcularPrecioTotal(
+    productos: List<Producto>?,
+    producto: Producto?,
+    fireBaseViewModel: FireBaseViewModel
+): String {
 
     var precio = 0.0
-    val productoViewModel = ProductoViewModel()
 
-    if(productos != null) {
+    if (productos != null) {
         productos.forEach { itemProducto ->
-           precio += calcularPrecio(itemProducto, productoViewModel)
+            precio += calcularPrecio(itemProducto, fireBaseViewModel)
         }
     } else {
-       precio = calcularPrecio(producto, productoViewModel)
+        precio = calcularPrecio(producto, fireBaseViewModel)
     }
 
-    return String.format("%.2f", precio)
+    return String.format("%.2f€", precio)
 }
 
-fun calcularPrecio(producto: Producto?, productoViewModel: ProductoViewModel): Double {
+fun calcularPrecio(producto: Producto?, fireBaseViewModel: FireBaseViewModel): Double {
 
-    var precioVentana = 0.0
+    var precioVentana: Double? = 0.0
     var metroLineal = 0.0
     var precioVidrio = 0.0
     var precioPersiana = 0.0
     var precioRegistro = 0.0
     var precioTotal = 0.0
+    var precioColor: Double? = 0.0
 
-        when(producto?.nombre) {
-            "Ventana" -> {
-                producto.alto.let { alto ->
-                    producto.ancho.let { ancho ->
-                        metroLineal += ((alto * 0.001) + (ancho * 0.001)) * 2
-                    }
+    when (producto?.nombre) {
+        "Ventana" -> {
+            producto.alto.let { alto ->
+                producto.ancho.let { ancho ->
+                    metroLineal += ((alto * 0.001) + (ancho * 0.001)) * 2
                 }
-
-                if (producto.tipoSerie == "RPT"){
-                    precioVentana += (
-                            productoViewModel.tipoSerie.value.find { it.nombre == producto.tipoSerie }?.precio ?: 0
-                            ) * metroLineal
-                } else if (producto.tipoSerie == "Fria"){
-                    precioVentana += (
-                            productoViewModel.tipoSerie.value.find { it.nombre == producto.tipoSerie }?.precio ?: 0
-                            ) * metroLineal
-                }
-
-                if (producto.tipoColor == "Ral estandar") {
-                    val precioColor = productoViewModel.listaColores.value.find { it.nombre == producto.tipoColor }?.precio ?: 0.0
-                    precioVentana = precioVentana + (precioVentana * precioColor)
-                } else if (producto.tipoColor == "Imitacion madera") {
-                    val precioColor = productoViewModel.listaColores.value.find { it.nombre == producto.tipoColor }?.precio ?: 0.0
-                    precioVentana = precioVentana + (precioVentana * precioColor)
-                }
-
-                if (producto.oscilobatiente) {
-                    precioVentana += 100.0
-                }
-
-                precioTotal += precioVentana
-
             }
-            "Vidrio" -> {
 
-                producto.alto.let { alto ->
-                    producto.ancho.let { ancho ->
-                        metroLineal += (alto * 0.001) * (ancho * 0.001)
+            fireBaseViewModel.producto.value?.forEach { prod ->
+                prod.tipo?.forEach { tipo ->
+                    tipo.serie?.forEach {
+                        if (it.nombre == producto.tipoSerie) {
+                            precioVentana = it.precio
+                        }
                     }
                 }
-
-                precioVidrio += (productoViewModel.listaTipoVidrio.value.find { it.tipo == producto.tipo }?.precio ?: 0) * (metroLineal * 2)
-
-                precioTotal += precioVidrio
             }
-            "Persiana" -> {
-                producto.alto.let { alto ->
-                    producto.ancho.let { ancho ->
-                        metroLineal += (alto * 0.001) * (ancho * 0.001)
-                    }
-                }
-                when(producto.tipo) {
-                    "R45" -> {
-                        val precioColor = productoViewModel.listaColores.value.find { it.nombre == producto.tipoColor }?.precio ?: 0.0
-                        precioPersiana = (productoViewModel.listaTipoPersiana.value.find { it.tipo == producto.tipo }?.precio ?: 0) +
-                                (precioPersiana * precioColor)
-                    }
-                    "C45" -> {
-                        val precioColor = productoViewModel.listaColores.value.find { it.nombre == producto.tipoColor }?.precio ?: 0.0
-                        precioPersiana = (productoViewModel.listaTipoPersiana.value.find { it.tipo == producto.tipo }?.precio ?: 0) +
-                                (precioPersiana * precioColor)
-                    }
-                    "Monoblock" -> {
-                        val precioColor = productoViewModel.listaColores.value.find { it.nombre == producto.tipoColor }?.precio ?: 0.0
-                        precioPersiana = (productoViewModel.listaTipoPersiana.value.find { it.tipo == producto.tipo }?.precio ?: 0) +
-                                (precioPersiana * precioColor)
-                    }
-                }
-                precioTotal += precioPersiana
-            }
-            "Registro" -> {
-                precioRegistro = (productoViewModel.listaTipoRegistro.value.find { it.tipo == producto.tipo }?.precio ?: 0) * (producto.ancho * 0.001)
+            precioVentana = precioVentana!! * metroLineal
 
-                precioTotal += precioRegistro
+            if (producto.tipoColor != "Blanco") {
+                fireBaseViewModel.producto.value?.forEach { prod ->
+                    prod.colores?.forEach {
+                        if (it.nombre == producto.tipoColor) {
+                            precioColor = it.precio
+                        }
+                    }
+                }
+
+                precioVentana = precioVentana!! + (precioVentana!! * precioColor!!)
+                precioVentana = precioVentana!! + 0.0
+            }
+
+            if (producto.oscilobatiente) {
+                precioVentana = precioVentana!! + 100.0
+            }
+            precioTotal += precioVentana!!
+        }
+
+        "Vidrio" -> {
+            producto.alto.let { alto ->
+                producto.ancho.let { ancho ->
+                    metroLineal += ((alto * 0.001) * (ancho * 0.001)) * 2
+                }
+            }
+
+            fireBaseViewModel.producto.value?.forEach { prod ->
+                prod.tipo?.forEach {
+                    if (it.tipo == producto.tipo) {
+                        precioVidrio = it.precio?.toDouble() ?: 0.0
+                    }
+                }
+            }
+            precioTotal += precioVidrio * metroLineal
+        }
+
+        "Persiana" -> {
+            producto.alto.let { alto ->
+                producto.ancho.let { ancho ->
+                    metroLineal += (alto * 0.001) * (ancho * 0.001)
+                }
+            }
+            fireBaseViewModel.producto.value?.forEach { prod ->
+                val tipoP = prod.tipo?.find { it.tipo == producto.tipo }
+                prod.colores?.forEach { color ->
+                    if (color.nombre == producto.tipoColor && tipoP?.tipo == producto.tipo) {
+                        precioColor = color.precio
+                        precioPersiana = tipoP.precio?.toDouble() ?: 0.0
+                        if (precioColor != 0.0) {
+                            precioPersiana += (precioPersiana * precioColor!!)
+                        }
+                    }
+                }
+            }
+
+            precioTotal += precioPersiana * metroLineal
+
+            if (producto.motorizada) {
+                precioTotal += 100.0
             }
         }
+
+        "Registro" -> {
+            fireBaseViewModel.producto.value?.forEach { prod ->
+                prod.tipo?.forEach { tipo ->
+                    if (tipo.tipo == producto.tipo) {
+                        precioRegistro = (tipo.precio?.toDouble() ?: 0.0) * (producto.ancho * 0.001)
+                    }
+                }
+            }
+            precioTotal += precioRegistro
+        }
+    }
     return precioTotal
 }

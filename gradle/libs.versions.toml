@@ -1,20 +1,27 @@
 [versions]
 accompanistFlowlayout = "0.30.0"
-agp = "8.8.0"
+agp = "8.8.1"
 gson = "2.10.1"
 kotlin = "2.0.0"
-coreKtx = "1.10.1"
+coreKtx = "1.15.0"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.6.1"
-activityCompose = "1.8.0"
-composeBom = "2024.04.01"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.10.0"
+composeBom = "2025.02.00"
 appcompat = "1.7.0"
-navigationCompose = "2.8.2"
+navigationCompose = "2.8.7"
 kotlinxSerialization = "1.7.3"
-firebaseBom = "33.1.1"
+firebaseBom = "33.9.0"
 services = "4.4.2"
+firebaseAuthKtx = "23.2.0"
+daggerHilt = "2.51.1"
+crashlitics = "3.0.3"
+hiltNavigationCompose = "1.2.0"
+liveData = "1.7.8"
+splashScreen = "1.0.1"
+fundationLayout = "1.7.8"
 
 [libraries]
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistFlowlayout" }
@@ -36,9 +43,20 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
+dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+liveData = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "liveData"}
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+firebase-crashitics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
+
+splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
+fundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref="fundationLayout"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -46,4 +64,5 @@ googleServices = { id = "com.google.gms.google-services", version.ref = "service
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrainsKotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
+daggerhilt = { id = "com.google.dagger.hilt.android", version = "2.51.1" }
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlitics" }

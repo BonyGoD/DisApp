@@ -1,38 +1,33 @@
 package com.example.presupuestosdisa.navegacion
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.presupuestosdisa.pantallas.PantallaPresupuesto
-import com.example.presupuestosdisa.pantallas.PantallaPrincipal
-import com.example.presupuestosdisa.pantallas.SplashScreen
-import com.example.presupuestosdisa.viewModel.SharedViewModel
+import com.example.presupuestosdisa.ui.view.PantallaPresupuesto
+import com.example.presupuestosdisa.ui.view.PantallaPrincipal
+import com.example.presupuestosdisa.ui.viewModel.FireBaseViewModel
+import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 
 @Composable
 fun AppNavegacion() {
     val navController = rememberNavController()
+    val fireBaseViewModel: FireBaseViewModel = hiltViewModel()
     val sharedViewModel: SharedViewModel = viewModel()
 
-    NavHost(navController = navController, startDestination = SplashScreen) {
-        composable<SplashScreen> {
-            SplashScreen {
-                navController.navigate(PantallaPrincipal){
-                    popUpTo(SplashScreen) { inclusive = true }
-                }
-            }
-        }
+    NavHost(navController = navController, startDestination = PantallaPrincipal) {
 
         composable<PantallaPrincipal> {
-            PantallaPrincipal(sharedViewModel) {
+            PantallaPrincipal(fireBaseViewModel, sharedViewModel) {
                 navController.navigate(PantallaPresupuesto)
             }
         }
 
         composable<PantallaPresupuesto> {
-            PantallaPresupuesto(sharedViewModel) {
-                navController.popBackStack()
+            PantallaPresupuesto(fireBaseViewModel, sharedViewModel) {
+                navController.navigateUp()
             }
         }
     }

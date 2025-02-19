@@ -1,21 +1,18 @@
 package com.example.presupuestosdisa.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import com.example.presupuestosdisa.R
 
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
@@ -33,11 +30,31 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+val poppinsRegular = FontFamily(Font(R.font.poppins_regular))
+
+val CustomTypography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = poppinsRegular
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = poppinsRegular
+    ),
+    bodySmall = TextStyle(
+        fontFamily = poppinsRegular
+    ),
+    labelLarge = TextStyle(
+        fontFamily = poppinsRegular
+    ),
+    titleLarge = TextStyle(
+        fontFamily = poppinsRegular
+    )
+)
+
 @Composable
 fun PresupuestosDisaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -46,13 +63,13 @@ fun PresupuestosDisaTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
+        darkTheme -> LightColorScheme
         else -> LightColorScheme
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = CustomTypography,
         content = content
     )
 }

@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrainsKotlinSerialization)
     alias(libs.plugins.googleServices)
+    alias(libs.plugins.daggerhilt)
+    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.crashlytics)
 }
 
 android {
@@ -15,7 +18,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,6 +44,10 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -52,6 +59,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
+    implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     implementation(libs.accompanist.flowlayout)
     implementation(libs.androidx.navigation.compose)
@@ -65,4 +73,13 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.firebase.firestore)
     implementation(platform(libs.firebase.bom))
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.firebase.crashitics)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.config)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.liveData)
+    implementation(libs.splash.screen)
+    implementation(libs.fundation.layout)
 }
