@@ -2,10 +2,13 @@ package com.example.presupuestosdisa.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.presupuestosdisa.data.model.Producto
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
-class SharedViewModel : ViewModel() {
+@HiltViewModel
+class SharedViewModel @Inject constructor() : ViewModel() {
     private val _productos = MutableStateFlow<List<Producto>>(emptyList())
     val productos: StateFlow<List<Producto>> = _productos
 

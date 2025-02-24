@@ -2,7 +2,6 @@ package com.example.presupuestosdisa.navegacion
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -15,7 +14,7 @@ import com.example.presupuestosdisa.ui.viewModel.SharedViewModel
 fun AppNavegacion() {
     val navController = rememberNavController()
     val fireBaseViewModel: FireBaseViewModel = hiltViewModel()
-    val sharedViewModel: SharedViewModel = viewModel()
+    val sharedViewModel: SharedViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = PantallaPrincipal) {
 

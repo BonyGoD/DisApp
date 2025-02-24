@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.presupuestosdisa.data.model.ProductoInfo
 import com.example.presupuestosdisa.domain.AccesoAppUseCase
 import com.example.presupuestosdisa.domain.GetProductosUseCase
+import com.example.presupuestosdisa.ui.view.MainUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +25,9 @@ class FireBaseViewModel @Inject constructor(
     private val _blockVersion = MutableStateFlow(false)
     val blockVersion: StateFlow<Boolean> = _blockVersion
 
+    private val _uiState = MutableStateFlow<MainUIState>(MainUIState.Loading)
+    val uiState: StateFlow<MainUIState> = _uiState
+
     init {
         checkUserVersion()
         getProductos()
@@ -41,10 +45,17 @@ class FireBaseViewModel @Inject constructor(
 
     private fun getProductos() {
         viewModelScope.launch {
-            val result = getProductosUseCase()
-
-            if (result.isNotEmpty()) {
-                _producto.postValue(result)
+            _uiState.value = MainUIState.Loading
+            try {
+                val result = getProductosUseCase()
+                if (result.isNotEmpty()) {
+                    _uiState.value = MainUIState.Success(result)
+                    _producto.value = result
+                } else {
+                    _uiState.value = MainUIState.Error("No hay productos")
+                }
+            } catch (e: Exception) {
+                _uiState.value = MainUIState.Error("Error al cargar productos")
             }
         }
     }
