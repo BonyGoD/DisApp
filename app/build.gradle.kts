@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.presupuestosdisa"
+    namespace = "com.devware.disapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.presupuestosdisa"
+        applicationId = "com.devware.disapp"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

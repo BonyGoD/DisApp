@@ -16,3 +16,4 @@
 local.properties
 /src/androidTest
 /src/Test
+google-services.json
