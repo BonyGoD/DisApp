@@ -26,6 +26,7 @@ fun AppNavegacion() {
 
         composable<PantallaPresupuesto> {
             PantallaPresupuesto(fireBaseViewModel, sharedViewModel) {
+
                 navController.navigateUp()
             }
         }
