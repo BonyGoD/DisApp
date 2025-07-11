@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DisApp</string>
+    <string name="add_budget">+ Añadir presupuestos</string>
 </resources>
