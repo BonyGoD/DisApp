@@ -158,7 +158,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                 contentColor = Color.White
             )
         ) {
-            Text(stringResource(id = R.string.add_budget), fontSize = 20.sp)
+            Text(stringResource(R.string.add_budget), fontSize = 20.sp)
         }
     }
 }
