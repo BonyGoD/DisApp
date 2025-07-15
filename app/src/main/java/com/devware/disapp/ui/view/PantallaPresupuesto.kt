@@ -32,10 +32,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devware.disapp.R
+import com.devware.disapp.data.model.ConstantesTipos.PERSIANA
+import com.devware.disapp.data.model.ConstantesTipos.REGISTRO
+import com.devware.disapp.data.model.ConstantesTipos.VENTANA
+import com.devware.disapp.data.model.ConstantesTipos.VIDRIO
 import com.devware.disapp.data.model.SelectablesPresupuestos
 import com.devware.disapp.data.model.rememberSelectablesPresupuestos
 import com.devware.disapp.ui.theme.BackgroundDisaColor
@@ -49,10 +54,10 @@ import com.example.disapp.ui.view.componentes.ComponenteSelectores
 data class Productos(val nombre: String, val icono: Int)
 
 private val productos: List<Productos> = listOf(
-    Productos("Ventana", R.drawable.ventana_menu),
-    Productos("Vidrio", R.drawable.vidrio_menu),
-    Productos("Persiana", R.drawable.persiana_menu),
-    Productos("Registro", R.drawable.registro_menu),
+    Productos(VENTANA, R.drawable.ventana_menu),
+    Productos(VIDRIO, R.drawable.vidrio_menu),
+    Productos(PERSIANA, R.drawable.persiana_menu),
+    Productos(REGISTRO, R.drawable.registro_menu),
 )
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -73,7 +78,7 @@ fun PantallaPresupuesto(
                     .padding(bottom = 100.dp),
                 title = {
                     Text(
-                        text = "Volver",
+                        text = stringResource(R.string.volver),
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color.White
@@ -165,7 +170,7 @@ fun ListaProductos(
                 .padding(bottom = 40.dp)
         ) {
             Text(
-                text = "Añadir",
+                text = stringResource(R.string.añadir),
                 fontSize = 23.sp,
                 modifier = Modifier.padding(10.dp)
             )

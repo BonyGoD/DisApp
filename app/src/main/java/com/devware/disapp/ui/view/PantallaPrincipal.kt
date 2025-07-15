@@ -138,7 +138,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                     Text(
                         modifier = Modifier.padding(10.dp),
                         fontWeight = FontWeight.Bold,
-                        text = "TOTAL:",
+                        text = stringResource(R.string.total),
                         color = Color.White)
                     Text(
                         modifier = Modifier

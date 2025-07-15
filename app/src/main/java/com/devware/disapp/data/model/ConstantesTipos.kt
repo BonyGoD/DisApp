@@ -6,4 +6,7 @@ object ConstantesTipos {
     const val OSCILOBATIENTE = "Oscilobatiente"
     const val CORREDERA = "Corredera"
     const val ELEVABLE = "Elevable"
+    const val VIDRIO = "Vidrio"
+    const val REGISTRO = "Registro"
+    const val VENTANA = "Ventana"
 }

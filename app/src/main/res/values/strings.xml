@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">DisApp</string>
     <string name="add_budget">+ Añadir presupuestos</string>
+    <string name="volver">Volver</string>
+    <string name="añadir">Añadir</string>
+    <string name="total">TOTAL:</string>
+    <string name="version_no_soportada">Versión no soportada</string>
+    <string name="porfavor_act_aplicacion">Por favor, actualiza la aplicación</string>
+    <string name="actualizar">Actualizar</string>
 </resources>
