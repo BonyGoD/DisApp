@@ -60,8 +60,8 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                     color = Color.White,
                     text = "${producto.nombre} - " +
                             "${producto.tipo} - " +
-                            (if(producto.oscilobatiente) "Oscilobatiente - " else "") +
-                            (if(producto.motorizada) "Motorizada - " else "") +
+                            (if(producto.oscilobatiente) stringResource(R.string.literal_oscilobatiente) else "") +
+                            (if(producto.motorizada) stringResource(R.string.literal_motorizada) else "") +
                             (if(producto.tipoSerie != "") producto.tipoSerie + " - " else "") +
                             if(producto.tipoColor != "") producto.tipoColor else ""
                 )
