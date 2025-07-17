@@ -15,8 +15,4 @@
     <string name="color">Color</string>
     <string name="ancho">Ancho</string>
     <string name="alto">Alto</string>
-<!--    <string name="tipo_ventana">Tipo de Ventana</string>-->
-<!--    <string name="tipo_vidrio">Tipo de Vidrio</string>-->
-<!--    <string name="tipo_persiana">Tipo de Persiana</string>-->
-<!--    <string name="tipo_registro">Tipo de Registro</string>-->
 </resources>
