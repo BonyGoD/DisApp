@@ -8,5 +8,5 @@ data class Producto(
     var oscilobatiente: Boolean = false,
     var motorizada: Boolean = false,
     var ancho: Long = 0,
-    var alto: Long = 0
+    var alto: Long = 0,
 )

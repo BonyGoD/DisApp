@@ -15,4 +15,6 @@
     <string name="color">Color</string>
     <string name="ancho">Ancho</string>
     <string name="alto">Alto</string>
+    <string name="no_seleccionado_sin_propiedades">No has seleccionado ningun producto o faltan por añadir propiedades</string>
+    <string name="aceptar">Aceptar</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -34,13 +37,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.devware.disapp.R
 import com.devware.disapp.data.model.ConstantesTipos.PERSIANA
 import com.devware.disapp.data.model.ConstantesTipos.REGISTRO
 import com.devware.disapp.data.model.ConstantesTipos.VENTANA
 import com.devware.disapp.data.model.ConstantesTipos.VIDRIO
+import com.devware.disapp.data.model.Producto
 import com.devware.disapp.data.model.SelectablesPresupuestos
 import com.devware.disapp.data.model.rememberSelectablesPresupuestos
 import com.devware.disapp.ui.theme.BackgroundDisaColor
@@ -50,6 +56,9 @@ import com.devware.disapp.ui.viewModel.SharedViewModel
 import com.devware.disapp.utils.LogicaAgregarProductos
 import com.example.disapp.ui.view.componentes.ComponenteMenu
 import com.example.disapp.ui.view.componentes.ComponenteSelectores
+import android.util.Log
+import androidx.compose.ui.tooling.preview.Preview
+
 
 data class Productos(val nombre: String, val icono: Int)
 
@@ -118,6 +127,9 @@ fun ListaProductos(
     productos: List<Productos>,
     selectablesPresupuestos: SelectablesPresupuestos
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+    var productoSeleccionado by remember { mutableStateOf<String?>(null) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -160,10 +172,40 @@ fun ListaProductos(
         }
         Button(
             onClick = {
-                val nuevosProductos = LogicaAgregarProductos().getProductList().map { it.copy() }
-                sharedViewModel.agregarListaProductos(nuevosProductos)
-                LogicaAgregarProductos().eliminarProductos()
-                navigateBack()
+
+                val todosValidos = when (productoSeleccionado) {
+                    VENTANA -> selectablesPresupuestos.selectedTipoVentana.value.isNotEmpty()
+                            && selectablesPresupuestos.selectedTipoSerie.value.isNotEmpty()
+                            && selectablesPresupuestos.selectedColorVentana.value.isNotEmpty()
+                            && (selectablesPresupuestos.medidasState[0].valorAncho.value.toLongOrNull() ?: 0L) != 0L
+                            && (selectablesPresupuestos.medidasState[0].valorAlto.value.toLongOrNull() ?: 0L) != 0L
+                            && selectablesPresupuestos.checkboxStateVentana.value
+                    VIDRIO -> selectablesPresupuestos.selectedTipoVidrio.value.isNotEmpty()
+                            && (selectablesPresupuestos.medidasState[0].valorAncho.value.toLongOrNull() ?: 0L) != 0L
+                            && (selectablesPresupuestos.medidasState[0].valorAlto.value.toLongOrNull() ?: 0L) != 0L
+                    PERSIANA -> selectablesPresupuestos.selectedTipoPersiana.value.isNotEmpty()
+                            && selectablesPresupuestos.selectedColorPersiana.value.isNotEmpty()
+                            && selectablesPresupuestos.checkboxStatePersiana.value
+                            && (selectablesPresupuestos.medidasState[0].valorAncho.value.toLongOrNull() ?: 0L) != 0L
+                            && (selectablesPresupuestos.medidasState[0].valorAlto.value.toLongOrNull() ?: 0L) != 0L
+                    REGISTRO -> selectablesPresupuestos.selectedTipoRegistro.value.isNotEmpty()
+                            && (selectablesPresupuestos.medidasState[0].valorAncho.value.toLongOrNull() ?: 0L) != 0L
+                            && (selectablesPresupuestos.medidasState[0].valorAlto.value.toLongOrNull() ?: 0L) != 0L
+
+                    else -> false
+                }
+
+                if (!todosValidos) {
+                    showDialog = true
+                } else {
+                    val nuevosProductos =
+                        LogicaAgregarProductos().getProductList().map { it.copy() }
+                    sharedViewModel.agregarListaProductos(nuevosProductos)
+                    LogicaAgregarProductos().eliminarProductos()
+                    navigateBack()
+
+                }
+
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -174,6 +216,36 @@ fun ListaProductos(
                 fontSize = 23.sp,
                 modifier = Modifier.padding(10.dp)
             )
+        }
+        if(showDialog){
+            Dialog(
+                onDismissRequest = { showDialog = false }
+                ){
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ){
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        ){
+                        Text(
+                            text = stringResource(R.string.no_seleccionado_sin_propiedades),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))//
+                        Button(
+                            onClick = { showDialog = false },
+                        ) {
+                            Text(text = stringResource(R.string.aceptar))
+                        }
+                    }
+                }
+            }
         }
     }
 }
