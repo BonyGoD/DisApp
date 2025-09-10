@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,14 +56,14 @@ fun ComponenteVersionControl(
                     )
                     Spacer(modifier = Modifier.weight(0.3f))
                     Text(
-                        text = "Versión no soportada",
+                        text = stringResource(R.string.version_no_soportada),
                         fontSize = 25.sp,
                         color = Color.Black,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.weight(0.3f))
                     Text(
-                        text = "Por favor, actualiza la aplicación",
+                        text = stringResource(R.string.porfavor_act_aplicacion),
                         fontSize = 15.sp,
                         color = Color.Gray
                     )
@@ -70,7 +71,7 @@ fun ComponenteVersionControl(
                     Button(onClick = {
                         navegarPlayStore(context)
                     }, modifier = Modifier.padding(bottom = 30.dp), colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)) {
-                        Text(text = "Actualizar")
+                        Text(text = stringResource(R.string.actualizar))
                     }
                 }
             }

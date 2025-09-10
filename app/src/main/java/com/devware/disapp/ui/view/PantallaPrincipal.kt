@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,8 +60,8 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                     color = Color.White,
                     text = "${producto.nombre} - " +
                             "${producto.tipo} - " +
-                            (if(producto.oscilobatiente) "Oscilobatiente - " else "") +
-                            (if(producto.motorizada) "Motorizada - " else "") +
+                            (if(producto.oscilobatiente) stringResource(R.string.literal_oscilobatiente) else "") +
+                            (if(producto.motorizada) stringResource(R.string.literal_motorizada) else "") +
                             (if(producto.tipoSerie != "") producto.tipoSerie + " - " else "") +
                             if(producto.tipoColor != "") producto.tipoColor else ""
                 )
@@ -137,7 +138,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                     Text(
                         modifier = Modifier.padding(10.dp),
                         fontWeight = FontWeight.Bold,
-                        text = "TOTAL:",
+                        text = stringResource(R.string.total),
                         color = Color.White)
                     Text(
                         modifier = Modifier
@@ -157,7 +158,7 @@ fun PantallaPrincipal(fireBaseViewModel: FireBaseViewModel, sharedViewModel: Sha
                 contentColor = Color.White
             )
         ) {
-            Text(text = "+ Añadir presupuesto", fontSize = 20.sp)
+            Text(stringResource(R.string.add_budget), fontSize = 20.sp)
         }
     }
 }

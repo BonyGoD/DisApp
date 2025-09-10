@@ -24,18 +24,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devware.disapp.R
+import com.devware.disapp.data.model.ConstantesTipos.CORREDERA
 import com.devware.disapp.data.model.SelectablesPresupuestos
 import com.devware.disapp.ui.theme.DisaBlue
 import com.devware.disapp.ui.theme.DisaPink
 import com.devware.disapp.ui.viewModel.FireBaseViewModel
 import com.devware.disapp.utils.LogicaAgregarProductos
 import com.devware.disapp.utils.LogicaSelectores
+import com.devware.disapp.data.model.ConstantesTipos.ELEVABLE
+import com.devware.disapp.data.model.ConstantesTipos.MOTORIZADA
+import com.devware.disapp.data.model.ConstantesTipos.OSCILOBATIENTE
+import com.devware.disapp.data.model.ConstantesTipos.PERSIANA
 
 
 @Composable
@@ -92,8 +98,8 @@ fun DropDownComponent(
                     onClick = {
                         expanded.value = false
                         selectedItem.value = item.orEmpty()
-                        if(item == "Elevable" || item == "Corredera") {
-                            LogicaAgregarProductos().logicaCheckBox(nombreMenu, "Oscilobatiente", false)
+                        if(item == ELEVABLE || item == CORREDERA) {
+                            LogicaAgregarProductos().logicaCheckBox(nombreMenu, OSCILOBATIENTE, false)
                         }
                         LogicaAgregarProductos().logicaDropdown(
                             tipoDropdown,
@@ -123,7 +129,7 @@ fun CheckBoxComponent(
     checkedState: MutableState<Boolean>
 ) {
 
-    val nombre = if (nombreMenu == "Persiana") "Motorizada" else "Oscilobatiente"
+    val nombre = if (nombreMenu == PERSIANA) MOTORIZADA else OSCILOBATIENTE
 
     Row {
         Checkbox(
@@ -197,7 +203,7 @@ fun TextFieldComponent(
             imeAction = ImeAction.Done
         ),
         suffix = {
-            Text("mm")
+            Text(text = stringResource(R.string.mm))
         }
     )
 }
