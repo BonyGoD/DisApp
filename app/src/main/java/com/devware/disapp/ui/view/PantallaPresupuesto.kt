@@ -46,7 +46,6 @@ import com.devware.disapp.data.model.ConstantesTipos.PERSIANA
 import com.devware.disapp.data.model.ConstantesTipos.REGISTRO
 import com.devware.disapp.data.model.ConstantesTipos.VENTANA
 import com.devware.disapp.data.model.ConstantesTipos.VIDRIO
-import com.devware.disapp.data.model.Producto
 import com.devware.disapp.data.model.SelectablesPresupuestos
 import com.devware.disapp.data.model.rememberSelectablesPresupuestos
 import com.devware.disapp.ui.theme.BackgroundDisaColor
@@ -56,8 +55,6 @@ import com.devware.disapp.ui.viewModel.SharedViewModel
 import com.devware.disapp.utils.LogicaAgregarProductos
 import com.example.disapp.ui.view.componentes.ComponenteMenu
 import com.example.disapp.ui.view.componentes.ComponenteSelectores
-import android.util.Log
-import androidx.compose.ui.tooling.preview.Preview
 
 
 data class Productos(val nombre: String, val icono: Int)
@@ -128,7 +125,6 @@ fun ListaProductos(
     selectablesPresupuestos: SelectablesPresupuestos
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    var productoSeleccionado by remember { mutableStateOf<String?>(null) }
 
     Box(
         modifier = Modifier
@@ -172,40 +168,15 @@ fun ListaProductos(
         }
         Button(
             onClick = {
+                val listaProductos = LogicaAgregarProductos().getProductList()
 
-                val todosValidos = when (productoSeleccionado) {
-                    VENTANA -> selectablesPresupuestos.selectedTipoVentana.value.isNotEmpty()
-                            && selectablesPresupuestos.selectedTipoSerie.value.isNotEmpty()
-                            && selectablesPresupuestos.selectedColorVentana.value.isNotEmpty()
-                            && (selectablesPresupuestos.medidasState[0].valorAncho.value.toLongOrNull() ?: 0L) != 0L
-                            && (selectablesPresupuestos.medidasState[0].valorAlto.value.toLongOrNull() ?: 0L) != 0L
-                            && selectablesPresupuestos.checkboxStateVentana.value
-                    VIDRIO -> selectablesPresupuestos.selectedTipoVidrio.value.isNotEmpty()
-                            && (selectablesPresupuestos.medidasState[0].valorAncho.value.toLongOrNull() ?: 0L) != 0L
-                            && (selectablesPresupuestos.medidasState[0].valorAlto.value.toLongOrNull() ?: 0L) != 0L
-                    PERSIANA -> selectablesPresupuestos.selectedTipoPersiana.value.isNotEmpty()
-                            && selectablesPresupuestos.selectedColorPersiana.value.isNotEmpty()
-                            && selectablesPresupuestos.checkboxStatePersiana.value
-                            && (selectablesPresupuestos.medidasState[0].valorAncho.value.toLongOrNull() ?: 0L) != 0L
-                            && (selectablesPresupuestos.medidasState[0].valorAlto.value.toLongOrNull() ?: 0L) != 0L
-                    REGISTRO -> selectablesPresupuestos.selectedTipoRegistro.value.isNotEmpty()
-                            && (selectablesPresupuestos.medidasState[0].valorAncho.value.toLongOrNull() ?: 0L) != 0L
-                            && (selectablesPresupuestos.medidasState[0].valorAlto.value.toLongOrNull() ?: 0L) != 0L
-
-                    else -> false
-                }
-
-                if (!todosValidos) {
+                if (listaProductos.any { !it.esValido() } || listaProductos.isEmpty()) {
                     showDialog = true
                 } else {
-                    val nuevosProductos =
-                        LogicaAgregarProductos().getProductList().map { it.copy() }
-                    sharedViewModel.agregarListaProductos(nuevosProductos)
+                    sharedViewModel.agregarListaProductos(listaProductos.map { it.copy() })
                     LogicaAgregarProductos().eliminarProductos()
                     navigateBack()
-
                 }
-
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)

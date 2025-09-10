@@ -9,4 +9,12 @@ data class Producto(
     var motorizada: Boolean = false,
     var ancho: Long = 0,
     var alto: Long = 0,
-)
+) {
+    fun esValido(): Boolean {
+        return tipo.isNotBlank() &&
+                tipoSerie.isNotBlank() &&
+                tipoColor.isNotBlank() &&
+                ancho > 0 &&
+                alto > 0
+    }
+}

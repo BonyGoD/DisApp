@@ -296,7 +296,7 @@ fun resetMedidas(nombreMenu: String, medidasState: List<MedidasState>) {
 }
 
 fun deleteProducto(nombreMenu: String) {
-    LogicaAgregarProductos().getProductList().toMutableList().removeIf { producto -> producto.nombre == nombreMenu }
+    LogicaAgregarProductos.ProductoManager.productosList.removeIf { producto -> producto.nombre == nombreMenu }
 }
 
 fun getItems(fireBaseViewModel: FireBaseViewModel): Map<String, List<String?>> {
